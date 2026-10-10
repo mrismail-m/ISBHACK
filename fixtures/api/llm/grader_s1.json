@@ -1,0 +1,48 @@
+{
+  "criteria": [
+    {
+      "criterion_id": "c1",
+      "level": 3,
+      "minor_errors": 1,
+      "ambiguous": false,
+      "evidence": ["a collision happens when two keys map to the same index"],
+      "reasoning": "Defines collisions correctly but does not say why they are unavoidable.",
+      "confidence": 0.82
+    },
+    {
+      "criterion_id": "c2",
+      "level": 2,
+      "minor_errors": 0,
+      "ambiguous": false,
+      "evidence": [
+        "each slot of the table holds a linked list of all the entries that landed there",
+        "Open addressing instead probes for the next free slot in the array itself"
+      ],
+      "reasoning": "Both strategies are named, but open addressing is only shown with linear probing.",
+      "confidence": 0.74
+    },
+    {
+      "criterion_id": "c3",
+      "level": 3,
+      "minor_errors": 3,
+      "ambiguous": false,
+      "evidence": [
+        "lookups are fast, usually O(1) on average",
+        "a lookup becomes O(n) for both methods"
+      ],
+      "reasoning": "Separates average and worst case but does not compare the two strategies.",
+      "confidence": 0.7
+    },
+    {
+      "criterion_id": "c4",
+      "level": 4,
+      "minor_errors": 0,
+      "ambiguous": false,
+      "evidence": ["collisions cannot be avoided, so a good table needs a good hash function"],
+      "reasoning": "Clear structure, with a short conclusion that ties the parts together.",
+      "confidence": 0.85
+    }
+  ],
+  "overall_confidence": 0.78,
+  "flags": []
+}

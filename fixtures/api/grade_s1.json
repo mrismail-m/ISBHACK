@@ -1,0 +1,144 @@
+{
+  "id": "g_1",
+  "submission_id": "s_1",
+  "status": "ai_draft",
+  "strictness_used": "normal",
+  "prompt_version": "grader-v1",
+  "model_id": "mock",
+  "max_marks": 20.0,
+  "criteria": [
+    {
+      "criterion_id": "c1",
+      "level": 3,
+      "minor_errors": 1,
+      "ambiguous": false,
+      "ai_marks": 4.0,
+      "final_marks": 4.0,
+      "evidence": [
+        {
+          "quote": "a collision happens when two keys map to the same index",
+          "start": 138,
+          "end": 193,
+          "verified": true
+        }
+      ],
+      "reasoning": "Defines collisions correctly but does not say why they are unavoidable.",
+      "confidence": 0.82,
+      "teacher_note": null
+    },
+    {
+      "criterion_id": "c2",
+      "level": 2,
+      "minor_errors": 0,
+      "ambiguous": false,
+      "ai_marks": 3.0,
+      "final_marks": 3.0,
+      "evidence": [
+        {
+          "quote": "each slot of the table holds a linked list of all the entries that landed there",
+          "start": 294,
+          "end": 373,
+          "verified": true
+        },
+        {
+          "quote": "Open addressing instead probes for the next free slot in the array itself",
+          "start": 440,
+          "end": 513,
+          "verified": true
+        }
+      ],
+      "reasoning": "Both strategies are named, but open addressing is only shown with linear probing.",
+      "confidence": 0.74,
+      "teacher_note": null
+    },
+    {
+      "criterion_id": "c3",
+      "level": 3,
+      "minor_errors": 3,
+      "ambiguous": false,
+      "ai_marks": 3.5,
+      "final_marks": 3.5,
+      "evidence": [
+        {
+          "quote": "lookups are fast, usually O(1) on average",
+          "start": 675,
+          "end": 716,
+          "verified": true
+        },
+        {
+          "quote": "a lookup becomes O(n) for both methods",
+          "start": 809,
+          "end": 847,
+          "verified": true
+        }
+      ],
+      "reasoning": "Separates average and worst case but does not compare the two strategies.",
+      "confidence": 0.7,
+      "teacher_note": null
+    },
+    {
+      "criterion_id": "c4",
+      "level": 4,
+      "minor_errors": 0,
+      "ambiguous": false,
+      "ai_marks": 5.0,
+      "final_marks": 5.0,
+      "evidence": [
+        {
+          "quote": "collisions cannot be avoided, so a good table needs a good hash function",
+          "start": 1012,
+          "end": 1084,
+          "verified": true
+        }
+      ],
+      "reasoning": "Clear structure, with a short conclusion that ties the parts together.",
+      "confidence": 0.85,
+      "teacher_note": null
+    }
+  ],
+  "ai_total": 15.5,
+  "final_total": 15.5,
+  "overall_confidence": 0.78,
+  "grader_flags": [],
+  "feedback": {
+    "mode": "full",
+    "strengths": [
+      {
+        "criterion_id": "c1",
+        "text": "You defined a collision clearly and used a good example.",
+        "quote": "a collision happens when two keys map to the same index"
+      }
+    ],
+    "improvements": [
+      {
+        "criterion_id": "c3",
+        "text": "Your complexity discussion stays at the average case.",
+        "quote": "lookups are fast, usually O(1) on average",
+        "hint": "What happens to lookup time when the table is almost full?",
+        "explanation": "As the load factor approaches 1, chains grow or probe sequences lengthen, so lookups degrade toward O(n)."
+      }
+    ],
+    "next_step": "Rewrite your complexity paragraph to compare the average and worst case for both strategies.",
+    "topics": [
+      {
+        "tag": "hashing",
+        "level": "strong"
+      },
+      {
+        "tag": "collisions",
+        "level": "ok"
+      },
+      {
+        "tag": "complexity",
+        "level": "strong"
+      },
+      {
+        "tag": "communication",
+        "level": "strong"
+      }
+    ]
+  },
+  "teacher_note": null,
+  "approved_at": null,
+  "released_at": null
+}

@@ -32,7 +32,7 @@ Update only your own row.
 
 | Member | Current task | Status | Next | Blockers |
 |---|---|---|---|---|
-| Adeel | M0.1 | not started | repo and backend skeleton | none |
+| Adeel | M1.1 done | M2.1 next | grader retries, rubric draft, strictness preview | no LLM key configured yet |
 | Majid | M2.3 | activity backend and parity ready, result UI ready | insights and fixture-driven viva (M3.2) | live result and viva endpoints pending |
 | Ismail | M2.4 | not started | teacher review queue | M2.1, M2.2, M2.3 |
 
@@ -68,6 +68,15 @@ None yet. Add a line here when you need a change in a file you do not own, and s
 Format: `<from> to <owner>: <what> (task id)`
 
 ## Log: Adeel (newest first)
+
+### 2026-10-10 | Adeel | M1.1 | done
+- Did: `complete_json` real provider path (openai, anthropic, openai_compatible; repair retry, 1 retry on timeout/429/5xx, cache). `ai/strictness.py` plus grader core (quote verification with UTF-16 offsets, flags, marks in code). `POST/GET /submissions/:id/grade` work in mock mode. `scripts/smoke.py` v0 covers the golden path.
+- Files: `backend/app/{llm/client.py,ai/*,routers/grading.py,models/grading.py,schemas/grading.py,main.py,config.py}`, `backend/tests/*`, `fixtures/api/grade_s1.json`, `fixtures/api/llm/grader*.json`, `scripts/smoke.py`, `.env.example`
+- Contract: none (added optional env `LLM_BASE_URL`, see `.env.example`)
+- Decisions: `grades` and `viva_sessions` tables are created at app startup in `main.py`, so no reseed is needed for them.
+- Checks: 43 tests pass, ruff clean on Adeel paths. Live smoke in mock mode: steps 0, 1, 2, 4 pass; viva, approve, result, stats fail with 501 (not built yet). No real LLM call made (no key configured).
+- Next: M2.1 (retry on bad quotes, rubric draft, strictness preview), then M2.2.
+- Needs from others: Ismail: call `app.ai.pipeline.grade_submission_by_id(session, id)` from `submit` when `GRADE_ON_SUBMIT=1`, and import `app.models.grading` in `models/__init__.py` or `seed.py`. Everyone: ruff fails on `seed.py`, `models/core.py`, `schemas/core.py`, `dump_fixtures.py` (not Adeel files).
 
 ### 2026-10-10 | Adeel | DESIGN | done
 - Did: wrote `docs/design.md` (visual and interaction spec, tokens, screens, components, anti-slop rules, steering block). Proposed only; needs Adeel's answers to section 16 before anyone builds on it.

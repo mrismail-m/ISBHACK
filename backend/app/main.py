@@ -3,14 +3,19 @@
 Others: ask Adeel for a router registration line instead of editing this file.
 """
 
+from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from app.config import get_settings
+from app.db import create_db_and_tables
 from app.deps import ApiError
 from app.llm.client import LLMError
+from app.models import grading as _grading_models  # noqa: F401  (registers tables)
 from app.routers import (
     activity,
     analytics,
@@ -31,9 +36,16 @@ def _error(status_code: int, code: str, message: str) -> JSONResponse:
     )
 
 
+@asynccontextmanager
+async def lifespan(_: FastAPI) -> AsyncIterator[None]:
+    # Idempotent. Makes sure grades and viva_sessions exist even on an old database.
+    create_db_and_tables()
+    yield
+
+
 def create_app() -> FastAPI:
     settings = get_settings()
-    app = FastAPI(title="VivaGrade API", version="0.1.0")
+    app = FastAPI(title="VivaGrade API", version="0.1.0", lifespan=lifespan)
 
     app.add_middleware(
         CORSMiddleware,

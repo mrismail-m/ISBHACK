@@ -22,6 +22,8 @@ class Settings(BaseSettings):
     llm_provider: str = ""
     llm_model: str = ""
     llm_api_key: str = ""
+    # Optional base URL for OpenAI-compatible servers. Empty = provider default.
+    llm_base_url: str = ""
     llm_cache: bool = True
     llm_timeout_s: int = 30
     database_url: str = "sqlite:///./vivagrade.db"
