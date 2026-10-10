@@ -1,9 +1,12 @@
-import os
 import json
+import os
+
 from sqlmodel import Session, select
+
 from app.db import engine
-from app.models.core import User, Assessment
-from app.schemas.core import UserSchema, AssessmentSchema
+from app.models.core import Assessment, User
+from app.schemas.core import AssessmentSchema, UserSchema
+
 
 def dump():
     with Session(engine) as session:

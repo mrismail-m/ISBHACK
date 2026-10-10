@@ -1,6 +1,7 @@
 import os
-from sqlmodel import SQLModel, create_engine, Session
-from typing import Generator
+from collections.abc import Generator
+
+from sqlmodel import Session, SQLModel, create_engine
 
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./vivagrade.db")
 

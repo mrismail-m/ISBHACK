@@ -1,6 +1,8 @@
-from typing import List, Optional, Dict, Any
 from datetime import datetime
-from sqlmodel import SQLModel, Field, Column, JSON
+from typing import Any
+
+from sqlmodel import JSON, Column, Field, SQLModel
+
 
 class User(SQLModel, table=True):
     __tablename__ = "users"
@@ -24,8 +26,8 @@ class Assessment(SQLModel, table=True):
     instructions_md: str
     max_marks: float
     pass_mark_pct: float
-    rubric: Optional[Dict[str, Any]] = Field(default=None, sa_column=Column(JSON))
-    model_answer_md: Optional[str] = None
+    rubric: dict[str, Any] | None = Field(default=None, sa_column=Column(JSON))
+    model_answer_md: str | None = None
     strictness: str
     viva_enabled: bool
     viva_weight: float
@@ -35,7 +37,7 @@ class Assessment(SQLModel, table=True):
     release_mode: str
     ai_policy: str
     paste_flag_chars: int
-    topics: List[str] = Field(default=[], sa_column=Column(JSON))
+    topics: list[str] = Field(default=[], sa_column=Column(JSON))
     status: str
     due_at: datetime
     created_at: datetime
@@ -46,7 +48,7 @@ class Question(SQLModel, table=True):
     assessment_id: str
     kind: str
     text: str
-    options: List[str] = Field(default=[], sa_column=Column(JSON))
+    options: list[str] = Field(default=[], sa_column=Column(JSON))
     answer_key: int
     marks: float
     topic: str
@@ -57,10 +59,10 @@ class Submission(SQLModel, table=True):
     assessment_id: str
     student_id: str
     content_md: str
-    answers: List[Dict[str, Any]] = Field(default=[], sa_column=Column(JSON))
+    answers: list[dict[str, Any]] = Field(default=[], sa_column=Column(JSON))
     status: str
     started_at: datetime
-    submitted_at: Optional[datetime] = None
+    submitted_at: datetime | None = None
 
 class GraceAdjustment(SQLModel, table=True):
     __tablename__ = "grace_adjustments"
@@ -69,4 +71,4 @@ class GraceAdjustment(SQLModel, table=True):
     marks: float
     reason: str
     applied_at: datetime
-    undone_at: Optional[datetime] = None
+    undone_at: datetime | None = None

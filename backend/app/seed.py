@@ -1,9 +1,11 @@
 import argparse
-from datetime import datetime, timezone
-import json
+from datetime import UTC, datetime
+
 from sqlmodel import Session, SQLModel
-from app.db import engine, create_db_and_tables
-from app.models.core import User, Classroom, Assessment, Question, Submission, GraceAdjustment
+
+from app.db import create_db_and_tables, engine
+from app.models.core import Assessment, Classroom, User
+
 
 def seed_db():
     create_db_and_tables()
@@ -79,8 +81,8 @@ def seed_db():
             paste_flag_chars=500,
             topics=["hashing", "collisions", "complexity", "communication"],
             status="open",
-            due_at=datetime(2026, 10, 12, 18, 0, 0, tzinfo=timezone.utc),
-            created_at=datetime(2026, 10, 10, 5, 0, 0, tzinfo=timezone.utc)
+            due_at=datetime(2026, 10, 12, 18, 0, 0, tzinfo=UTC),
+            created_at=datetime(2026, 10, 10, 5, 0, 0, tzinfo=UTC)
         )
         session.add(a1)
         
@@ -106,8 +108,8 @@ def seed_db():
                 paste_flag_chars=500,
                 topics=["hashing"],
                 status="closed",
-                due_at=datetime(2026, 9, 10 + i, 18, 0, 0, tzinfo=timezone.utc),
-                created_at=datetime(2026, 9, 1 + i, 5, 0, 0, tzinfo=timezone.utc)
+                due_at=datetime(2026, 9, 10 + i, 18, 0, 0, tzinfo=UTC),
+                created_at=datetime(2026, 9, 1 + i, 5, 0, 0, tzinfo=UTC)
             )
             session.add(past_a)
             
