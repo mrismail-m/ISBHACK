@@ -134,6 +134,15 @@ None yet.
 
 ## Log: Majid (newest first)
 
+### 2026-10-10 | Majid | M4.2 demo media | done
+- Did: Published the existing 83-second demo walkthrough and dashboard heatmap screenshot at the user's request.
+- Files: `docs/demo-assets/{README.md,vivagrade-demo.mp4,dashboard-heatmap.png}`.
+- Contract: none. Media shows synthetic demo scores and fixed dummy credentials.
+- Checks: Copied verified local artifacts; video previously passed full decoding. No code changed.
+- Next: Team evaluation and rehearsal.
+- Needs from others: none for media publication.
+
+
 ### 2026-10-10 | Majid | M4.2 demo roster and cleanup | done
 - Did: Added fixed-credential demo login, 50 names/registrations, 150 synthetic writing sessions and offline fixtures. Dashboard selects students for heatmaps, paste evidence, authorship and replay.
 - Files: `features/student/DemoLogin.tsx`, routes, teacher dashboard, client/demo store, `backend/app/demo_{seed,fixtures}.py`, analytics service/tests, `fixtures/demo/`, user/assessment fixtures.
