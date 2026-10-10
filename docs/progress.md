@@ -33,7 +33,7 @@ Update only your own row.
 | Member | Current task | Status | Next | Blockers |
 |---|---|---|---|---|
 | Adeel | M1.1 done | M2.1 next | grader retries, rubric draft, strictness preview | no LLM key configured yet |
-| Majid | M2.3 | activity backend and parity ready, result UI ready | insights and fixture-driven viva (M3.2) | live result and viva endpoints pending |
+| Majid | M3.2 | viva fixture flow and insights ready | M4.2 real editor recordings | live viva, result and review embedding pending |
 | Ismail | M2.4 | not started | teacher review queue | M2.1, M2.2, M2.3 |
 
 ## Integration status (golden path)
@@ -91,6 +91,16 @@ Format: `<from> to <owner>: <what> (task id)`
 None yet.
 
 ## Log: Majid (newest first)
+
+### 2026-10-10 13:47 | Majid | M3.2 | partial
+- Did: One-question viva UI with persistent deadlines, timeout, blocked paste/drop, tab-switch counts and retry; fixture browser flow completed all 3 answers. Insights expose paste chunks, writing map, heatmap and replay with scrubber, speed, idle skipping and paste jumps.
+- Files: `frontend/src/features/{student,insights}/`, `frontend/src/api/{student,activity}.ts`, `frontend/src/lib/replay-core/index.test.ts`, `frontend/src/routes.tsx`.
+- Contract: none. Timeout sends an empty answer as specified. Blocked paste attempts do not claim pasted content was accepted; proposed design question remains unresolved.
+- Decisions: Ismail can embed `ActivityInsights({submissionId})` or `InsightsView({activity,summary})` from `features/insights/ActivityInsights.tsx`. Keep current styling until proposed design is approved.
+- Checks: Frontend 16 tests, typecheck, lint and build pass. Checkpoint seeking and idle/session boundaries covered. Build still warns about a large bundle.
+- Next: Record typed, pasted and retyped sessions through the real editor and verify replay (M4.2).
+- Needs from others: Adeel live viva (currently 501); Ismail released result API and teacher review detail embedding. M2.3/M3.2 remain unchecked until those integrations work.
+
 
 ### 2026-10-10 13:35 | Majid | M1.2 | done
 - Did: Integrated latest Ismail endpoints and teacher routes. Real browser session typed, pasted, autosaved and submitted; teacher activity API returned all 146 characters, 54 events, 33.6% typed and 66.4% pasted with 100% paste survival.
@@ -161,5 +171,7 @@ None yet.
 ### Archive (Ismail)
 
 None yet.
+
+
 
 

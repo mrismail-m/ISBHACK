@@ -30,6 +30,9 @@ export function AssessmentList() {
 }
 export function AssessmentEditor() {
   const { assessmentId = '' } = useParams();
+  return <AssessmentEditorLoader key={assessmentId} assessmentId={assessmentId} />;
+}
+function AssessmentEditorLoader({ assessmentId }: { assessmentId: string }) {
   const [loaded, setLoaded] = useState<{ assessment: Assessment; submission: Submission } | null>(null);
   const [error, setError] = useState('');
   const [attempt, setAttempt] = useState(0);
@@ -110,7 +113,7 @@ function WritingSession({ assessment, submission }: { assessment: Assessment; su
       <div className="setting-row"><span>Strictness: {assessment.strictness.replaceAll('_', ' ')}</span><span>Viva: {assessment.viva_enabled ? `${Math.round(assessment.viva_weight * 100)}% of final grade` : 'off'}</span><span>AI use: {assessment.ai_policy.replaceAll('_', ' ')}</span></div>
       <details><summary>How your work is assessed</summary>{assessment.rubric?.criteria.map(c => <p key={c.id}><strong>{c.name} ({c.max_marks} marks).</strong> {c.description}</p>)}</details>
     </section>
-    {submitted ? <section className="submission-done"><p className="eyebrow">SUBMITTED</p><h2>Your work is in.</h2><p>Your answer is locked. {assessment.viva_enabled ? 'The next step is a short viva about your own work.' : 'Your teacher will review your work.'}</p><Link to={`/student/submissions/${submission.id}/result`}>Check released result</Link><div className="markdown"><ReactMarkdown>{content}</ReactMarkdown></div></section> : <>
+    {submitted ? <section className="submission-done"><p className="eyebrow">SUBMITTED</p><h2>Your work is in.</h2><p>Your answer is locked. {assessment.viva_enabled ? 'The next step is a short viva about your own work.' : 'Your teacher will review your work.'}</p>{assessment.viva_enabled && <Link className="primary" to={`/student/submissions/${submission.id}/viva`}>Continue to viva</Link>} <Link to={`/student/submissions/${submission.id}/result`}>Check released result</Link><div className="markdown"><ReactMarkdown>{content}</ReactMarkdown></div></section> : <>
       <aside className="recording-notice"><strong>Writing process is recorded.</strong> Your teacher can review how this answer was written.
         <details><summary>What is recorded?</summary><p>Edits, pasted text, deletions, undo/redo, times, and whether this editor page loses focus or becomes hidden. We capture no typing outside this editor, screens or webcam. These are signals for teacher review and do not apply a mark penalty on their own.</p></details>
       </aside>

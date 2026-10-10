@@ -1,4 +1,5 @@
-import type { ActivityBatch, ActivityEvents, Assessment, Submission, User } from '../../api/types';
+import type { ActivityBatch, ActivityEvents, Assessment, Submission, User, VivaAnswer, VivaStart } from '../../api/types';
+import { summarizeActivity } from '../../lib/replay-core';
 export const demoUsers: User[] = [
   { id: 'u_teacher_1', name: 'Demo teacher', role: 'teacher', classroom_id: 'cl_1' },
   { id: 'u_student_3', name: 'Ayesha K.', role: 'student', classroom_id: 'cl_1' },
@@ -46,6 +47,24 @@ export function demoRequest(endpoint: string, options: RequestInit): unknown {
     const submission = read<Submission | null>(submissionKey(submissionId), null);
     if (!submission) throw new Error('Demo submission not found. Open the assessment first.');
     if (suffix === '/result') throw Object.assign(new Error('Your teacher has not released your result yet.'), { code: 'not_released' });
+    if (suffix.startsWith('/viva/') && method === 'POST') {
+      if (submission.status === 'draft') throw new Error('Submit your written answer before starting the viva.');
+      const key = `vivagrade:demo:viva:${submissionId}`;
+      const viva: VivaStart = { session_id: `v_demo_${submissionId}`, total_time_limit_s: 270, questions: [
+        { id: 'vq_1', kind: 'explain', text: 'Explain why a collision happens in the hash table you described.', topic: 'hashing', time_limit_s: 90 },
+        { id: 'vq_2', kind: 'change', text: 'What changes in your approach when many keys map to the same index?', topic: 'collisions', time_limit_s: 90 },
+        { id: 'vq_3', kind: 'defend', text: 'Defend one collision-handling strategy from your answer. What is its main trade-off?', topic: 'complexity', time_limit_s: 90 },
+      ] };
+      const answers = read<Record<string, VivaAnswer>>(key, {});
+      if (suffix === '/viva/start') return viva;
+      if (suffix === '/viva/answer') {
+        const answer = JSON.parse(String(options.body)) as VivaAnswer;
+        if (!viva.questions.some(q => q.id === answer.question_id)) throw new Error('Unknown viva question.');
+        answers[answer.question_id] = answer; store(key, answers);
+        return { ok: true, answered: Object.keys(answers).length, remaining: 3 - Object.keys(answers).length };
+      }
+      if (suffix === '/viva/finish') return { understanding: 0.72, answered: Object.keys(answers).length, total: 3 };
+    }
     if (suffix === '/activity' && method === 'POST') {
       const batch = JSON.parse(String(options.body)) as ActivityBatch;
       const key = `vivagrade:demo:activity:${submissionId}`;
@@ -58,6 +77,7 @@ export function demoRequest(endpoint: string, options: RequestInit): unknown {
       return { received: fresh.length, last_seq: Math.max(last, ...fresh.map(e => e.seq)) };
     }
     if (suffix === '/activity/events') return read<ActivityEvents>(`vivagrade:demo:activity:${submissionId}`, { sessions: [], events: [] });
+    if (suffix === '/activity/summary') return summarizeActivity(submissionId, read<ActivityEvents>(`vivagrade:demo:activity:${submissionId}`, { sessions: [], events: [] }), demoAssessment.paste_flag_chars);
     if (!suffix && method === 'GET') return submission;
     if ((!suffix && method === 'PUT') || (suffix === '/submit' && method === 'POST')) {
       if (submission.status !== 'draft') throw new Error('This submission is already submitted.');

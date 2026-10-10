@@ -1,7 +1,11 @@
 import { apiClient, API_BASE, USE_FIXTURES } from './client';
-import type { ActivityBatch } from './types';
+import type { ActivityBatch, ActivityEvents, ActivitySummary } from './types';
 export interface ActivityReceipt { received: number; last_seq: number }
 export const postActivity = (submissionId: string, batch: ActivityBatch) => apiClient<ActivityReceipt>(`/submissions/${encodeURIComponent(submissionId)}/activity`, { method: 'POST', body: JSON.stringify(batch) });
+export const activityApi = {
+  events: (submissionId: string) => apiClient<ActivityEvents>(`/submissions/${encodeURIComponent(submissionId)}/activity/events`, { fixtureName: `activity_events_${submissionId.replaceAll('_', '')}` }),
+  summary: (submissionId: string) => apiClient<ActivitySummary>(`/submissions/${encodeURIComponent(submissionId)}/activity/summary`, { fixtureName: `activity_summary_${submissionId.replaceAll('_', '')}` }),
+};
 export function sendActivityOnExit(submissionId: string, batch: ActivityBatch): void {
   if (USE_FIXTURES) { void postActivity(submissionId, batch).catch(() => {}); return; }
   const url = `${API_BASE}/submissions/${encodeURIComponent(submissionId)}/activity`;

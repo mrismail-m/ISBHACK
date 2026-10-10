@@ -4,6 +4,7 @@ import type { User } from './api/types';
 import { studentApi } from './api/student';
 import { AssessmentEditor, AssessmentList } from './features/student/StudentApp';
 import { StudentResultPage } from './features/student/StudentResult';
+import { StudentVivaPage } from './features/student/StudentViva';
 function RoleSwitcher() {
   const [users, setUsers] = useState<User[]>([]);
   const [currentUser, setCurrentUser] = useState(localStorage.getItem('currentUserId') || '');
@@ -26,6 +27,7 @@ export function AppRoutes() {
     <Route path="/student" element={<AssessmentList />} />
     <Route path="/student/assessments/:assessmentId" element={<AssessmentEditor />} />
     <Route path="/student/submissions/:submissionId/result" element={<StudentResultPage />} />
+    <Route path="/student/submissions/:submissionId/viva" element={<StudentVivaPage />} />
     <Route path="/teacher/*" element={<TeacherApp />} />
     <Route path="*" element={<main className="student-page"><h1>Page not found</h1><Link to="/student">Back to assessments</Link></main>} />
   </Routes></BrowserRouter>;

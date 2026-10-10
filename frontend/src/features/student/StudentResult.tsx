@@ -14,6 +14,9 @@ export function ResultView({ result }: { result: StudentResult }) {
 }
 export function StudentResultPage() {
   const { submissionId = '' } = useParams();
+  return <StudentResultLoader key={submissionId} submissionId={submissionId} />;
+}
+function StudentResultLoader({ submissionId }: { submissionId: string }) {
   const [result, setResult] = useState<StudentResult | null>(null);
   const [error, setError] = useState('');
   const [pending, setPending] = useState(false);
