@@ -1,81 +1,30 @@
 import { BrowserRouter, Routes, Route, Navigate, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import type { User } from './api/types';
-import { apiClient } from './api/client';
-
+import { studentApi } from './api/student';
+import { AssessmentEditor, AssessmentList } from './features/student/StudentApp';
 function RoleSwitcher() {
   const [users, setUsers] = useState<User[]>([]);
-  const [currentUser, setCurrentUser] = useState<string | null>(localStorage.getItem('currentUserId'));
-
+  const [currentUser, setCurrentUser] = useState(localStorage.getItem('currentUserId') || '');
+  const [error, setError] = useState('');
   useEffect(() => {
-    apiClient<User[]>('/users', { fixtureName: 'users' }).then(data => {
+    studentApi.users().then(data => {
       setUsers(data);
-      if (!currentUser && data.length > 0) {
-        handleUserSelect(data[0].id);
+      if (!data.some(u => u.id === localStorage.getItem('currentUserId'))) {
+        const selected = data.find(u => u.role === 'student') || data[0];
+        if (selected) { localStorage.setItem('currentUserId', selected.id); setCurrentUser(selected.id); }
       }
-    }).catch(console.error);
-  }, [currentUser]);
-
-  const handleUserSelect = (id: string) => {
-    localStorage.setItem('currentUserId', id);
-    setCurrentUser(id);
-    window.location.reload();
-  };
-
-  const user = users.find(u => u.id === currentUser);
-
-  return (
-    <div className="bg-slate-900 text-white p-4 flex justify-between items-center shadow-md">
-      <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">VivaGrade</h1>
-      <div className="flex items-center gap-4">
-        <span className="text-sm">Current: {user ? `${user.name} (${user.role})` : 'None'}</span>
-        <select 
-          className="bg-slate-800 border border-slate-700 p-2 rounded text-sm"
-          value={currentUser || ''}
-          onChange={(e) => handleUserSelect(e.target.value)}
-        >
-          {users.map(u => (
-            <option key={u.id} value={u.id}>{u.name} ({u.role})</option>
-          ))}
-        </select>
-        <div className="flex gap-4 text-sm font-medium">
-          <Link to="/student" className="text-slate-300 hover:text-white transition-colors">Student</Link>
-          <Link to="/teacher" className="text-slate-300 hover:text-white transition-colors">Teacher</Link>
-        </div>
-      </div>
-    </div>
-  );
+    }).catch(e => setError(e.message));
+  }, []);
+  return <header className="app-nav"><Link className="wordmark" to="/student">VivaGrade<span>Grade the work. Verify the learning.</span></Link><nav><Link to="/student">Student</Link><Link to="/teacher">Teacher</Link><label>Viewing as <select aria-label="Choose seeded user" value={currentUser} onChange={e => { localStorage.setItem('currentUserId', e.target.value); window.location.reload(); }}>{users.map(u => <option key={u.id} value={u.id}>{u.name} ({u.role})</option>)}</select></label>{error && <span role="alert">{error}</span>}</nav></header>;
 }
-
-function StudentApp() {
-  return (
-    <div className="p-8 max-w-4xl mx-auto">
-      <h2 className="text-3xl font-bold text-slate-800 mb-4">Student App</h2>
-      <p className="text-slate-600">Skeleton for student interfaces (M0.2).</p>
-    </div>
-  );
-}
-
-function TeacherApp() {
-  return (
-    <div className="p-8 max-w-4xl mx-auto">
-      <h2 className="text-3xl font-bold text-slate-800 mb-4">Teacher Console</h2>
-      <p className="text-slate-600">Skeleton for teacher interfaces (M0.2).</p>
-    </div>
-  );
-}
-
+function TeacherApp() { return <main className="student-page"><h1>Teacher console</h1><p>Teacher screens are owned by Ismail and are awaiting integration.</p></main>; }
 export function AppRoutes() {
-  return (
-    <BrowserRouter>
-      <div className="min-h-screen bg-slate-50 font-sans">
-        <RoleSwitcher />
-        <Routes>
-          <Route path="/" element={<Navigate to="/student" />} />
-          <Route path="/student/*" element={<StudentApp />} />
-          <Route path="/teacher/*" element={<TeacherApp />} />
-        </Routes>
-      </div>
-    </BrowserRouter>
-  );
+  return <BrowserRouter><RoleSwitcher /><Routes>
+    <Route path="/" element={<Navigate to="/student" replace />} />
+    <Route path="/student" element={<AssessmentList />} />
+    <Route path="/student/assessments/:assessmentId" element={<AssessmentEditor />} />
+    <Route path="/teacher/*" element={<TeacherApp />} />
+    <Route path="*" element={<main className="student-page"><h1>Page not found</h1><Link to="/student">Back to assessments</Link></main>} />
+  </Routes></BrowserRouter>;
 }

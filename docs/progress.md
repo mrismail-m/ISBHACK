@@ -33,7 +33,7 @@ Update only your own row.
 | Member | Current task | Status | Next | Blockers |
 |---|---|---|---|---|
 | Adeel | M0.1 | not started | repo and backend skeleton | none |
-| Majid | M1.2 | waiting for human start, local setup ready | student editor, capture, submit on human call | seed and API fixtures missing |
+| Majid | M1.2 | frontend mock flow verified, real integration pending | activity backend and parity fixtures (M2.3) | submission endpoints pending |
 | Ismail | M1.3 | not started | teacher endpoints and UI | none |
 
 ## Integration status (golden path)
@@ -83,6 +83,15 @@ None yet.
 
 ## Log: Majid (newest first)
 
+### 2026-10-10 13:22 | Majid | M1.2 | partial
+- Did: Assessment list, CodeMirror markdown editor and preview, 3-second activity batching with persistent retries, autosave, reload recovery and submit lock. Browser mock flow verified.
+- Files: `frontend/src/features/student/`, `frontend/src/api/{client,student,activity}.ts`, `frontend/src/routes.tsx`, package files; this log.
+- Contract: none. User approved CodeMirror, react-markdown and Vitest dependencies plus package file updates.
+- Decisions: Missing fixtures use a labelled browser-only demo store under student ownership. Real requests use X-User-Id; unload retains activity for retry because sendBeacon cannot set that header.
+- Checks: Typecheck, frontend lint, 3 capture/upload tests and build pass. Browser verified typing, paste, preview, reload recovery and submit. Build warns about bundle size.
+- Next: M2.3 activity persistence using Ismail's db, summary and shared parity fixtures. M1.2 stays unchecked until real events reach the database.
+- Needs from others: Ismail: db/session helper, core models, assessment/submission endpoints and API fixtures. Existing teacher route remains a placeholder for Ismail integration.
+
 ### 2026-10-10 13:13 | Majid | M0.2 | done
 - Did: Installed frontend lockfile dependencies and backend plus evaluation requirements in local `.venv`; created backend `.env` from example. Both servers respond locally.
 - Files: `docs/progress.md`; local dependencies and backend `.env` are ignored.
@@ -117,3 +126,4 @@ None yet.
 ### Archive (Ismail)
 
 None yet.
+
