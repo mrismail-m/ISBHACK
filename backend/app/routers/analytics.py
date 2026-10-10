@@ -50,7 +50,9 @@ def get_attention_route(classroom_id: str, session: Session = SESSION_DEPENDENCY
 
 
 @router.post("/assessments/{assessment_id}/grace/preview", response_model=GracePreview)
-def preview_grace(assessment_id: str, req: GracePreviewRequest, session: Session = SESSION_DEPENDENCY):
+def preview_grace(
+    assessment_id: str, req: GracePreviewRequest, session: Session = SESSION_DEPENDENCY
+):
     return preview_grace_marks(session, assessment_id, req.marks)
 
 

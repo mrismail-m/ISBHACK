@@ -4,6 +4,7 @@ import pytest
 from fastapi.testclient import TestClient
 from sqlmodel import Session
 
+from app.config import get_settings
 from app.models.core import Submission, User
 
 TEACHER = {"X-User-Id": "u_teacher_1"}
@@ -60,6 +61,10 @@ def test_viva_approval_and_student_result(client: TestClient, seeded: Session):
     )
     assert body["released_at"]
     assert body["feedback"]["strengths"]
+    queue = client.get("/api/v1/assessments/a_1/submissions", headers=TEACHER).json()
+    row = next(item for item in queue if item["submission_id"] == "s_1")
+    assert row["score_pct"] == body["final_pct"]
+    assert row["score_is_final"] is True
 
 
 @pytest.mark.parametrize("user", ["other_student", "other_teacher", "missing"])
@@ -82,3 +87,18 @@ def test_student_cannot_approve_or_list_class_work(client: TestClient):
     assert client.post("/api/v1/submissions/s_1/approve", json={"release": True}).status_code == 403
     assert client.get("/api/v1/assessments/a_1/submissions").status_code == 403
     assert client.get("/api/v1/assessments/a_1/submissions", headers=TEACHER).status_code == 200
+
+
+def test_submit_honors_grade_on_submit_setting(client: TestClient, seeded: Session, monkeypatch):
+    from app.ai import pipeline
+
+    submission = seeded.get(Submission, "s_1")
+    submission.status = "draft"
+    seeded.add(submission)
+    seeded.commit()
+    monkeypatch.setenv("GRADE_ON_SUBMIT", "1")
+    get_settings.cache_clear()
+    calls = []
+    monkeypatch.setattr(pipeline, "grade_submission_by_id", lambda session, id_: calls.append(id_))
+    assert client.post("/api/v1/submissions/s_1/submit").status_code == 200
+    assert calls == ["s_1"]

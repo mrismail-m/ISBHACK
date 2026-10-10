@@ -1,5 +1,4 @@
 import math
-import os
 import uuid
 from datetime import UTC, datetime
 from typing import Annotated
@@ -7,6 +6,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends
 from sqlmodel import Session, select
 
+from app.config import get_settings
 from app.db import get_session
 from app.deps import ApiError, current_user_id
 from app.models.core import Assessment, Submission, User
@@ -177,7 +177,7 @@ def submit_submission(
     session.commit()
     session.refresh(sub)
     
-    if os.getenv("GRADE_ON_SUBMIT", "0") == "1":
+    if get_settings().grade_on_submit:
         from app.ai.pipeline import grade_submission_by_id
         grade_submission_by_id(session, sub.id)
 

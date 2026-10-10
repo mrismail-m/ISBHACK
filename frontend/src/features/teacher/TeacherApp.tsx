@@ -186,7 +186,7 @@ function AssessmentDetail() {
               <th className="p-3 text-sm font-semibold text-slate-600">Student</th>
               <th className="p-3 text-sm font-semibold text-slate-600">Status</th>
               <th className="p-3 text-sm font-semibold text-slate-600">AI Score</th>
-              <th className="p-3 text-sm font-semibold text-slate-600">Final Score</th>
+              <th className="p-3 text-sm font-semibold text-slate-600">Blended Score</th>
               <th className="p-3 text-sm font-semibold text-slate-600">Understanding</th>
               <th className="p-3 text-sm font-semibold text-slate-600">Flags</th>
               <th className="p-3 text-sm font-semibold text-slate-600 text-right">Action</th>
@@ -198,7 +198,7 @@ function AssessmentDetail() {
                 <td className="p-3 font-medium text-slate-900">{blindMode ? sub.label : sub.student_name}</td>
                 <td className="p-3 text-sm capitalize">{sub.status.replace('_', ' ')}</td>
                 <td className="p-3 text-sm">{sub.ai_total != null ? `${sub.ai_total}/${sub.max_marks}` : '-'}</td>
-                <td className="p-3 text-sm font-medium">{sub.final_total != null ? `${sub.final_total}/${sub.max_marks}` : '-'}</td>
+                <td className="p-3 text-sm font-medium">{sub.score_pct != null ? `${sub.score_pct.toFixed(1)}% (${sub.score_is_final ? 'final' : 'provisional'})` : '-'}</td>
                 <td className="p-3 text-sm">{sub.understanding != null ? `${Math.round(sub.understanding * 100)}%` : '-'}</td>
                 <td className="p-3 text-xs">
                   {sub.flags.map(f => (

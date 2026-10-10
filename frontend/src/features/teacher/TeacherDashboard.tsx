@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { apiClient } from '../../api/client';
 import type { 
@@ -89,16 +89,16 @@ export function AssessmentDashboard({ assessmentId }: { assessmentId: string }) 
   const [gracePreview, setGracePreview] = useState<GracePreview | null>(null);
   const [graceReason, setGraceReason] = useState("");
 
-  const refreshData = () => {
+  const refreshData = useCallback(() => {
     apiClient<AssessmentStats>(`/assessments/${assessmentId}/stats`).then(setStats).catch(console.error);
     apiClient<OverrideStats>(`/assessments/${assessmentId}/override-stats`).then(setOverrideStats).catch(console.error);
     // There isn't a GET endpoint for grace state alone in contract.
     // Grace state is returned from apply/undo. We might not have it until applied.
-  };
+  }, [assessmentId]);
 
   useEffect(() => {
     refreshData();
-  }, [assessmentId]);
+  }, [refreshData]);
 
   if (!stats) return <div className="py-8 text-center text-slate-500 text-sm">Loading assessment stats...</div>;
 

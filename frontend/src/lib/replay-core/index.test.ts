@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import cases from '../../../../fixtures/activity/cases.json';
 import demos from '../../../../fixtures/activity/demo_sessions.json';
+import integration from '../../../../fixtures/activity/integration_session.json';
 import { buildTimeline, createReplay, summarizeActivity } from './index';
 import type { ActivityEvents } from '../../api/types';
 describe('shared activity fixtures', () => {
@@ -29,6 +30,13 @@ it('seeks backwards and forwards across replay checkpoints', () => {
   const activity: ActivityEvents = { sessions: [{ session_id: 'long', started_at: '2026-10-10T08:00:00Z' }], events: Array.from({ length: 450 }, (_, seq) => ({ session_id: 'long', seq, t: seq * 10, k: 'type', from: seq, to: seq, text: 'x' })) };
   const replay = createReplay(activity);
   for (const index of [450, 199, 400, 0, 201, 200]) expect(replay.at(index).doc).toBe('x'.repeat(index));
+});
+it('reconstructs the browser review session and matches its server summary', () => {
+  const activity = integration.activity as ActivityEvents;
+  expect(createReplay(activity).at(activity.events.length).doc).toBe(integration.expected.doc);
+  const summary = summarizeActivity(integration.submission_id, activity, integration.paste_flag_chars);
+  const normalize = (value: typeof summary) => ({ ...value, paste_chunks: value.paste_chunks.map(c => ({ ...c, at: new Date(c.at).toISOString() })) });
+  expect(normalize(summary)).toEqual(normalize(integration.expected.summary as typeof summary));
 });
 it('compresses idle gaps and keeps session boundaries visible', () => {
   const activity: ActivityEvents = { sessions: [{ session_id: 'one', started_at: '2026-10-10T08:00:00Z' }, { session_id: 'two', started_at: '2026-10-10T09:00:00Z' }], events: [{ session_id: 'one', seq: 0, t: 0, k: 'start', from: 0, to: 0, text: '' }, { session_id: 'one', seq: 1, t: 60000, k: 'focus', from: 0, to: 0, text: '' }, { session_id: 'two', seq: 0, t: 0, k: 'start', from: 0, to: 0, text: '' }] };

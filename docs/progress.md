@@ -33,7 +33,7 @@ Update only your own row.
 | Member | Current task | Status | Next | Blockers |
 |---|---|---|---|---|
 | Adeel | M3.1 done | M4.1 trust report; golden path run once Ismail's review, approve, result land | eval run needs a real LLM key | no LLM key configured yet |
-| Majid | M2.3/M3.2 integration | dependencies landed; API integration passes | browser viva, teacher review and released results | 10-minute round trip still unverified |
+| Majid | M2.3/M3.2 done | live API browser flow verified with mock AI | team real-AI golden path | timed recording deferred by user |
 | Ismail | M4.3 done | wait for demo run | help with rehearsals | none |
 
 ## Integration status (golden path)
@@ -124,6 +124,16 @@ Format: `<from> to <owner>: <what> (task id)`
 None yet.
 
 ## Log: Majid (newest first)
+
+### 2026-10-10 | Majid | M2.3/M3.2 | done
+- Did: Verified editor, viva, review, replay, approval and released result through live APIs with mock AI. Captured 805 characters and 247 events; replay matched exactly, paste survival was 100%.
+- Files: `fixtures/activity/integration_session.json`, replay parity test, submissions router/integration tests, teacher queue/dashboard, narrow Python lint corrections, roadmap.
+- Contract: none. Queue now displays server-computed blended percentage; submission grading reads GRADE_ON_SUBMIT from configured settings.
+- Decisions: User deferred ten-minute recording and assigned this chat ownership of Majid. Other session package edits are preserved separately. Credentials saved only in ignored backend/.env; real Groq connectivity succeeded.
+- Checks: 102 backend tests and Ruff pass; 20 frontend tests, typecheck, lint and build pass. CodeMirror bundle warning remains. Released browser result: 13.8/20, 69%, understanding 50%.
+- Next: Team real-provider golden path and evaluation. Browser integration used mock AI; connectivity probe used real Groq.
+- Needs from others: Adeel owns real-AI evaluation. Timed recording is deferred, not verified.
+
 
 ### 2026-10-10 14:26 | Majid | M3.2 | partial
 - Did: Lazy-loaded student, viva, result and teacher routes plus CodeMirror with visible loading states. Main bundle reduced from about 922 KB to 273 KB; editor is separate, about 502 KB, so one warning remains.

@@ -1,0 +1,2299 @@
+{
+  "expected": {
+    "summary": {
+      "submission_id": "s_323df917",
+      "final_chars": 805,
+      "typed_pct": 29.3,
+      "pasted_pct": 70.7,
+      "paste_chunks": [
+        {
+          "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378",
+          "event_seq": 98,
+          "at": "2026-10-10T09:24:01.304Z",
+          "t": 39981,
+          "chars": 569,
+          "survived_chars": 569,
+          "survived_pct": 100.0,
+          "major": true,
+          "declared_source": null
+        }
+      ],
+      "revision_ratio": 0.0,
+      "active_minutes": 3,
+      "span_minutes": 2.9,
+      "tab_switches": 1,
+      "sessions": 4,
+      "bucket": "minute",
+      "heatmap": [
+        {
+          "bucket_start": "2026-10-10T09:23:00Z",
+          "edits": 1,
+          "typed_chars": 1,
+          "pasted_chars": 0
+        },
+        {
+          "bucket_start": "2026-10-10T09:24:00Z",
+          "edits": 97,
+          "typed_chars": 96,
+          "pasted_chars": 569
+        },
+        {
+          "bucket_start": "2026-10-10T09:25:00Z",
+          "edits": 139,
+          "typed_chars": 139,
+          "pasted_chars": 0
+        }
+      ]
+    },
+    "doc": "# Hash table collisions\nTwo keys can map to the same index. The table must preserve both values.\nIn chaining, every table slot contains a collection of entries. When a key is inserted, its hash chooses a slot and the new pair is added to that collection. Lookup hashes the key and compares keys within the chosen collection. Open addressing stores entries in the array itself. If the chosen slot is occupied, it probes other slots using a fixed sequence until it finds an available one. Lookup follows the same sequence. A smaller load factor keeps chains and probes short. Resizing changes the capacity, so existing entries must be hashed again for the new table.\n\nFor average time, a well-distributed hash gives short chains and few probes. In the worst case many keys collide, so lookup can take O(n).\n"
+  },
+  "activity": {
+    "sessions": [
+      {
+        "session_id": "e5d352a9-fe2e-4e3c-9bf8-e743b90b4b44",
+        "started_at": "2026-10-10T09:23:21.317Z"
+      },
+      {
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378",
+        "started_at": "2026-10-10T09:23:21.323Z"
+      },
+      {
+        "session_id": "724d9a56-dace-40a4-bed3-e1e2047f2050",
+        "started_at": "2026-10-10T09:25:57.356Z"
+      },
+      {
+        "session_id": "0c77cb2c-f7ae-436d-ad73-d8c301fd99d1",
+        "started_at": "2026-10-10T09:25:57.365Z"
+      }
+    ],
+    "events": [
+      {
+        "seq": 0,
+        "t": 0,
+        "k": "start",
+        "from": 0,
+        "to": 0,
+        "text": "",
+        "session_id": "e5d352a9-fe2e-4e3c-9bf8-e743b90b4b44"
+      },
+      {
+        "seq": 1,
+        "t": 1,
+        "k": "end",
+        "from": 0,
+        "to": 0,
+        "text": "",
+        "session_id": "e5d352a9-fe2e-4e3c-9bf8-e743b90b4b44"
+      },
+      {
+        "seq": 0,
+        "t": 0,
+        "k": "start",
+        "from": 0,
+        "to": 0,
+        "text": "",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 1,
+        "t": 38656,
+        "k": "type",
+        "from": 0,
+        "to": 0,
+        "text": "#",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 2,
+        "t": 38691,
+        "k": "type",
+        "from": 1,
+        "to": 1,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 3,
+        "t": 38711,
+        "k": "type",
+        "from": 2,
+        "to": 2,
+        "text": "H",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 4,
+        "t": 38731,
+        "k": "type",
+        "from": 3,
+        "to": 3,
+        "text": "a",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 5,
+        "t": 38748,
+        "k": "type",
+        "from": 4,
+        "to": 4,
+        "text": "s",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 6,
+        "t": 38763,
+        "k": "type",
+        "from": 5,
+        "to": 5,
+        "text": "h",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 7,
+        "t": 38780,
+        "k": "type",
+        "from": 6,
+        "to": 6,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 8,
+        "t": 38795,
+        "k": "type",
+        "from": 7,
+        "to": 7,
+        "text": "t",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 9,
+        "t": 38810,
+        "k": "type",
+        "from": 8,
+        "to": 8,
+        "text": "a",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 10,
+        "t": 38819,
+        "k": "type",
+        "from": 9,
+        "to": 9,
+        "text": "b",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 11,
+        "t": 38835,
+        "k": "type",
+        "from": 10,
+        "to": 10,
+        "text": "l",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 12,
+        "t": 38847,
+        "k": "type",
+        "from": 11,
+        "to": 11,
+        "text": "e",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 13,
+        "t": 38861,
+        "k": "type",
+        "from": 12,
+        "to": 12,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 14,
+        "t": 38874,
+        "k": "type",
+        "from": 13,
+        "to": 13,
+        "text": "c",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 15,
+        "t": 38888,
+        "k": "type",
+        "from": 14,
+        "to": 14,
+        "text": "o",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 16,
+        "t": 38900,
+        "k": "type",
+        "from": 15,
+        "to": 15,
+        "text": "l",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 17,
+        "t": 38912,
+        "k": "type",
+        "from": 16,
+        "to": 16,
+        "text": "l",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 18,
+        "t": 38925,
+        "k": "type",
+        "from": 17,
+        "to": 17,
+        "text": "i",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 19,
+        "t": 38934,
+        "k": "type",
+        "from": 18,
+        "to": 18,
+        "text": "s",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 20,
+        "t": 38946,
+        "k": "type",
+        "from": 19,
+        "to": 19,
+        "text": "i",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 21,
+        "t": 38958,
+        "k": "type",
+        "from": 20,
+        "to": 20,
+        "text": "o",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 22,
+        "t": 38968,
+        "k": "type",
+        "from": 21,
+        "to": 21,
+        "text": "n",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 23,
+        "t": 38979,
+        "k": "type",
+        "from": 22,
+        "to": 22,
+        "text": "s",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 24,
+        "t": 38997,
+        "k": "type",
+        "from": 23,
+        "to": 23,
+        "text": "\n",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 25,
+        "t": 39028,
+        "k": "type",
+        "from": 24,
+        "to": 24,
+        "text": "T",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 26,
+        "t": 39045,
+        "k": "type",
+        "from": 25,
+        "to": 25,
+        "text": "w",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 27,
+        "t": 39062,
+        "k": "type",
+        "from": 26,
+        "to": 26,
+        "text": "o",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 28,
+        "t": 39071,
+        "k": "type",
+        "from": 27,
+        "to": 27,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 29,
+        "t": 39085,
+        "k": "type",
+        "from": 28,
+        "to": 28,
+        "text": "k",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 30,
+        "t": 39097,
+        "k": "type",
+        "from": 29,
+        "to": 29,
+        "text": "e",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 31,
+        "t": 39110,
+        "k": "type",
+        "from": 30,
+        "to": 30,
+        "text": "y",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 32,
+        "t": 39126,
+        "k": "type",
+        "from": 31,
+        "to": 31,
+        "text": "s",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 33,
+        "t": 39136,
+        "k": "type",
+        "from": 32,
+        "to": 32,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 34,
+        "t": 39150,
+        "k": "type",
+        "from": 33,
+        "to": 33,
+        "text": "c",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 35,
+        "t": 39162,
+        "k": "type",
+        "from": 34,
+        "to": 34,
+        "text": "a",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 36,
+        "t": 39175,
+        "k": "type",
+        "from": 35,
+        "to": 35,
+        "text": "n",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 37,
+        "t": 39188,
+        "k": "type",
+        "from": 36,
+        "to": 36,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 38,
+        "t": 39202,
+        "k": "type",
+        "from": 37,
+        "to": 37,
+        "text": "m",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 39,
+        "t": 39218,
+        "k": "type",
+        "from": 38,
+        "to": 38,
+        "text": "a",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 40,
+        "t": 39233,
+        "k": "type",
+        "from": 39,
+        "to": 39,
+        "text": "p",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 41,
+        "t": 39246,
+        "k": "type",
+        "from": 40,
+        "to": 40,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 42,
+        "t": 39255,
+        "k": "type",
+        "from": 41,
+        "to": 41,
+        "text": "t",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 43,
+        "t": 39268,
+        "k": "type",
+        "from": 42,
+        "to": 42,
+        "text": "o",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 44,
+        "t": 39285,
+        "k": "type",
+        "from": 43,
+        "to": 43,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 45,
+        "t": 39299,
+        "k": "type",
+        "from": 44,
+        "to": 44,
+        "text": "t",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 46,
+        "t": 39311,
+        "k": "type",
+        "from": 45,
+        "to": 45,
+        "text": "h",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 47,
+        "t": 39321,
+        "k": "type",
+        "from": 46,
+        "to": 46,
+        "text": "e",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 48,
+        "t": 39335,
+        "k": "type",
+        "from": 47,
+        "to": 47,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 49,
+        "t": 39349,
+        "k": "type",
+        "from": 48,
+        "to": 48,
+        "text": "s",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 50,
+        "t": 39362,
+        "k": "type",
+        "from": 49,
+        "to": 49,
+        "text": "a",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 51,
+        "t": 39379,
+        "k": "type",
+        "from": 50,
+        "to": 50,
+        "text": "m",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 52,
+        "t": 39405,
+        "k": "type",
+        "from": 51,
+        "to": 51,
+        "text": "e",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 53,
+        "t": 39418,
+        "k": "type",
+        "from": 52,
+        "to": 52,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 54,
+        "t": 39434,
+        "k": "type",
+        "from": 53,
+        "to": 53,
+        "text": "i",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 55,
+        "t": 39448,
+        "k": "type",
+        "from": 54,
+        "to": 54,
+        "text": "n",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 56,
+        "t": 39460,
+        "k": "type",
+        "from": 55,
+        "to": 55,
+        "text": "d",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 57,
+        "t": 39477,
+        "k": "type",
+        "from": 56,
+        "to": 56,
+        "text": "e",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 58,
+        "t": 39488,
+        "k": "type",
+        "from": 57,
+        "to": 57,
+        "text": "x",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 59,
+        "t": 39500,
+        "k": "type",
+        "from": 58,
+        "to": 58,
+        "text": ".",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 60,
+        "t": 39511,
+        "k": "type",
+        "from": 59,
+        "to": 59,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 61,
+        "t": 39522,
+        "k": "type",
+        "from": 60,
+        "to": 60,
+        "text": "T",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 62,
+        "t": 39533,
+        "k": "type",
+        "from": 61,
+        "to": 61,
+        "text": "h",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 63,
+        "t": 39544,
+        "k": "type",
+        "from": 62,
+        "to": 62,
+        "text": "e",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 64,
+        "t": 39552,
+        "k": "type",
+        "from": 63,
+        "to": 63,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 65,
+        "t": 39562,
+        "k": "type",
+        "from": 64,
+        "to": 64,
+        "text": "t",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 66,
+        "t": 39572,
+        "k": "type",
+        "from": 65,
+        "to": 65,
+        "text": "a",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 67,
+        "t": 39584,
+        "k": "type",
+        "from": 66,
+        "to": 66,
+        "text": "b",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 68,
+        "t": 39596,
+        "k": "type",
+        "from": 67,
+        "to": 67,
+        "text": "l",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 69,
+        "t": 39610,
+        "k": "type",
+        "from": 68,
+        "to": 68,
+        "text": "e",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 70,
+        "t": 39619,
+        "k": "type",
+        "from": 69,
+        "to": 69,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 71,
+        "t": 39629,
+        "k": "type",
+        "from": 70,
+        "to": 70,
+        "text": "m",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 72,
+        "t": 39641,
+        "k": "type",
+        "from": 71,
+        "to": 71,
+        "text": "u",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 73,
+        "t": 39650,
+        "k": "type",
+        "from": 72,
+        "to": 72,
+        "text": "s",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 74,
+        "t": 39665,
+        "k": "type",
+        "from": 73,
+        "to": 73,
+        "text": "t",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 75,
+        "t": 39678,
+        "k": "type",
+        "from": 74,
+        "to": 74,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 76,
+        "t": 39693,
+        "k": "type",
+        "from": 75,
+        "to": 75,
+        "text": "p",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 77,
+        "t": 39702,
+        "k": "type",
+        "from": 76,
+        "to": 76,
+        "text": "r",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 78,
+        "t": 39713,
+        "k": "type",
+        "from": 77,
+        "to": 77,
+        "text": "e",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 79,
+        "t": 39724,
+        "k": "type",
+        "from": 78,
+        "to": 78,
+        "text": "s",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 80,
+        "t": 39732,
+        "k": "type",
+        "from": 79,
+        "to": 79,
+        "text": "e",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 81,
+        "t": 39742,
+        "k": "type",
+        "from": 80,
+        "to": 80,
+        "text": "r",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 82,
+        "t": 39754,
+        "k": "type",
+        "from": 81,
+        "to": 81,
+        "text": "v",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 83,
+        "t": 39767,
+        "k": "type",
+        "from": 82,
+        "to": 82,
+        "text": "e",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 84,
+        "t": 39777,
+        "k": "type",
+        "from": 83,
+        "to": 83,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 85,
+        "t": 39786,
+        "k": "type",
+        "from": 84,
+        "to": 84,
+        "text": "b",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 86,
+        "t": 39797,
+        "k": "type",
+        "from": 85,
+        "to": 85,
+        "text": "o",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 87,
+        "t": 39805,
+        "k": "type",
+        "from": 86,
+        "to": 86,
+        "text": "t",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 88,
+        "t": 39815,
+        "k": "type",
+        "from": 87,
+        "to": 87,
+        "text": "h",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 89,
+        "t": 39827,
+        "k": "type",
+        "from": 88,
+        "to": 88,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 90,
+        "t": 39835,
+        "k": "type",
+        "from": 89,
+        "to": 89,
+        "text": "v",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 91,
+        "t": 39846,
+        "k": "type",
+        "from": 90,
+        "to": 90,
+        "text": "a",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 92,
+        "t": 39857,
+        "k": "type",
+        "from": 91,
+        "to": 91,
+        "text": "l",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 93,
+        "t": 39865,
+        "k": "type",
+        "from": 92,
+        "to": 92,
+        "text": "u",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 94,
+        "t": 39879,
+        "k": "type",
+        "from": 93,
+        "to": 93,
+        "text": "e",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 95,
+        "t": 39893,
+        "k": "type",
+        "from": 94,
+        "to": 94,
+        "text": "s",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 96,
+        "t": 39907,
+        "k": "type",
+        "from": 95,
+        "to": 95,
+        "text": ".",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 97,
+        "t": 39921,
+        "k": "type",
+        "from": 96,
+        "to": 96,
+        "text": "\n",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 98,
+        "t": 39981,
+        "k": "paste",
+        "from": 97,
+        "to": 97,
+        "text": "In chaining, every table slot contains a collection of entries. When a key is inserted, its hash chooses a slot and the new pair is added to that collection. Lookup hashes the key and compares keys within the chosen collection. Open addressing stores entries in the array itself. If the chosen slot is occupied, it probes other slots using a fixed sequence until it finds an available one. Lookup follows the same sequence. A smaller load factor keeps chains and probes short. Resizing changes the capacity, so existing entries must be hashed again for the new table.\n\n",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 99,
+        "t": 114721,
+        "k": "type",
+        "from": 666,
+        "to": 666,
+        "text": "F",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 100,
+        "t": 114737,
+        "k": "type",
+        "from": 667,
+        "to": 667,
+        "text": "o",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 101,
+        "t": 114751,
+        "k": "type",
+        "from": 668,
+        "to": 668,
+        "text": "r",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 102,
+        "t": 114763,
+        "k": "type",
+        "from": 669,
+        "to": 669,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 103,
+        "t": 114773,
+        "k": "type",
+        "from": 670,
+        "to": 670,
+        "text": "a",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 104,
+        "t": 114787,
+        "k": "type",
+        "from": 671,
+        "to": 671,
+        "text": "v",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 105,
+        "t": 114806,
+        "k": "type",
+        "from": 672,
+        "to": 672,
+        "text": "e",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 106,
+        "t": 114818,
+        "k": "type",
+        "from": 673,
+        "to": 673,
+        "text": "r",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 107,
+        "t": 114831,
+        "k": "type",
+        "from": 674,
+        "to": 674,
+        "text": "a",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 108,
+        "t": 114848,
+        "k": "type",
+        "from": 675,
+        "to": 675,
+        "text": "g",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 109,
+        "t": 114858,
+        "k": "type",
+        "from": 676,
+        "to": 676,
+        "text": "e",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 110,
+        "t": 114867,
+        "k": "type",
+        "from": 677,
+        "to": 677,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 111,
+        "t": 114875,
+        "k": "type",
+        "from": 678,
+        "to": 678,
+        "text": "t",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 112,
+        "t": 114884,
+        "k": "type",
+        "from": 679,
+        "to": 679,
+        "text": "i",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 113,
+        "t": 114895,
+        "k": "type",
+        "from": 680,
+        "to": 680,
+        "text": "m",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 114,
+        "t": 114904,
+        "k": "type",
+        "from": 681,
+        "to": 681,
+        "text": "e",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 115,
+        "t": 114911,
+        "k": "type",
+        "from": 682,
+        "to": 682,
+        "text": ",",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 116,
+        "t": 114919,
+        "k": "type",
+        "from": 683,
+        "to": 683,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 117,
+        "t": 114927,
+        "k": "type",
+        "from": 684,
+        "to": 684,
+        "text": "a",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 118,
+        "t": 114937,
+        "k": "type",
+        "from": 685,
+        "to": 685,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 119,
+        "t": 114945,
+        "k": "type",
+        "from": 686,
+        "to": 686,
+        "text": "w",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 120,
+        "t": 114959,
+        "k": "type",
+        "from": 687,
+        "to": 687,
+        "text": "e",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 121,
+        "t": 114969,
+        "k": "type",
+        "from": 688,
+        "to": 688,
+        "text": "l",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 122,
+        "t": 114975,
+        "k": "type",
+        "from": 689,
+        "to": 689,
+        "text": "l",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 123,
+        "t": 114986,
+        "k": "type",
+        "from": 690,
+        "to": 690,
+        "text": "-",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 124,
+        "t": 114994,
+        "k": "type",
+        "from": 691,
+        "to": 691,
+        "text": "d",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 125,
+        "t": 115003,
+        "k": "type",
+        "from": 692,
+        "to": 692,
+        "text": "i",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 126,
+        "t": 115015,
+        "k": "type",
+        "from": 693,
+        "to": 693,
+        "text": "s",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 127,
+        "t": 115024,
+        "k": "type",
+        "from": 694,
+        "to": 694,
+        "text": "t",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 128,
+        "t": 115031,
+        "k": "type",
+        "from": 695,
+        "to": 695,
+        "text": "r",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 129,
+        "t": 115040,
+        "k": "type",
+        "from": 696,
+        "to": 696,
+        "text": "i",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 130,
+        "t": 115048,
+        "k": "type",
+        "from": 697,
+        "to": 697,
+        "text": "b",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 131,
+        "t": 115056,
+        "k": "type",
+        "from": 698,
+        "to": 698,
+        "text": "u",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 132,
+        "t": 115063,
+        "k": "type",
+        "from": 699,
+        "to": 699,
+        "text": "t",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 133,
+        "t": 115072,
+        "k": "type",
+        "from": 700,
+        "to": 700,
+        "text": "e",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 134,
+        "t": 115079,
+        "k": "type",
+        "from": 701,
+        "to": 701,
+        "text": "d",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 135,
+        "t": 115089,
+        "k": "type",
+        "from": 702,
+        "to": 702,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 136,
+        "t": 115095,
+        "k": "type",
+        "from": 703,
+        "to": 703,
+        "text": "h",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 137,
+        "t": 115105,
+        "k": "type",
+        "from": 704,
+        "to": 704,
+        "text": "a",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 138,
+        "t": 115111,
+        "k": "type",
+        "from": 705,
+        "to": 705,
+        "text": "s",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 139,
+        "t": 115120,
+        "k": "type",
+        "from": 706,
+        "to": 706,
+        "text": "h",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 140,
+        "t": 115128,
+        "k": "type",
+        "from": 707,
+        "to": 707,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 141,
+        "t": 115138,
+        "k": "type",
+        "from": 708,
+        "to": 708,
+        "text": "g",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 142,
+        "t": 115146,
+        "k": "type",
+        "from": 709,
+        "to": 709,
+        "text": "i",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 143,
+        "t": 115155,
+        "k": "type",
+        "from": 710,
+        "to": 710,
+        "text": "v",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 144,
+        "t": 115162,
+        "k": "type",
+        "from": 711,
+        "to": 711,
+        "text": "e",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 145,
+        "t": 115172,
+        "k": "type",
+        "from": 712,
+        "to": 712,
+        "text": "s",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 146,
+        "t": 115180,
+        "k": "type",
+        "from": 713,
+        "to": 713,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 147,
+        "t": 115188,
+        "k": "type",
+        "from": 714,
+        "to": 714,
+        "text": "s",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 148,
+        "t": 115196,
+        "k": "type",
+        "from": 715,
+        "to": 715,
+        "text": "h",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 149,
+        "t": 115206,
+        "k": "type",
+        "from": 716,
+        "to": 716,
+        "text": "o",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 150,
+        "t": 115213,
+        "k": "type",
+        "from": 717,
+        "to": 717,
+        "text": "r",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 151,
+        "t": 115222,
+        "k": "type",
+        "from": 718,
+        "to": 718,
+        "text": "t",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 152,
+        "t": 115230,
+        "k": "type",
+        "from": 719,
+        "to": 719,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 153,
+        "t": 115239,
+        "k": "type",
+        "from": 720,
+        "to": 720,
+        "text": "c",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 154,
+        "t": 115249,
+        "k": "type",
+        "from": 721,
+        "to": 721,
+        "text": "h",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 155,
+        "t": 115260,
+        "k": "type",
+        "from": 722,
+        "to": 722,
+        "text": "a",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 156,
+        "t": 115271,
+        "k": "type",
+        "from": 723,
+        "to": 723,
+        "text": "i",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 157,
+        "t": 115278,
+        "k": "type",
+        "from": 724,
+        "to": 724,
+        "text": "n",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 158,
+        "t": 115285,
+        "k": "type",
+        "from": 725,
+        "to": 725,
+        "text": "s",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 159,
+        "t": 115293,
+        "k": "type",
+        "from": 726,
+        "to": 726,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 160,
+        "t": 115301,
+        "k": "type",
+        "from": 727,
+        "to": 727,
+        "text": "a",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 161,
+        "t": 115308,
+        "k": "type",
+        "from": 728,
+        "to": 728,
+        "text": "n",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 162,
+        "t": 115317,
+        "k": "type",
+        "from": 729,
+        "to": 729,
+        "text": "d",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 163,
+        "t": 115324,
+        "k": "type",
+        "from": 730,
+        "to": 730,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 164,
+        "t": 115331,
+        "k": "type",
+        "from": 731,
+        "to": 731,
+        "text": "f",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 165,
+        "t": 115340,
+        "k": "type",
+        "from": 732,
+        "to": 732,
+        "text": "e",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 166,
+        "t": 115346,
+        "k": "type",
+        "from": 733,
+        "to": 733,
+        "text": "w",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 167,
+        "t": 115354,
+        "k": "type",
+        "from": 734,
+        "to": 734,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 168,
+        "t": 115361,
+        "k": "type",
+        "from": 735,
+        "to": 735,
+        "text": "p",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 169,
+        "t": 115368,
+        "k": "type",
+        "from": 736,
+        "to": 736,
+        "text": "r",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 170,
+        "t": 115374,
+        "k": "type",
+        "from": 737,
+        "to": 737,
+        "text": "o",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 171,
+        "t": 115379,
+        "k": "type",
+        "from": 738,
+        "to": 738,
+        "text": "b",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 172,
+        "t": 115388,
+        "k": "type",
+        "from": 739,
+        "to": 739,
+        "text": "e",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 173,
+        "t": 115393,
+        "k": "type",
+        "from": 740,
+        "to": 740,
+        "text": "s",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 174,
+        "t": 115402,
+        "k": "type",
+        "from": 741,
+        "to": 741,
+        "text": ".",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 175,
+        "t": 115408,
+        "k": "type",
+        "from": 742,
+        "to": 742,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 176,
+        "t": 115415,
+        "k": "type",
+        "from": 743,
+        "to": 743,
+        "text": "I",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 177,
+        "t": 115422,
+        "k": "type",
+        "from": 744,
+        "to": 744,
+        "text": "n",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 178,
+        "t": 115428,
+        "k": "type",
+        "from": 745,
+        "to": 745,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 179,
+        "t": 115436,
+        "k": "type",
+        "from": 746,
+        "to": 746,
+        "text": "t",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 180,
+        "t": 115442,
+        "k": "type",
+        "from": 747,
+        "to": 747,
+        "text": "h",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 181,
+        "t": 115450,
+        "k": "type",
+        "from": 748,
+        "to": 748,
+        "text": "e",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 182,
+        "t": 115457,
+        "k": "type",
+        "from": 749,
+        "to": 749,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 183,
+        "t": 115464,
+        "k": "type",
+        "from": 750,
+        "to": 750,
+        "text": "w",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 184,
+        "t": 115472,
+        "k": "type",
+        "from": 751,
+        "to": 751,
+        "text": "o",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 185,
+        "t": 115478,
+        "k": "type",
+        "from": 752,
+        "to": 752,
+        "text": "r",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 186,
+        "t": 115487,
+        "k": "type",
+        "from": 753,
+        "to": 753,
+        "text": "s",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 187,
+        "t": 115493,
+        "k": "type",
+        "from": 754,
+        "to": 754,
+        "text": "t",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 188,
+        "t": 115500,
+        "k": "type",
+        "from": 755,
+        "to": 755,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 189,
+        "t": 115506,
+        "k": "type",
+        "from": 756,
+        "to": 756,
+        "text": "c",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 190,
+        "t": 115512,
+        "k": "type",
+        "from": 757,
+        "to": 757,
+        "text": "a",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 191,
+        "t": 115519,
+        "k": "type",
+        "from": 758,
+        "to": 758,
+        "text": "s",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 192,
+        "t": 115526,
+        "k": "type",
+        "from": 759,
+        "to": 759,
+        "text": "e",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 193,
+        "t": 115535,
+        "k": "type",
+        "from": 760,
+        "to": 760,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 194,
+        "t": 115540,
+        "k": "type",
+        "from": 761,
+        "to": 761,
+        "text": "m",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 195,
+        "t": 115545,
+        "k": "type",
+        "from": 762,
+        "to": 762,
+        "text": "a",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 196,
+        "t": 115553,
+        "k": "type",
+        "from": 763,
+        "to": 763,
+        "text": "n",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 197,
+        "t": 115560,
+        "k": "type",
+        "from": 764,
+        "to": 764,
+        "text": "y",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 198,
+        "t": 115571,
+        "k": "type",
+        "from": 765,
+        "to": 765,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 199,
+        "t": 115576,
+        "k": "type",
+        "from": 766,
+        "to": 766,
+        "text": "k",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 200,
+        "t": 115580,
+        "k": "type",
+        "from": 767,
+        "to": 767,
+        "text": "e",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 201,
+        "t": 115588,
+        "k": "type",
+        "from": 768,
+        "to": 768,
+        "text": "y",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 202,
+        "t": 115594,
+        "k": "type",
+        "from": 769,
+        "to": 769,
+        "text": "s",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 203,
+        "t": 115601,
+        "k": "type",
+        "from": 770,
+        "to": 770,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 204,
+        "t": 115606,
+        "k": "type",
+        "from": 771,
+        "to": 771,
+        "text": "c",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 205,
+        "t": 115611,
+        "k": "type",
+        "from": 772,
+        "to": 772,
+        "text": "o",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 206,
+        "t": 115619,
+        "k": "type",
+        "from": 773,
+        "to": 773,
+        "text": "l",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 207,
+        "t": 115626,
+        "k": "type",
+        "from": 774,
+        "to": 774,
+        "text": "l",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 208,
+        "t": 115633,
+        "k": "type",
+        "from": 775,
+        "to": 775,
+        "text": "i",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 209,
+        "t": 115640,
+        "k": "type",
+        "from": 776,
+        "to": 776,
+        "text": "d",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 210,
+        "t": 115645,
+        "k": "type",
+        "from": 777,
+        "to": 777,
+        "text": "e",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 211,
+        "t": 115652,
+        "k": "type",
+        "from": 778,
+        "to": 778,
+        "text": ",",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 212,
+        "t": 115658,
+        "k": "type",
+        "from": 779,
+        "to": 779,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 213,
+        "t": 115663,
+        "k": "type",
+        "from": 780,
+        "to": 780,
+        "text": "s",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 214,
+        "t": 115671,
+        "k": "type",
+        "from": 781,
+        "to": 781,
+        "text": "o",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 215,
+        "t": 115676,
+        "k": "type",
+        "from": 782,
+        "to": 782,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 216,
+        "t": 115681,
+        "k": "type",
+        "from": 783,
+        "to": 783,
+        "text": "l",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 217,
+        "t": 115687,
+        "k": "type",
+        "from": 784,
+        "to": 784,
+        "text": "o",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 218,
+        "t": 115692,
+        "k": "type",
+        "from": 785,
+        "to": 785,
+        "text": "o",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 219,
+        "t": 115696,
+        "k": "type",
+        "from": 786,
+        "to": 786,
+        "text": "k",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 220,
+        "t": 115702,
+        "k": "type",
+        "from": 787,
+        "to": 787,
+        "text": "u",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 221,
+        "t": 115707,
+        "k": "type",
+        "from": 788,
+        "to": 788,
+        "text": "p",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 222,
+        "t": 115712,
+        "k": "type",
+        "from": 789,
+        "to": 789,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 223,
+        "t": 115718,
+        "k": "type",
+        "from": 790,
+        "to": 790,
+        "text": "c",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 224,
+        "t": 115724,
+        "k": "type",
+        "from": 791,
+        "to": 791,
+        "text": "a",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 225,
+        "t": 115729,
+        "k": "type",
+        "from": 792,
+        "to": 792,
+        "text": "n",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 226,
+        "t": 115737,
+        "k": "type",
+        "from": 793,
+        "to": 793,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 227,
+        "t": 115745,
+        "k": "type",
+        "from": 794,
+        "to": 794,
+        "text": "t",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 228,
+        "t": 115753,
+        "k": "type",
+        "from": 795,
+        "to": 795,
+        "text": "a",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 229,
+        "t": 115760,
+        "k": "type",
+        "from": 796,
+        "to": 796,
+        "text": "k",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 230,
+        "t": 115768,
+        "k": "type",
+        "from": 797,
+        "to": 797,
+        "text": "e",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 231,
+        "t": 115775,
+        "k": "type",
+        "from": 798,
+        "to": 798,
+        "text": " ",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 232,
+        "t": 115786,
+        "k": "type",
+        "from": 799,
+        "to": 799,
+        "text": "O",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 233,
+        "t": 115792,
+        "k": "type",
+        "from": 800,
+        "to": 800,
+        "text": "(",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 234,
+        "t": 115800,
+        "k": "type",
+        "from": 801,
+        "to": 801,
+        "text": "n",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 235,
+        "t": 115807,
+        "k": "type",
+        "from": 802,
+        "to": 802,
+        "text": ")",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 236,
+        "t": 115813,
+        "k": "type",
+        "from": 803,
+        "to": 803,
+        "text": ".",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 237,
+        "t": 115823,
+        "k": "type",
+        "from": 804,
+        "to": 804,
+        "text": "\n",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 238,
+        "t": 155451,
+        "k": "blur",
+        "from": 0,
+        "to": 0,
+        "text": "",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 239,
+        "t": 155456,
+        "k": "end",
+        "from": 0,
+        "to": 0,
+        "text": "",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 240,
+        "t": 155460,
+        "k": "hidden",
+        "from": 0,
+        "to": 0,
+        "text": "",
+        "session_id": "b3fd3c5e-448e-4fb6-9172-3919cf266378"
+      },
+      {
+        "seq": 0,
+        "t": 0,
+        "k": "start",
+        "from": 0,
+        "to": 0,
+        "text": "",
+        "session_id": "724d9a56-dace-40a4-bed3-e1e2047f2050"
+      },
+      {
+        "seq": 1,
+        "t": 0,
+        "k": "end",
+        "from": 0,
+        "to": 0,
+        "text": "",
+        "session_id": "724d9a56-dace-40a4-bed3-e1e2047f2050"
+      },
+      {
+        "seq": 0,
+        "t": 0,
+        "k": "start",
+        "from": 0,
+        "to": 0,
+        "text": "",
+        "session_id": "0c77cb2c-f7ae-436d-ad73-d8c301fd99d1"
+      },
+      {
+        "seq": 1,
+        "t": 16250,
+        "k": "end",
+        "from": 0,
+        "to": 0,
+        "text": "",
+        "session_id": "0c77cb2c-f7ae-436d-ad73-d8c301fd99d1"
+      }
+    ]
+  },
+  "name": "browser_integration",
+  "submission_id": "s_323df917",
+  "provenance": "Short browser session through real local API with MOCK_LLM=1. Ten-minute recording deferred at user request.",
+  "paste_flag_chars": 500
+}
