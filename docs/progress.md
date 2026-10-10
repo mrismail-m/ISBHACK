@@ -69,7 +69,13 @@ Format: `<from> to <owner>: <what> (task id)`
 
 ## Log: Adeel (newest first)
 
-No entries yet.
+### 2026-10-10 | Adeel | DESIGN | done
+- Did: wrote `docs/design.md` (visual and interaction spec, tokens, screens, components, anti-slop rules, steering block). Proposed only; needs Adeel's answers to section 16 before anyone builds on it.
+- Files: `docs/design.md`
+- Contract: none
+- Decisions: petrol accent, Newsreader plus Atkinson Hyperlegible (OFL), margin-note law (serif = people, sans = interface and AI), approve is never default or a shortcut
+- Next: Adeel answers Q1 to Q7 (section 16); then tokens.css and `.kiro/steering/design.md` get created by the agreed owner
+- Needs from others: Majid (restyle `routes.tsx` role bar, fix Tailwind 3 vs 4 setup, C1), Ismail (ui kit order, section 15)
 
 ### Archive (Adeel)
 
