@@ -4,6 +4,8 @@ import { apiClient } from '../../api/client';
 import type { TrustReport } from '../../api/types';
 import fallbackReport from '../../../../fixtures/api/trust_report.json';
 
+function metric(value: number | null | undefined) { return value == null ? "Pending" : value.toFixed(2); }
+
 export function TrustReportPage() {
   const [usingSample, setUsingSample] = useState(import.meta.env.VITE_USE_FIXTURES === "1");
   const [report, setReport] = useState<TrustReport | null>(null);
@@ -24,8 +26,8 @@ export function TrustReportPage() {
     return <div className="p-8 max-w-4xl mx-auto text-center text-slate-500">Loading Trust Report...</div>;
   }
 
-  const passProbes = report.bias_probes.filter(p => p.passed).length;
-  const totalProbes = report.bias_probes.length;
+  const passProbes = (report.bias_probes ?? []).filter(p => p.passed).length;
+  const totalProbes = (report.bias_probes ?? []).length;
 
   return (
     <div className="p-8 max-w-5xl mx-auto space-y-8">
@@ -39,22 +41,22 @@ export function TrustReportPage() {
       <div className="grid grid-cols-4 gap-6">
         <div className="bg-white p-6 rounded-lg shadow border border-slate-200">
           <h3 className="text-sm font-semibold text-slate-500 mb-1">AI vs Human MAE</h3>
-          <p className="text-3xl font-bold text-slate-900">{report.accuracy.ai_vs_human_mae.toFixed(2)}</p>
-          <p className="text-xs text-slate-500 mt-1">Human vs Human: {report.accuracy.human_vs_human_mae.toFixed(2)}</p>
+          <p className="text-3xl font-bold text-slate-900">{metric(report.accuracy?.ai_vs_human_mae)}</p>
+          <p className="text-xs text-slate-500 mt-1">Human vs Human: {metric(report.accuracy?.human_vs_human_mae)}</p>
         </div>
         <div className="bg-white p-6 rounded-lg shadow border border-slate-200">
           <h3 className="text-sm font-semibold text-slate-500 mb-1">AI vs Human QWK</h3>
-          <p className="text-3xl font-bold text-slate-900">{report.accuracy.ai_vs_human_qwk.toFixed(2)}</p>
-          <p className="text-xs text-slate-500 mt-1">Human vs Human: {report.accuracy.human_vs_human_qwk.toFixed(2)}</p>
+          <p className="text-3xl font-bold text-slate-900">{metric(report.accuracy?.ai_vs_human_qwk)}</p>
+          <p className="text-xs text-slate-500 mt-1">Human vs Human: {metric(report.accuracy?.human_vs_human_qwk)}</p>
         </div>
         <div className="bg-white p-6 rounded-lg shadow border border-slate-200">
           <h3 className="text-sm font-semibold text-slate-500 mb-1">Consistency (Mean Range)</h3>
-          <p className="text-3xl font-bold text-slate-900">{report.consistency.mean_range_marks.toFixed(2)}</p>
-          <p className="text-xs text-slate-500 mt-1">Over {report.consistency.runs} runs</p>
+          <p className="text-3xl font-bold text-slate-900">{metric(report.consistency?.mean_range_marks)}</p>
+          <p className="text-xs text-slate-500 mt-1">Over {report.consistency?.runs ?? "Pending"} runs</p>
         </div>
         <div className="bg-white p-6 rounded-lg shadow border border-slate-200">
           <h3 className="text-sm font-semibold text-slate-500 mb-1">Bias Probes Passed</h3>
-          <p className="text-3xl font-bold text-slate-900">{passProbes}/{totalProbes}</p>
+          <p className="text-3xl font-bold text-slate-900">{report.bias_probes == null ? "Pending" : `${passProbes}/${totalProbes}`}</p>
         </div>
       </div>
 
@@ -71,7 +73,7 @@ export function TrustReportPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              {report.bias_probes.map(p => (
+              {(report.bias_probes ?? []).map(p => (
                 <tr key={p.name}>
                   <td className="py-2 text-slate-800 font-medium">{p.name.replace('_', ' ')}</td>
                   <td className="py-2 text-slate-600 text-right">{p.mean_abs_delta_marks.toFixed(2)}</td>
@@ -90,15 +92,15 @@ export function TrustReportPage() {
             <h3 className="text-lg font-semibold text-slate-800 mb-4">Editor Signals Effectiveness</h3>
             <div className="grid grid-cols-3 gap-4 text-center">
               <div>
-                <p className="text-2xl font-bold text-slate-900">{report.editor_signals.pasted_flagged}</p>
+                <p className="text-2xl font-bold text-slate-900">{report.editor_signals?.pasted_flagged ?? "Pending"}</p>
                 <p className="text-xs text-slate-500 uppercase mt-1">Pasted Flagged</p>
               </div>
               <div>
-                <p className="text-2xl font-bold text-slate-900">{report.editor_signals.typed_flagged}</p>
+                <p className="text-2xl font-bold text-slate-900">{report.editor_signals?.typed_flagged ?? "Pending"}</p>
                 <p className="text-xs text-slate-500 uppercase mt-1">Typed Flagged</p>
               </div>
               <div>
-                <p className="text-2xl font-bold text-slate-900">{report.editor_signals.retyped_flagged}</p>
+                <p className="text-2xl font-bold text-slate-900">{report.editor_signals?.retyped_flagged ?? "Pending"}</p>
                 <p className="text-xs text-slate-500 uppercase mt-1">Retyped Flagged</p>
               </div>
             </div>

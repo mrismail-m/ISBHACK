@@ -139,8 +139,8 @@ None yet.
 - Files: `features/student/DemoLogin.tsx`, routes, teacher dashboard, client/demo store, `backend/app/demo_{seed,fixtures}.py`, analytics service/tests, `fixtures/demo/`, user/assessment fixtures.
 - Contract: none. Registration numbers remain in a separate roster; existing user IDs and API schemas stay stable. Supplied marks were not imported.
 - Decisions: User authorized dummy auth/data and shared cleanup. Removed unused concurrent package additions after backing them up in ignored cache; restored locked dependencies with npm ci. Existing DB work preserved.
-- Checks: Seed reruns without duplicates; generated grades validate and all sessions replay exactly. Live and fixture browser login/dashboard verified, including invalid-password rejection. 104 backend tests, 20 frontend tests, lint/typecheck/build pass. Browser capture exported as an 83-second silent walkthrough.
-- Next: Real-AI evaluation and full team golden path; shared status now distinguishes verified mock UI from reported real API checks.
+- Checks: Seed reruns without duplicates; generated grades validate and all sessions replay exactly. Live and fixture browser login/dashboard verified, including invalid-password rejection. 122 backend tests, 20 frontend tests, lint/typecheck/build pass. Browser capture exported as an 83-second silent walkthrough.
+- Next: Pulled and reviewed Adeel evaluation harness; preserved his human-rating blockers. Trust report UI handles pending metrics. Shared status distinguishes verified mock UI from real API checks.
 - Needs from others: Adeel evaluation; grace UI sign-off. Ten-minute recording remains deferred by user.
 
 
