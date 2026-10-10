@@ -36,6 +36,12 @@ Write progress entries for a reader with zero memory: facts, file paths, next st
 
 ## 3. Ownership map (scope lock)
 
+Session assignment, 2026-10-11: Majid authorized this agent to build the complete
+Learning Lab feature across backend and frontend. New learning_lab modules, their
+router registration, LLM roles, API contracts, fixtures, tests, navigation links,
+and feature documentation are assigned to Majid for this work. This is an explicitly
+requested extension after the original feature freeze; existing grading stays intact.
+
 You MUST edit only paths your member owns. Need a change elsewhere? Ask the owner through the human, or add it under "Needs from others" in your progress entry. Ownership is a default: if the team swaps work, edit this table in the same commit and tell everyone.
 
 | Member | Slice | Backend paths | Frontend paths | Other |

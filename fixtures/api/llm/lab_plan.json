@@ -1,0 +1,14 @@
+{
+  "concept": "Hash-table lookup: average versus worst case",
+  "anchor_quote": "hash table",
+  "challenge": {
+    "scenario": "A table uses chaining. Its hash function sends all 1,000 student IDs to the same bucket. The table still has plenty of empty buckets.",
+    "question": "Does looking up an ID still take constant time? Explain what the lookup has to do."
+  },
+  "challenge_criteria": "Lookup may scan a chain of n entries and is O(n) in the worst case. Empty other buckets do not help because the hash still sends every ID to one bucket.",
+  "recovery": {
+    "scenario": "The teacher doubles the table from 1,000 to 2,000 buckets, but the same faulty hash function still maps every student ID to bucket 7.",
+    "question": "A teammate says doubling the table fixes slow lookup. Do you agree? Explain what would actually need to change."
+  },
+  "recovery_criteria": "No, the crowded chain remains and lookup can still scan n keys, O(n). Change the mapping to distribute keys, or use an appropriate alternative bucket structure. Resizing alone does not fix the specified faulty mapping."
+}

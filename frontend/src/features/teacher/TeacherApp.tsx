@@ -2,6 +2,7 @@ import roster from '../../../../fixtures/demo/roster.json';
 import { Routes, Route, Link, useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { TeacherReviewDetail } from './TeacherReviewDetail';
+import { LearningLabReportPage } from './LearningLabReport';
 import { TrustReportPage } from './TrustReportPage';
 import { ClassroomDashboard, AssessmentDashboard } from './TeacherDashboard';
 import { apiClient } from '../../api/client';
@@ -12,6 +13,8 @@ export function TeacherApp() {
     <Routes>
       <Route path="/" element={<AssessmentList />} />
       <Route path="/classroom" element={<ClassroomDashboard />} />
+      <Route path="/learning-lab" element={<LearningLabReportPage />} />
+      <Route path="/assessments/:id/learning-lab" element={<LearningLabReportPage />} />
       <Route path="/trust-report" element={<TrustReportPage />} />
       <Route path="/assessments/new" element={<AssessmentSettings isNew />} />
       <Route path="/assessments/:id" element={<AssessmentDetail />} />
@@ -57,6 +60,7 @@ function AssessmentList() {
         </div>
       </div>
       
+      <section className="lab-feature-banner"><h2>Learning Lab: from answers to understanding.</h2><p>Students apply a concept, learn from a targeted explanation, and try a different scenario. Review the reasoning before and after to decide what to teach next.</p><Link to="/teacher/learning-lab">Open the Learning Lab →</Link></section>
       <div className="bg-white rounded-lg shadow border border-slate-200 overflow-hidden">
         <table className="w-full text-left">
           <thead className="bg-slate-50 border-b border-slate-200">

@@ -29,7 +29,10 @@ from app.llm.mock import load_mock
 
 T = TypeVar("T", bound=BaseModel)
 
-ROLES = {"rubric_draft", "grader", "feedback", "viva_questions", "viva_scores", "eval_polish"}
+ROLES = {
+    "rubric_draft", "grader", "feedback", "viva_questions", "viva_scores", "eval_polish",
+    "lab_plan", "lab_observe", "lab_recovery",
+}
 
 log = logging.getLogger(__name__)
 

@@ -22,6 +22,7 @@ from app.routers import (
     assessments,
     evaluation,
     grading,
+    learning_lab,
     submissions,
     viva,
 )
@@ -79,6 +80,7 @@ def create_app() -> FastAPI:
         activity,
         analytics,
         evaluation,
+        learning_lab,
     ):
         app.include_router(module.router, prefix=API_PREFIX)
 

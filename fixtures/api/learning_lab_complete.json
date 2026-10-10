@@ -1,0 +1,34 @@
+{
+  "id": "lab_fixture_s1",
+  "submission_id": "fixture_s1",
+  "assessment_id": "a_1",
+  "concept": "Linear probing in open addressing",
+  "anchor_quote": "Open addressing instead probes for the next free slot in the array itself, for example by checking the next index (linear probing).",
+  "phase": "complete",
+  "challenge": {
+    "scenario": "A hash table has 8 slots (0\u20117). The hash function maps keys A, B, C, D to slot 3. Insert keys in order A, B, C, D using linear probing.",
+    "question": "After all insertions, which slot holds key C?"
+  },
+  "recovery": {
+    "scenario": "A small hash table has 6 slots (0\u20135). A collision resolution system uses linear probing. Keys X, Y, Z, and W all hash to slot 4. Insert the keys sequentially in the order X, Y, Z, W, wrapping around to slot 0 when reaching the end of the table.",
+    "question": "Which slot holds key W after all four keys are inserted?"
+  },
+  "initial_answer": "Lookup is always O(1) because a hash computes an index directly. The number of keys in a bucket cannot change that.",
+  "recovery_answer": "Key W is in slot 1. X takes slot 4. Y collides at 4 and takes 5. Z finds 4 and 5 occupied, wraps to slot 0 and takes it. W probes slots 4, 5 and 0, then uses the next empty slot, 1. Computing the hash only selects the starting point; resolving collisions requires checking additional slots.",
+  "initial": {
+    "level": 0,
+    "reasoning": "The student's answer does not address the linear probing scenario at all. It talks about lookup cost and buckets, providing no probe sequence, slot assignments, or mention of wrap\u2011around, which are required to determine where key C ends up.",
+    "suspected_gap": "Missing correct reasoning about linear probing and slot allocation for key C",
+    "answer_quote": "Lookup is always O(1) because a hash computes an index directly.",
+    "teaching": "In linear probing, each key is placed in its hashed slot unless occupied, then you move to the next slot sequentially. Here slots 0\u20117, hash(A)=3, so A\u21923. B hashes to 3, finds it occupied, moves to 4. C also hashes to 3, finds 3 and 4 occupied, moves to 5. Thus C ends in slot 5. No wrap\u2011around is needed because slots 5\u20117 are free."
+  },
+  "final": {
+    "level": 2,
+    "reasoning": "The student correctly determined that key W lands in slot 1. They accurately traced the linear probe sequence including the wrap-around at the table boundary (X->4, Y->5, Z->0, W->1).",
+    "suspected_gap": "",
+    "answer_quote": "Key W is in slot 1.",
+    "teaching": "Great job! To extend this concept, consider clustering: as contiguous slots fill up (like 4, 5, 0, 1), future keys that hash anywhere near this block will take progressively longer to find an open slot, increasing search times."
+  },
+  "mode": "fixture",
+  "created_at": "2026-10-10T21:45:00.127898+00:00"
+}

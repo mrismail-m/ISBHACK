@@ -33,7 +33,7 @@ Update only your own row.
 | Member | Current task | Status | Next | Blockers |
 |---|---|---|---|---|
 | Adeel | M4.1 partial | full eval run and report | approval for about 145 LLM calls, human raters, contract OK | human ratings missing |
-| Majid | M4.2 review layout done | full-width writing evidence below grading | user verifies local layout; VPS unchanged | timed recording deferred by user |
+| Majid | M6.1 Learning Lab done | adaptive learning loop, teacher evidence, live AI smoke and fixture UI verified | rehearse new pitch; VPS unchanged | none |
 | Ismail | M4.3 done | wait for demo run | help with rehearsals | none |
 
 ## Integration status (golden path)
@@ -52,11 +52,15 @@ Updated at syncs; Majid corrected stale rows with user authorization. Mock AI th
 
 ## Contract changes (append only, newest first)
 
+2026-10-11 | Majid | CONTRACT CHANGE | User assigned full M6.1 feature: additive Learning Lab endpoints, schemas, TS types and fixtures; original grading/viva unchanged. See docs/learning-lab.md.
+
 No changes yet. Contract v1 is drafted in `docs/api-contract.md` and becomes frozen when `contract-v1` is tagged.
 
 Format: `YYYY-MM-DD HH:MM | <member> | CONTRACT CHANGE | <what changed, which files> | <who must adapt>`
 
 ## Decisions (append only, newest first)
+
+2026-10-11 | Majid | User authorized the full Learning Lab across team paths after feature freeze. Core is apply, explain, adaptive second scenario, teacher evidence. Formative results do not change grades or infer authorship.
 
 No new decisions yet. Standing decisions are in `docs/architecture.md` section 12.
 
@@ -133,6 +137,15 @@ Format: `<from> to <owner>: <what> (task id)`
 None yet.
 
 ## Log: Majid (newest first)
+
+### 2026-10-11 | Majid | M6.1 Learning Lab | done
+- Did: independent persisted learning loop, verified answer quotes, targeted explanation and adaptive second scenario; student screens and teacher before/after evidence with teaching priorities.
+- Files: new learning_lab backend modules, api/types and learning-lab client, student/teacher lab screens, route/navigation links, fixtures, docs/learning-lab*.md, scripts/learning_lab_live_smoke.py.
+- Contract: additive endpoints documented in docs/learning-lab.md; ownership assignment recorded in AGENTS.md per user authorization.
+- Checks: 130 backend tests, 24 frontend tests; backend/frontend lint, typecheck and production build. Live-provider API loop scored controlled responses 0 then 2; teacher report matched. Fixture browser flow, reload/resume and teacher inspection passed; no console errors.
+- Decisions: no authorship claims or grade penalties; fixture rubric is labeled and limited to hashing. Live smoke uses isolated data, not actual learning-outcome evidence.
+- Next: rehearse docs/learning-lab-pitch.md. Local preview runs at 127.0.0.1:5173 in fixture mode; VPS remains unchanged.
+- Needs from others: none for implementation.
 
 ### 2026-10-10 | Majid | M4.2 teacher login redirect | done
 - Did: teacher login now opens /teacher instead of /teacher/classroom.

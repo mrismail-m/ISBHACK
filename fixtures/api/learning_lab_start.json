@@ -1,0 +1,19 @@
+{
+  "id": "lab_fixture_s1",
+  "submission_id": "fixture_s1",
+  "assessment_id": "a_1",
+  "concept": "Linear probing in open addressing",
+  "anchor_quote": "Open addressing instead probes for the next free slot in the array itself, for example by checking the next index (linear probing).",
+  "phase": "challenge",
+  "challenge": {
+    "scenario": "A hash table has 8 slots (0\u20117). The hash function maps keys A, B, C, D to slot 3. Insert keys in order A, B, C, D using linear probing.",
+    "question": "After all insertions, which slot holds key C?"
+  },
+  "recovery": null,
+  "initial_answer": "",
+  "recovery_answer": "",
+  "initial": null,
+  "final": null,
+  "mode": "fixture",
+  "created_at": "2026-10-10T21:45:00.127898+00:00"
+}

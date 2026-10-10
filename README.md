@@ -1,8 +1,15 @@
 # VivaGrade
 
-**Grade the work. Verify the learning.**
+**Apply an idea. Learn. Try again.**
 
-A teacher copilot built at Islamabad Hack 2026 (track: Education & Future of Work). AI drafts grades against the teacher's rubric and chosen strictness, students defend their own work in a short viva, and teachers can see how the work was written. The teacher always decides.
+A teacher copilot built at Islamabad Hack 2026 (track: Education & Future of Work).
+Learning Lab takes an idea from submitted work, tests it in a changed situation,
+gives a targeted explanation, and generates a different scenario around the observed
+gap. Teachers see the reasoning before and after to decide what to teach next.
+Existing rubric grading, viva and writing evidence remain available.
+
+Learning Lab: [feature and API](docs/learning-lab.md),
+[three-minute demonstration](docs/learning-lab-pitch.md).
 
 ## Team
 

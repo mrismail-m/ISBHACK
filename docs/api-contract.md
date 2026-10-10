@@ -1,5 +1,8 @@
 # API contract (v1)
 
+Additive Learning Lab contract (M6.1, full feature assigned by Majid): see
+[learning-lab.md](learning-lab.md). Existing grading and viva fields are unchanged.
+
 Frozen at M0. Change only through the protocol in `AGENTS.md` section 5. Pydantic models in `backend/app/schemas/` and `frontend/src/api/types.ts` mirror this file exactly. Fixtures in `fixtures/api/` are valid example responses for every endpoint.
 
 ## Conventions

@@ -1,3 +1,29 @@
+export interface LabQuestion { scenario: string; question: string }
+export interface LabObservation {
+  level: 0 | 1 | 2;
+  reasoning: string;
+  suspected_gap: string;
+  answer_quote: string;
+  teaching: string;
+}
+export interface LabState {
+  id: string;
+  submission_id: string;
+  assessment_id: string;
+  concept: string;
+  anchor_quote: string;
+  phase: 'challenge' | 'recovery' | 'complete';
+  challenge: LabQuestion;
+  recovery: LabQuestion | null;
+  initial_answer: string;
+  recovery_answer: string;
+  initial: LabObservation | null;
+  final: LabObservation | null;
+  mode: 'live' | 'fixture';
+  created_at: string;
+}
+export interface LabReport { assessment_id: string; sessions: LabState[] }
+
 export interface User {
   id: string;
   name: string;

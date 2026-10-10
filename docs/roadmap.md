@@ -8,6 +8,13 @@ Tick boxes when done. Task IDs (`M2.1`) are used in commits and in `docs/progres
 
 ## Milestones at a glance
 
+User-authorized extension, 2026-10-11 (Majid): M6.1 Learning Lab, a complete
+formative loop with adaptive recovery challenges and teacher evidence. The agent
+owns backend, frontend, contract, fixtures, and checks for this feature.
+
+- [x] **M6.1 (Majid)** Submitted work -> changed scenario -> evidence-grounded
+  explanation -> adaptive second scenario -> teacher before/after evidence.
+
 | ID | Name | T+ window | Clock (T0 = 10:30) | Exit criteria (demoable) |
 |---|---|---|---|---|
 | M0 | Setup and contract freeze | 0:00 to 0:45 | 10:30 to 11:15 | Repo live, skeletons run, contract agreed and tagged `contract-v1` |
