@@ -81,3 +81,25 @@ class SubmissionRow(BaseModel):
 class SubmissionUpdate(BaseModel):
     content_md: str | None = None
     answers: list[dict[str, Any]] | None = None
+
+
+class ApproveRequest(BaseModel):
+    criteria_overrides: list[dict[str, Any]] = []
+    teacher_note: str | None = None
+    feedback_edits: dict[str, str] = {}
+    release: bool
+
+
+class StudentResult(BaseModel):
+    submission_id: str
+    assessment_id: str
+    max_marks: float
+    work_marks: float
+    understanding: float | None = None
+    viva_weight: float
+    final_marks: float
+    grace_marks: float
+    final_with_grace: float
+    final_pct: float
+    feedback: dict[str, Any]
+    released_at: datetime | None = None

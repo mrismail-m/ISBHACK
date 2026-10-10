@@ -34,7 +34,7 @@ Update only your own row.
 |---|---|---|---|---|
 | Adeel | M2.2 done | M3.1 next | viva endpoints | no LLM key configured yet |
 | Majid | M4.2 done | independent implementation and demo recordings ready | integrate when owners publish dependencies | live viva, released results and teacher review embedding |
-| Ismail | M2.4 | not started | teacher review queue | M2.1, M2.2, M2.3 |
+| Ismail | M2.4 done | M3.3 next | dashboard and grace marks | M3.1 (from Adeel) |
 
 ## Integration status (golden path)
 
@@ -176,6 +176,14 @@ None yet.
 None yet.
 
 ## Log: Ismail (newest first)
+
+### 2026-10-10 14:15 | Ismail | M2.4 | done
+- Did: Implemented teacher review queue with flags and blind mode. Built review detail page with criteria overrides, overall notes, and activity insights integration. Added `services/scoring.py` and `services/flags.py`. Implemented strictness preview and rubric drafter in settings. Updated submission endpoints to calculate blended scores.
+- Files: `backend/app/routers/submissions.py`, `backend/app/services/scoring.py`, `backend/app/services/flags.py`, `backend/app/schemas/core.py`, `frontend/src/features/teacher/TeacherApp.tsx`, `frontend/src/features/teacher/TeacherReviewDetail.tsx`
+- Contract: none
+- Decisions: Re-wrote submissions router to seamlessly use `load_activity` and `summarize_activity` to provide derived flags in `list_submissions`.
+- Next: M3.3 (Dashboard, stat cards, grace marks)
+- Needs from others: Adeel M3.1 for completed viva API (currently waiting).
 
 ### 2026-10-10 13:24 | Ismail | M1.3 | done
 - Did: Implemented Assessments and Submissions endpoints. Built Teacher UI with Assessment List, Detail, and Settings.

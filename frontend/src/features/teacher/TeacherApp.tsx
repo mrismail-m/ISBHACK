@@ -1,7 +1,8 @@
 import { Routes, Route, Link, useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { TeacherReviewDetail } from './TeacherReviewDetail';
 import { apiClient } from '../../api/client';
-import type { Assessment } from '../../api/types';
+import type { Assessment, SubmissionRow, Rubric, StrictnessPreview } from '../../api/types';
 
 export function TeacherApp() {
   return (
@@ -10,6 +11,7 @@ export function TeacherApp() {
       <Route path="/assessments/new" element={<AssessmentSettings isNew />} />
       <Route path="/assessments/:id" element={<AssessmentDetail />} />
       <Route path="/assessments/:id/settings" element={<AssessmentSettings />} />
+      <Route path="/submissions/:submissionId/review" element={<TeacherReviewDetail />} />
     </Routes>
   );
 }
@@ -76,12 +78,17 @@ function AssessmentList() {
 function AssessmentDetail() {
   const { id } = useParams<{ id: string }>();
   const [assessment, setAssessment] = useState<Assessment | null>(null);
+  const [submissions, setSubmissions] = useState<SubmissionRow[]>([]);
+  const [blindMode, setBlindMode] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (id) {
       apiClient<Assessment>(`/assessments/${id}`, { fixtureName: 'assessment_a1' })
         .then(setAssessment)
+        .catch(console.error);
+      apiClient<SubmissionRow[]>(`/assessments/${id}/submissions`, { fixtureName: 'submissions_a1' })
+        .then(setSubmissions)
         .catch(console.error);
     }
   }, [id]);
@@ -142,6 +149,56 @@ function AssessmentDetail() {
           <div><span className="text-slate-500 block">Release Mode</span> <span className="font-medium capitalize">{assessment.release_mode.replace(/_/g, ' ')}</span></div>
         </div>
       </div>
+
+      <div className="mt-8 bg-white rounded-lg shadow border border-slate-200 overflow-hidden">
+        <div className="p-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
+          <h3 className="font-semibold text-lg text-slate-800">Review Queue</h3>
+          <label className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
+            <input type="checkbox" checked={blindMode} onChange={e => setBlindMode(e.target.checked)} className="rounded text-blue-600 focus:ring-blue-500" />
+            Blind Review Mode
+          </label>
+        </div>
+        <table className="w-full text-left">
+          <thead className="bg-slate-100 border-b border-slate-200">
+            <tr>
+              <th className="p-3 text-sm font-semibold text-slate-600">Student</th>
+              <th className="p-3 text-sm font-semibold text-slate-600">Status</th>
+              <th className="p-3 text-sm font-semibold text-slate-600">AI Score</th>
+              <th className="p-3 text-sm font-semibold text-slate-600">Final Score</th>
+              <th className="p-3 text-sm font-semibold text-slate-600">Understanding</th>
+              <th className="p-3 text-sm font-semibold text-slate-600">Flags</th>
+              <th className="p-3 text-sm font-semibold text-slate-600 text-right">Action</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-slate-100">
+            {submissions.map(sub => (
+              <tr key={sub.submission_id} className="hover:bg-slate-50 transition-colors">
+                <td className="p-3 font-medium text-slate-900">{blindMode ? sub.label : sub.student_name}</td>
+                <td className="p-3 text-sm capitalize">{sub.status.replace('_', ' ')}</td>
+                <td className="p-3 text-sm">{sub.ai_total != null ? `${sub.ai_total}/${sub.max_marks}` : '-'}</td>
+                <td className="p-3 text-sm font-medium">{sub.final_total != null ? `${sub.final_total}/${sub.max_marks}` : '-'}</td>
+                <td className="p-3 text-sm">{sub.understanding != null ? `${Math.round(sub.understanding * 100)}%` : '-'}</td>
+                <td className="p-3 text-xs">
+                  {sub.flags.map(f => (
+                    <span key={f} className="inline-block bg-red-100 text-red-700 px-1.5 py-0.5 rounded mr-1 mb-1 capitalize">
+                      {f.replace('_', ' ')}
+                    </span>
+                  ))}
+                  {sub.flags.length === 0 && <span className="text-slate-400">None</span>}
+                </td>
+                <td className="p-3 text-right">
+                  <button onClick={() => navigate(`/teacher/submissions/${sub.submission_id}/review`)} className="text-blue-600 hover:text-blue-800 font-medium text-sm">
+                    Review &rarr;
+                  </button>
+                </td>
+              </tr>
+            ))}
+            {submissions.length === 0 && (
+              <tr><td colSpan={7} className="p-6 text-center text-slate-500">No submissions yet.</td></tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
@@ -167,6 +224,11 @@ function AssessmentSettings({ isNew = false }: { isNew?: boolean }) {
     topics: [],
     classroom_id: 'cl_1' // default
   });
+
+  const [previewText, setPreviewText] = useState('');
+  const [strictnessPreview, setStrictnessPreview] = useState<StrictnessPreview | null>(null);
+  const [isDrafting, setIsDrafting] = useState(false);
+  const [isPreviewing, setIsPreviewing] = useState(false);
 
   useEffect(() => {
     if (!isNew && id) {
@@ -196,6 +258,34 @@ function AssessmentSettings({ isNew = false }: { isNew?: boolean }) {
     const value = e.target.type === 'checkbox' ? (e.target as HTMLInputElement).checked : 
                   e.target.type === 'number' ? Number(e.target.value) : e.target.value;
     setFormData({ ...formData, [e.target.name]: value });
+  };
+
+  const handleDraftRubric = async () => {
+    if (!id) return alert('Save assessment first');
+    setIsDrafting(true);
+    try {
+      const res = await apiClient<Rubric>(`/assessments/${id}/rubric/draft`, { method: 'POST', body: JSON.stringify({ notes: formData.instructions_md }) });
+      setFormData(prev => ({ ...prev, rubric: res }));
+    } catch (e) {
+      console.error(e);
+      alert('Failed to draft rubric');
+    } finally {
+      setIsDrafting(false);
+    }
+  };
+
+  const handlePreviewStrictness = async () => {
+    if (!id || !previewText) return;
+    setIsPreviewing(true);
+    try {
+      const res = await apiClient<StrictnessPreview>(`/assessments/${id}/strictness/preview`, { method: 'POST', body: JSON.stringify({ answer_text: previewText }) });
+      setStrictnessPreview(res);
+    } catch (e) {
+      console.error(e);
+      alert('Failed to preview strictness');
+    } finally {
+      setIsPreviewing(false);
+    }
   };
 
   return (
@@ -305,6 +395,79 @@ function AssessmentSettings({ isNew = false }: { isNew?: boolean }) {
           </button>
         </div>
       </form>
+
+      {!isNew && (
+        <div className="mt-8 space-y-8">
+          <div className="bg-white p-6 rounded-lg shadow border border-slate-200">
+            <div className="flex justify-between items-center border-b pb-2 mb-4">
+              <h3 className="font-semibold text-lg">Rubric</h3>
+              <button 
+                onClick={handleDraftRubric} 
+                disabled={isDrafting}
+                className="bg-indigo-100 hover:bg-indigo-200 text-indigo-700 px-3 py-1 rounded text-sm font-medium transition-colors disabled:opacity-50"
+              >
+                {isDrafting ? 'Drafting...' : '✨ Draft with AI'}
+              </button>
+            </div>
+            
+            {formData.rubric ? (
+              <div className="space-y-4">
+                {formData.rubric.criteria.map(c => (
+                  <div key={c.id} className="p-4 bg-slate-50 border border-slate-200 rounded">
+                    <h4 className="font-medium text-slate-800">{c.name} ({c.max_marks} marks, topic: {c.topic})</h4>
+                    <p className="text-sm text-slate-600 mb-2">{c.description}</p>
+                    <ol className="list-decimal pl-5 text-sm space-y-1 text-slate-700">
+                      {c.levels.map((lvl, idx) => <li key={idx}>{lvl}</li>)}
+                    </ol>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-slate-500">No rubric defined yet.</p>
+            )}
+          </div>
+
+          <div className="bg-white p-6 rounded-lg shadow border border-slate-200">
+            <h3 className="font-semibold text-lg border-b pb-2 mb-4">Strictness Preview</h3>
+            <p className="text-sm text-slate-600 mb-4">Test how the AI will grade a sample answer under different strictness policies.</p>
+            <textarea 
+              value={previewText}
+              onChange={e => setPreviewText(e.target.value)}
+              placeholder="Paste a sample student answer here..."
+              className="w-full border rounded p-2 text-sm mb-4 h-32 focus:ring outline-none"
+            />
+            <button 
+              onClick={handlePreviewStrictness}
+              disabled={isPreviewing || !previewText}
+              className="bg-indigo-100 hover:bg-indigo-200 text-indigo-700 px-4 py-2 rounded text-sm font-medium transition-colors disabled:opacity-50 mb-6"
+            >
+              {isPreviewing ? 'Evaluating...' : '✨ Preview Strictness'}
+            </button>
+
+            {strictnessPreview && (
+              <div className="space-y-4">
+                <p className="text-sm text-slate-500 italic">{strictnessPreview.note}</p>
+                <div className="grid grid-cols-4 gap-4">
+                  {strictnessPreview.levels.map(l => (
+                    <div key={l.strictness} className={`p-4 rounded border ${l.strictness === formData.strictness ? 'border-indigo-400 bg-indigo-50 ring-1 ring-indigo-400' : 'border-slate-200 bg-slate-50'}`}>
+                      <h4 className="font-semibold capitalize text-slate-800 mb-1">{l.strictness.replace('_', ' ')}</h4>
+                      <div className="text-2xl font-bold text-slate-900">{l.total} <span className="text-sm font-normal text-slate-500">marks</span></div>
+                      <div className="mt-2 space-y-1">
+                        {l.criteria.map(c => (
+                          <div key={c.criterion_id} className="flex justify-between text-xs text-slate-600">
+                            <span>{c.criterion_id}</span>
+                            <span>{c.marks}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

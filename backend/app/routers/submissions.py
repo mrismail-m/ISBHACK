@@ -1,3 +1,4 @@
+import os
 import uuid
 from datetime import UTC, datetime
 
@@ -5,15 +6,25 @@ from fastapi import APIRouter, Depends
 from sqlmodel import Session, select
 
 from app.db import get_session
-from app.deps import ApiError, current_user_id, not_implemented
+from app.deps import ApiError, current_user_id
 from app.models.core import Assessment, Submission, User
-from app.schemas.core import SubmissionRow, SubmissionSchema, SubmissionUpdate
+from app.models.grading import Grade, VivaSession
+from app.routers.activity import load_activity
+from app.schemas.core import (
+    ApproveRequest,
+    StudentResult,
+    SubmissionRow,
+    SubmissionSchema,
+    SubmissionUpdate,
+)
+from app.schemas.grading import GradeSchema
+from app.services.activity_summary import summarize_activity
+from app.services.flags import compute_flags
+from app.services.scoring import compute_final_score
 
 SESSION_DEPENDENCY = Depends(get_session)
 
 router = APIRouter(tags=["submissions"])
-OWNER = "Ismail"
-
 
 @router.get("/assessments/{assessment_id}/submissions", response_model=list[SubmissionRow])
 def list_submissions(assessment_id: str, session: Session = SESSION_DEPENDENCY):
@@ -26,25 +37,39 @@ def list_submissions(assessment_id: str, session: Session = SESSION_DEPENDENCY):
     ).all()
     rows = []
 
-    # We also need user details
     for i, sub in enumerate(submissions):
         user = session.get(User, sub.student_id)
+        
+        grade = session.exec(select(Grade).where(Grade.submission_id == sub.id)).first()
+        viva = session.exec(select(VivaSession).where(VivaSession.submission_id == sub.id)).first()
+        
+        try:
+            activity = load_activity(session, sub.id)
+            activity_summary = summarize_activity(
+                sub.id, activity, paste_flag_chars=assessment.paste_flag_chars
+            )
+        except Exception:
+            activity_summary = None
+
+        flags = compute_flags(assessment, grade, viva, activity_summary)
+        final_score_dict = compute_final_score(assessment, grade, viva, session)
+
         rows.append(
             SubmissionRow(
                 submission_id=sub.id,
-                label=f"Student {i+1:02d}",  # stable anonymous label
+                label=f"Student {i+1:02d}",
                 student_id=sub.student_id,
                 student_name=user.name if user else "Unknown",
                 status=sub.status,
                 submitted_at=sub.submitted_at,
-                ai_total=None,
-                final_total=None,
+                ai_total=grade.ai_total if grade else None,
+                final_total=grade.final_total if grade else None,
                 max_marks=assessment.max_marks,
-                understanding=None,
-                score_pct=None,
-                score_is_final=False,
-                overall_confidence=None,
-                flags=[],
+                understanding=final_score_dict.get("understanding"),
+                score_pct=final_score_dict.get("final_pct"),
+                score_is_final=grade.status == "approved" if grade else False,
+                overall_confidence=grade.overall_confidence if grade else None,
+                flags=flags,
             )
         )
     return rows
@@ -59,7 +84,6 @@ def start_submission(
     if not user_id:
         raise ApiError(401, "unauthorized", "Missing X-User-Id")
 
-    # Check if already exists (idempotent)
     existing = session.exec(
         select(Submission)
         .where(Submission.assessment_id == assessment_id)
@@ -128,19 +152,91 @@ def submit_submission(submission_id: str, session: Session = SESSION_DEPENDENCY)
     session.add(sub)
     session.commit()
     session.refresh(sub)
+    
+    if os.getenv("GRADE_ON_SUBMIT", "0") == "1":
+        from app.ai.pipeline import grade_submission_by_id
+        grade_submission_by_id(session, sub.id)
 
-    # Background grading logic would go here if GRADE_ON_SUBMIT=1
-    # For now, it just submits successfully.
     return SubmissionSchema.model_validate(sub, from_attributes=True)
 
 
-@router.post("/submissions/{submission_id}/approve")
-def approve_submission(submission_id: str) -> None:
-    # Depends on Adeel's grading output
-    not_implemented(OWNER)
+@router.post("/submissions/{submission_id}/approve", response_model=GradeSchema)
+def approve_submission(
+    submission_id: str, req: ApproveRequest, session: Session = SESSION_DEPENDENCY
+):
+    sub = session.get(Submission, submission_id)
+    if not sub:
+        raise ApiError(404, "not_found", "Submission not found")
+
+    grade = session.exec(select(Grade).where(Grade.submission_id == submission_id)).first()
+    if not grade:
+        raise ApiError(404, "not_found", "Grade not found")
+
+    new_criteria = list(grade.criteria)
+    for override in req.criteria_overrides:
+        for crit in new_criteria:
+            if crit["criterion_id"] == override["criterion_id"]:
+                crit["final_marks"] = override["marks"]
+                if "note" in override:
+                    crit["teacher_note"] = override["note"]
+    grade.criteria = new_criteria
+
+    grade.final_total = sum(c.get("final_marks", c.get("ai_marks", 0)) for c in grade.criteria)
+
+    if req.teacher_note is not None:
+        grade.teacher_note = req.teacher_note
+
+    if req.feedback_edits:
+        new_feedback = dict(grade.feedback)
+        for k, v in req.feedback_edits.items():
+            new_feedback[k] = v
+        grade.feedback = new_feedback
+            
+    grade.status = "approved"
+    grade.approved_at = datetime.now(UTC)
+    sub.status = "approved"
+
+    assessment = session.get(Assessment, sub.assessment_id)
+    should_release = req.release or (assessment and assessment.release_mode == "auto")
+    if should_release:
+        grade.released_at = datetime.now(UTC)
+        sub.status = "released"
+
+    session.add(grade)
+    session.add(sub)
+    session.commit()
+    session.refresh(grade)
+    return GradeSchema.model_validate(grade, from_attributes=True)
 
 
-@router.get("/submissions/{submission_id}/result")
-def get_result(submission_id: str) -> None:
-    # Depends on grading and viva
-    not_implemented(OWNER)
+@router.get("/submissions/{submission_id}/result", response_model=StudentResult)
+def get_result(submission_id: str, session: Session = SESSION_DEPENDENCY):
+    sub = session.get(Submission, submission_id)
+    if not sub:
+        raise ApiError(404, "not_found", "Submission not found")
+
+    grade = session.exec(select(Grade).where(Grade.submission_id == submission_id)).first()
+    if not grade or not grade.released_at:
+        raise ApiError(403, "not_released", "Grade is not released yet")
+
+    assessment = session.get(Assessment, sub.assessment_id)
+    viva = session.exec(
+        select(VivaSession).where(VivaSession.submission_id == submission_id)
+    ).first()
+
+    final_score_dict = compute_final_score(assessment, grade, viva, session)
+
+    return StudentResult(
+        submission_id=submission_id,
+        assessment_id=sub.assessment_id,
+        max_marks=assessment.max_marks,
+        work_marks=final_score_dict.get("work_marks", 0),
+        understanding=final_score_dict.get("understanding"),
+        viva_weight=final_score_dict.get("viva_weight", 0),
+        final_marks=final_score_dict.get("final_marks", 0),
+        grace_marks=final_score_dict.get("grace_marks", 0),
+        final_with_grace=final_score_dict.get("final_with_grace", 0),
+        final_pct=final_score_dict.get("final_pct", 0),
+        feedback=grade.feedback,
+        released_at=grade.released_at
+    )
