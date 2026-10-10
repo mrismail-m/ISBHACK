@@ -33,7 +33,7 @@ Update only your own row.
 | Member | Current task | Status | Next | Blockers |
 |---|---|---|---|---|
 | Adeel | M0.1 | not started | repo and backend skeleton | none |
-| Majid | M1.2 | not started | student editor, capture, submit | none |
+| Majid | M1.2 | waiting for human start, local setup ready | student editor, capture, submit on human call | seed and API fixtures missing |
 | Ismail | M0.3 | not started | db, seed, fixtures | none |
 
 ## Integration status (golden path)
@@ -76,6 +76,15 @@ No entries yet.
 None yet.
 
 ## Log: Majid (newest first)
+
+### 2026-10-10 13:13 | Majid | M0.2 | done
+- Did: Installed frontend lockfile dependencies and backend plus evaluation requirements in local `.venv`; created backend `.env` from example. Both servers respond locally.
+- Files: `docs/progress.md`; local dependencies and backend `.env` are ignored.
+- Contract: none
+- Decisions: Development waits for the human's call. No feature code changed.
+- Checks: Frontend build passes; lint has 2 existing warnings. Backend 2 tests pass; pip check passes; ruff has 2 existing E501 errors in Adeel files. Health smoke passes.
+- Next: Human can run frontend `npm run dev` and backend `.venv\Scripts\python -m uvicorn app.main:app --reload --port 8000` in their respective folders.
+- Needs from others: Ismail's seed and API fixtures are absent; fixture client path needs fixing during M1.2.
 
 ### 2026-10-10 12:58 | Majid | M0.2 | done
 - Did: Initialized Vite React TS app with Tailwind, React Router, role switcher and API types.
