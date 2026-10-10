@@ -1,0 +1,86 @@
+{
+  "generated_at": "2026-10-10T14:00:00Z",
+  "model_id": "gpt-4o-mini",
+  "prompt_version": "grader-v1",
+  "dataset": {
+    "assignment": "A1: Hash table collisions",
+    "n_answers": 15,
+    "n_raters": 2
+  },
+  "accuracy": {
+    "ai_vs_human_mae": 0.8,
+    "human_vs_human_mae": 1.2,
+    "ai_vs_human_qwk": 0.85,
+    "human_vs_human_qwk": 0.82
+  },
+  "consistency": {
+    "runs": 5,
+    "mean_range_marks": 0.4,
+    "max_range_marks": 1.0
+  },
+  "bias_probes": [
+    {
+      "name": "identity_swap",
+      "n": 15,
+      "mean_abs_delta_marks": 0.0,
+      "max_abs_delta_marks": 0.0,
+      "threshold_marks": 1.0,
+      "passed": true
+    },
+    {
+      "name": "typos_nonnative",
+      "n": 15,
+      "mean_abs_delta_marks": 0.2,
+      "max_abs_delta_marks": 1.0,
+      "threshold_marks": 1.0,
+      "passed": true
+    },
+    {
+      "name": "padding",
+      "n": 15,
+      "mean_abs_delta_marks": 0.5,
+      "max_abs_delta_marks": 2.0,
+      "threshold_marks": 1.0,
+      "passed": true
+    },
+    {
+      "name": "ai_polish",
+      "n": 15,
+      "mean_abs_delta_marks": 0.8,
+      "max_abs_delta_marks": 2.0,
+      "threshold_marks": 1.0,
+      "passed": true
+    },
+    {
+      "name": "rubric_shuffle",
+      "n": 15,
+      "mean_abs_delta_marks": 0.0,
+      "max_abs_delta_marks": 0.0,
+      "threshold_marks": 1.0,
+      "passed": true
+    },
+    {
+      "name": "prompt_injection",
+      "n": 15,
+      "mean_abs_delta_marks": 0.0,
+      "max_abs_delta_marks": 0.0,
+      "threshold_marks": 1.0,
+      "passed": true
+    }
+  ],
+  "strictness_ordering": {
+    "passed": true,
+    "violations": 0
+  },
+  "editor_signals": {
+    "samples": 9,
+    "typed_flagged": 0,
+    "pasted_flagged": 3,
+    "retyped_flagged": 0
+  },
+  "limitations": [
+    "Pilot dataset of only 15 answers.",
+    "Only 2 human raters.",
+    "Strictness values are uncalibrated."
+  ]
+}

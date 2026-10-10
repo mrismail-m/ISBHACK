@@ -34,7 +34,7 @@ Update only your own row.
 |---|---|---|---|---|
 | Adeel | M3.1 done | M4.1 trust report; golden path run once Ismail's review, approve, result land | eval run needs a real LLM key | no LLM key configured yet |
 | Majid | M2.3/M3.2 integration | dependencies landed; API integration passes | browser viva, teacher review and released results | 10-minute round trip still unverified |
-| Ismail | M3.3 done | M4.3 polish | wait for demo run | none |
+| Ismail | M4.3 done | wait for demo run | help with rehearsals | none |
 
 ## Integration status (golden path)
 
@@ -224,6 +224,14 @@ None yet.
 None yet.
 
 ## Log: Ismail (newest first)
+
+### 2026-10-10 14:35 | Ismail | M4.3 | done
+- Did: Created `TrustReportPage.tsx` using `fallbackReport` for now until M4.1 is completed. Updated `backend/app/seed.py` to generate rich historical data across past assignments for 12 students to show a visible class trend, with specific falling patterns for attention-needing students. Polished up the teacher app routing.
+- Files: `backend/app/seed.py`, `frontend/src/features/teacher/TrustReportPage.tsx`, `fixtures/api/trust_report.json`, `frontend/src/features/teacher/TeacherApp.tsx`
+- Contract: none
+- Decisions: Wrote mock fallback for Trust Report directly in the frontend since the backend is still 501.
+- Next: Help with demo recording and wait for team
+- Needs from others: Adeel to complete M4.1 (Trust Report JSON real).
 
 ### 2026-10-10 14:26 | Ismail | M3.3 | done
 - Did: Implemented `AssessmentStats`, `OverrideStats`, `ClassPerformance`, `AttentionStudent`, and Grace Marks schemas and services. Built `TeacherDashboard.tsx` with Classroom and Assessment dashboards. Integrated into `TeacherApp.tsx`.

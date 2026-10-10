@@ -113,13 +113,16 @@ def seed_db():
         )
         session.add(a1)
 
-        # 3 completed earlier assessments
+        # 3 completed earlier assessments with rich data
+        from app.models.core import Submission
+        from app.models.grading import Grade, VivaSession
+        
         for i in range(2, 5):
             past_a = Assessment(
                 id=f"a_{i}",
                 classroom_id="cl_1",
                 kind="assignment",
-                title=f"Past Assignment {i}",
+                title=f"Past Assignment {i - 1}",
                 instructions_md="Instructions",
                 max_marks=20.0,
                 pass_mark_pct=50.0,
@@ -139,6 +142,72 @@ def seed_db():
                 created_at=datetime(2026, 9, 1 + i, 5, 0, 0, tzinfo=UTC),
             )
             session.add(past_a)
+            session.commit()
+            
+            # Generate submissions and grades
+            for j in range(1, 13):
+                student_id = f"u_student_{j}"
+                sub_id = f"s_{i}_{j}"
+                sub = Submission(
+                    id=sub_id,
+                    assessment_id=past_a.id,
+                    student_id=student_id,
+                    content_md=f"Sample answer from student {j}",
+                    answers=[],
+                    status="released",
+                    started_at=datetime(2026, 9, 5 + i, 10, 0, 0, tzinfo=UTC),
+                    submitted_at=datetime(2026, 9, 5 + i, 11, 0, 0, tzinfo=UTC),
+                )
+                session.add(sub)
+                
+                # Base marks trend (from Assignment 1 to 3, which is i=2 to i=4)
+                # Trend for student 11 and 12: falling
+                if j in [11, 12]:
+                    base_ai = 14.0 - (i - 2) * 2.0  # 14 -> 12 -> 10
+                else:
+                    # Others improve
+                    base_ai = 12.0 + (i - 2) * 1.5 + (j * 0.1)  # 12 -> 13.5 -> 15.0
+                    
+                base_ai = max(0.0, min(20.0, base_ai))
+                
+                grade = Grade(
+                    id=f"g_{i}_{j}",
+                    submission_id=sub_id,
+                    status="approved",
+                    strictness_used="normal",
+                    prompt_version="grader-v1",
+                    model_id="mock",
+                    max_marks=20.0,
+                    criteria=[],
+                    ai_total=base_ai,
+                    final_total=base_ai,
+                    overall_confidence=0.8,
+                    grader_flags=[],
+                    feedback={"mode": "full", "strengths": [], "improvements": [], "next_step": "", "topics": []},
+                    teacher_note=None,
+                    approved_at=datetime(2026, 9, 11 + i, 10, 0, 0, tzinfo=UTC),
+                    released_at=datetime(2026, 9, 11 + i, 12, 0, 0, tzinfo=UTC),
+                )
+                session.add(grade)
+                
+                # Viva
+                if j in [11, 12]:
+                    understanding = 0.4 - (i - 2) * 0.1
+                else:
+                    understanding = 0.6 + (i - 2) * 0.1
+                    
+                understanding = max(0.0, min(1.0, understanding))
+                
+                viva = VivaSession(
+                    id=f"v_{i}_{j}",
+                    submission_id=sub_id,
+                    status="done",
+                    total_time_limit_s=270,
+                    understanding=understanding,
+                    started_at=datetime(2026, 9, 11 + i, 11, 0, 0, tzinfo=UTC),
+                    finished_at=datetime(2026, 9, 11 + i, 11, 10, 0, tzinfo=UTC)
+                )
+                session.add(viva)
 
         session.commit()
         print("Database seeded successfully.")

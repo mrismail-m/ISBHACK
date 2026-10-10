@@ -1,6 +1,7 @@
 import { Routes, Route, Link, useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { TeacherReviewDetail } from './TeacherReviewDetail';
+import { TrustReportPage } from './TrustReportPage';
 import { ClassroomDashboard, AssessmentDashboard } from './TeacherDashboard';
 import { apiClient } from '../../api/client';
 import type { Assessment, SubmissionRow, Rubric, StrictnessPreview } from '../../api/types';
@@ -10,6 +11,7 @@ export function TeacherApp() {
     <Routes>
       <Route path="/" element={<AssessmentList />} />
       <Route path="/classroom" element={<ClassroomDashboard />} />
+      <Route path="/trust-report" element={<TrustReportPage />} />
       <Route path="/assessments/new" element={<AssessmentSettings isNew />} />
       <Route path="/assessments/:id" element={<AssessmentDetail />} />
       <Route path="/assessments/:id/settings" element={<AssessmentSettings />} />
@@ -33,6 +35,12 @@ function AssessmentList() {
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-3xl font-bold text-slate-800">Assessments</h2>
         <div className="flex gap-2">
+          <button 
+            onClick={() => navigate('/teacher/trust-report')}
+            className="bg-indigo-100 hover:bg-indigo-200 text-indigo-700 px-4 py-2 rounded shadow transition-colors font-medium"
+          >
+            Trust Report
+          </button>
           <button 
             onClick={() => navigate('/teacher/classroom')}
             className="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded shadow transition-colors"
