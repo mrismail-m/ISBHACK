@@ -18,7 +18,7 @@ export function DemoLogin({ role }: { role: 'teacher' | 'student' }) {
       }
       localStorage.setItem('currentUserId', role === 'teacher' ? 'u_teacher_1' : student!.user_id);
       sessionStorage.setItem('vivagrade:demo-role', role);
-      navigate(role === 'teacher' ? '/teacher/classroom' : '/student', { replace: true });
+      navigate(role === 'teacher' ? '/teacher' : '/student', { replace: true });
     }}>
       <label>{role === 'teacher' ? 'Username' : 'Registration number'}<input autoComplete="username" required value={username} onChange={e => setUsername(e.target.value)} /></label>
       <label>Password<input type="password" autoComplete="current-password" required value={password} onChange={e => setPassword(e.target.value)} /></label>

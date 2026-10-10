@@ -134,6 +134,14 @@ None yet.
 
 ## Log: Majid (newest first)
 
+### 2026-10-10 | Majid | M4.2 teacher login redirect | done
+- Did: teacher login now opens /teacher instead of /teacher/classroom.
+- Files: frontend/src/features/student/DemoLogin.tsx.
+- Contract: none.
+- Decisions: VPS unchanged; testing remains with user.
+- Next: user checks local teacher login.
+- Needs from others: none.
+
 ### 2026-10-10 | Majid | M4.2 review layout | done
 - Did: moved writing evidence below the grading draft into a full-width card; review columns stack on smaller screens.
 - Files: frontend/src/features/teacher/TeacherReviewDetail.tsx.
