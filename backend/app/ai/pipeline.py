@@ -6,7 +6,7 @@ submit route can call it for GRADE_ON_SUBMIT (see docs/progress.md, "Needs from 
 
 from sqlmodel import Session, select
 
-from app.ai.feedback import starter_feedback
+from app.ai.feedback import generate_feedback
 from app.ai.grader import apply_marks, run_grader
 from app.deps import ApiError
 from app.models.core import Assessment, Submission
@@ -58,10 +58,12 @@ def grade_submission_by_id(session: Session, submission_id: str) -> GradeSchema:
     )
     criteria = apply_marks(result, rubric=rubric, strictness=assessment.strictness)
     total = sum(c.ai_marks for c in criteria)
-    feedback = starter_feedback(
+    feedback = generate_feedback(
         mode=assessment.feedback_mode,  # type: ignore[arg-type]
         rubric=rubric,
         criteria=criteria,
+        content_md=sub.content_md,
+        key=sub.id,
     )
     grade = GradeSchema(
         id=existing.id if existing else f"g_{sub.id}",
@@ -99,6 +101,37 @@ def grade_submission_by_id(session: Session, submission_id: str) -> GradeSchema:
     if sub.status == "submitted":
         sub.status = "graded"
         session.add(sub)
+    session.commit()
+    session.refresh(row)
+    return to_schema(row)
+
+
+def regenerate_feedback_for(session: Session, submission_id: str) -> GradeSchema:
+    """Re-run the feedback LLM call for an existing grade and persist the result.
+
+    Raises ApiError: 404 if no grade exists yet, or submission not found.
+    """
+    sub = session.get(Submission, submission_id)
+    if sub is None:
+        raise ApiError(404, "not_found", "Submission not found.")
+    row = get_grade_row(session, submission_id)
+    if row is None:
+        raise ApiError(404, "not_found", "No grade found. Grade the submission first.")
+    assessment = session.get(Assessment, sub.assessment_id)
+    if assessment is None:
+        raise ApiError(404, "not_found", "Assessment not found.")
+
+    rubric = rubric_of(assessment)
+    grade = to_schema(row)
+    new_feedback = generate_feedback(
+        mode=assessment.feedback_mode,  # type: ignore[arg-type]
+        rubric=rubric,
+        criteria=grade.criteria,
+        content_md=sub.content_md,
+        key=f"{submission_id}_regen",
+    )
+    row.feedback = new_feedback.model_dump(mode="json")
+    session.add(row)
     session.commit()
     session.refresh(row)
     return to_schema(row)

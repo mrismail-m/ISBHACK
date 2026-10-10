@@ -59,7 +59,7 @@ Exit: in mock mode, pick teacher and see the assessment with its settings. Pick 
 Exit: real AI grading with strictness, verified evidence, flags and feedback. Activity summary is real. Teacher can review, approve and release. Student sees the result.
 
 - [x] **M2.1 (Adeel)** Grader: level-based scoring, quote verification, flags, injection guard, caching. `rubric/draft` (P1). `strictness/preview` (P1).
-- [ ] **M2.2 (Adeel)** Feedback writer (hints and full), `grade-all`, `grading-status`.
+- [x] **M2.2 (Adeel)** Feedback writer (hints and full), `grade-all`, `grading-status`.
 - [ ] **M2.3 (Majid)** Activity backend: ingestion, `activity_summary.py` (typed and pasted %, chunks with survival, internal-paste rule, revision ratio, active minutes, tab switches, heatmap), parity fixtures. Student result page (final score, understanding, feedback).
 - [ ] **M2.4 (Ismail)** Teacher review queue (table with flags, blind mode), review detail (per-criterion marks, evidence highlights, override, note, approve and release). `services/scoring.py` and `services/flags.py`. Strictness preview panel and rubric editor with "Draft rubric" button (P1).
 - [ ] **M2.5 (All)** Sync 2: real LLM on 3 sample submissions through the whole golden path, tag `m2-ok`.

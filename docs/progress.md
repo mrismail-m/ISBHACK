@@ -32,7 +32,7 @@ Update only your own row.
 
 | Member | Current task | Status | Next | Blockers |
 |---|---|---|---|---|
-| Adeel | M2.1 done | M2.2 next | grader retries, rubric draft, strictness preview | M2.2 | no LLM key configured yet |
+| Adeel | M2.2 done | M3.1 next | viva endpoints | no LLM key configured yet |
 | Majid | M4.2 done | independent implementation and demo recordings ready | integrate when owners publish dependencies | live viva, released results and teacher review embedding |
 | Ismail | M2.4 | not started | teacher review queue | M2.1, M2.2, M2.3 |
 
@@ -69,7 +69,14 @@ Format: `<from> to <owner>: <what> (task id)`
 
 ## Log: Adeel (newest first)
 
-### 2026-10-10 13:51 | Adeel | M2.1 | done
+### 2026-10-10 14:00 | Adeel | M2.2 | done
+- Did: Implemented LLM feedback writer (`generate_feedback`), verified its quotes, stripped explanations in hints mode. Implemented `grade-all`, `grading-status`, `feedback/regenerate` endpoints. Added `feedback.json` mock fixture.
+- Files: `backend/app/ai/feedback.py`, `backend/app/ai/prompts/feedback.md`, `backend/app/ai/pipeline.py`, `backend/app/routers/grading.py`, `fixtures/api/llm/feedback.json`
+- Contract: none
+- Decisions: `grade-all` grades synchronously (no queue needed for demo scale). `grading-status` counts `ai_draft` and `approved` rows as graded.
+- Next: M3.1 (viva: question generator, answer scorer, viva router).
+- Needs from others: none
+
 - Did: Added quote repair retry to grader. Implemented `/rubric/draft` and `/strictness/preview` reusing `run_grader` and `apply_marks`. 
 - Files: `backend/app/ai/grader.py`, `backend/app/routers/grading.py`, `backend/app/ai/rubric.py`, `backend/app/ai/prompts/rubric.md`
 - Contract: none
