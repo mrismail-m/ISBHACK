@@ -1,11 +1,11 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import { studentApi } from '../../api/student';
 import { USE_FIXTURES } from '../../api/client';
 import type { Assessment, Submission } from '../../api/types';
 import { ActivityRecorder } from './activity-recorder';
-import { MarkdownEditor } from './MarkdownEditor';
+const MarkdownEditor = lazy(() => import('./MarkdownEditor').then(m => ({ default: m.MarkdownEditor })));
 import './student.css';
 export function AssessmentList() {
   const [assessments, setAssessments] = useState<Assessment[] | null>(null);
@@ -119,7 +119,7 @@ function WritingSession({ assessment, submission }: { assessment: Assessment; su
       </aside>
       {error && <div role="alert" className="error">{error} <button onClick={() => { void Promise.all([save(), recorder?.flush()]).then(() => setError('')).catch(e => setError(e.message)); }}>Retry save and upload</button></div>}
       <div className="writing-grid" inert={submitting}>
-        <section className="writing-panel"><div className="panel-label">YOUR ANSWER <span>Markdown</span></div>{recorder && <MarkdownEditor initial={submission.content_md === content ? submission.content_md : (localStorage.getItem(localKey) ?? submission.content_md)} recorder={recorder} onChange={change} />}</section>
+        <section className="writing-panel"><div className="panel-label">YOUR ANSWER <span>Markdown</span></div><Suspense fallback={<p role="status">Opening your editor...</p>}>{recorder && <MarkdownEditor initial={submission.content_md === content ? submission.content_md : (localStorage.getItem(localKey) ?? submission.content_md)} recorder={recorder} onChange={change} />}</Suspense></section>
         <section className="writing-panel"><div className="panel-label">LIVE PREVIEW</div><div className="markdown preview">{content ? <ReactMarkdown>{content}</ReactMarkdown> : <p className="muted">Your answer will appear here as you write.</p>}</div></section>
       </div>
       <footer className="save-bar"><div><span role="status">{submitting ? 'Saving and submitting your work...' : status}</span><span className="muted">{content.trim() ? content.trim().split(/\s+/).length : 0} words</span></div><button className="primary" disabled={submitting || !content.trim() || !recorder} onClick={() => void submit()}>{submitting ? 'Submitting...' : 'Submit answer'}</button></footer>

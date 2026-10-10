@@ -6,6 +6,9 @@ import { ActivityInsights } from '../insights/ActivityInsights';
 
 export function TeacherReviewDetail() {
   const { submissionId } = useParams<{ submissionId: string }>();
+  return <ReviewDetail key={submissionId} submissionId={submissionId} />;
+}
+function ReviewDetail({ submissionId }: { submissionId?: string }) {
   const navigate = useNavigate();
   const [submission, setSubmission] = useState<Submission | null>(null);
   const [grade, setGrade] = useState<Grade | null>(null);
@@ -14,24 +17,23 @@ export function TeacherReviewDetail() {
   const [overrides, setOverrides] = useState<Record<string, { marks: number, note: string }>>({});
   const [teacherNote, setTeacherNote] = useState('');
   const [feedbackEdits] = useState<Record<string, string>>({});
+  const [error, setError] = useState('');
+  const [attempt, setAttempt] = useState(0);
+  const [approving, setApproving] = useState(false);
 
   useEffect(() => {
-    if (submissionId) {
-      apiClient<Submission>(`/submissions/${submissionId}`)
-        .then(sub => {
-          setSubmission(sub);
-          return apiClient<Assessment>(`/assessments/${sub.assessment_id}`);
-        })
-        .then(setAssessment)
-        .catch(console.error);
+    let active = true;
+    if (submissionId) Promise.all([
+      apiClient<Submission>(`/submissions/${submissionId}`),
+      apiClient<Grade>(`/submissions/${submissionId}/grade`),
+    ]).then(async ([sub, draft]) => {
+      const settings = await apiClient<Assessment>(`/assessments/${sub.assessment_id}`);
+      if (active) { setSubmission(sub); setGrade(draft); setAssessment(settings); }
+    }).catch(e => { if (active) setError(e instanceof Error ? e.message : 'Review could not load.'); });
+    return () => { active = false; };
+  }, [submissionId, attempt]);
 
-      apiClient<Grade>(`/submissions/${submissionId}/grade`)
-        .then(setGrade)
-        .catch(console.error);
-    }
-  }, [submissionId]);
-
-  if (!submission || !grade || !assessment) return <div className="p-8 text-center">Loading...</div>;
+  if (!submission || !grade || !assessment) return <div className="p-8 text-center">{error ? <div role="alert">{error} <button onClick={() => { setError(''); setAttempt(a => a + 1); }}>Retry review</button></div> : <p role="status">Loading review...</p>}</div>;
 
   const handleOverrideChange = (criterionId: string, marks: number, note: string) => {
     setOverrides(prev => ({
@@ -41,6 +43,8 @@ export function TeacherReviewDetail() {
   };
 
   const handleApprove = async (release: boolean) => {
+    if (approving) return;
+    setApproving(true); setError('');
     try {
       const payload: ApproveRequest = {
         criteria_overrides: Object.entries(overrides).map(([id, o]) => ({ criterion_id: id, marks: o.marks, note: o.note })),
@@ -54,8 +58,9 @@ export function TeacherReviewDetail() {
       });
       navigate(`/teacher/assessments/${assessment.id}`);
     } catch (err) {
-      console.error(err);
-      alert('Failed to approve');
+      setError(err instanceof Error ? err.message : 'Approval failed. Please retry.');
+    } finally {
+      setApproving(false);
     }
   };
 
@@ -66,6 +71,8 @@ export function TeacherReviewDetail() {
 
   return (
     <div className="p-8 max-w-5xl mx-auto space-y-8">
+      {error && <p role="alert">{error}</p>}
+      {approving && <p role="status">Saving the teacher decision...</p>}
       <div>
         <Link to={`/teacher/assessments/${assessment.id}`} className="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Queue</Link>
         <div className="flex justify-between items-start">
@@ -74,10 +81,10 @@ export function TeacherReviewDetail() {
             <p className="text-slate-600">Total Marks: {currentFinalTotal} / {assessment.max_marks}</p>
           </div>
           <div className="flex gap-2">
-            <button onClick={() => handleApprove(false)} className="bg-slate-200 hover:bg-slate-300 text-slate-800 px-4 py-2 rounded shadow transition-colors">
+            <button disabled={approving} onClick={() => handleApprove(false)} className="bg-slate-200 hover:bg-slate-300 text-slate-800 px-4 py-2 rounded shadow transition-colors">
               Approve
             </button>
-            <button onClick={() => handleApprove(true)} className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow transition-colors">
+            <button disabled={approving} onClick={() => handleApprove(true)} className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow transition-colors">
               Approve & Release
             </button>
           </div>

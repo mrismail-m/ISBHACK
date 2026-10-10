@@ -116,6 +116,16 @@ None yet.
 
 ## Log: Majid (newest first)
 
+### 2026-10-10 14:26 | Majid | M3.2 | partial
+- Did: Lazy-loaded student, viva, result and teacher routes plus CodeMirror with visible loading states. Main bundle reduced from about 922 KB to 273 KB; editor is separate, about 502 KB, so one warning remains.
+- Files: `frontend/src/routes.tsx`, `frontend/src/features/student/StudentApp.tsx`; narrow fixes in `frontend/src/features/teacher/TeacherReviewDetail.tsx`.
+- Contract: none. User authorized teammate fixes.
+- Decisions: Review now shows failed loads and a retry instead of an endless spinner, cancels stale updates and resets on submission change; approval controls disable during saving and show backend errors.
+- Checks: Frontend 19 tests, typecheck, lint and build pass. Timed writing verification is running on isolated localhost ports 5175/8001 to preserve the user's active app session.
+- Next: Finish the 10-minute editor session, verify viva and review/release in browser, then tick remaining Majid integration boxes.
+- Needs from others: none for this path; real-model checks still require Adeel's provider setup.
+
+
 ### 2026-10-10 14:22 | Majid | M2.3/M3.2 | partial
 - Did: Corrected seeded-role access on submission reads/writes, class queue, approval/results and viva POSTs; viva teacher reads are classroom-scoped. Starting work now requires a student in an open assessment's classroom.
 - Files: `backend/app/routers/{submissions,viva}.py`, `backend/tests/{test_student_integration,test_viva,test_grading_api}.py`.
@@ -233,6 +243,7 @@ None yet.
 ### Archive (Ismail)
 
 None yet.
+
 
 
 
