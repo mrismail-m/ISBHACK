@@ -14,6 +14,6 @@ Start backend with `python -m uvicorn app.main:app --host 127.0.0.1 --port 8000`
 Start frontend with `VITE_USE_FIXTURES=0` and `VITE_API_URL=http://127.0.0.1:8000` for live mode, or `VITE_USE_FIXTURES=1` for offline mode.
 
 Teacher login opens the classroom dashboard. Select a student to inspect writing evidence or follow the review link.
-Three closed demo assessments show 50 released synthetic submissions each. The original open assessment stays available for new student writing.
+Three completed practice assessments show 50 released synthetic submissions each. A1 is populated only where no existing submission exists; existing work is preserved. A2 stays open for new student writing. Teacher adjustments are seeded for selected practice records to populate override statistics.
 
-Browser video and screenshot artifacts live locally in ignored `.cache/`; no credentials, database or video files are committed.
+Browser video and screenshot artifacts live locally in ignored `.cache/`; no provider credentials or database files are committed. Published demo media is in docs/demo-assets/.

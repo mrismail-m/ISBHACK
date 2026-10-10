@@ -33,7 +33,7 @@ Update only your own row.
 | Member | Current task | Status | Next | Blockers |
 |---|---|---|---|---|
 | Adeel | M4.1 partial | full eval run and report | approval for about 145 LLM calls, human raters, contract OK | human ratings missing |
-| Majid | M2.3/M3.2 done | live API browser flow verified with mock AI | team real-AI golden path | timed recording deferred by user |
+| Majid | M4.2 polish done | charts, presentation data and clear pending states | user verifies preview; team real-AI run | timed recording deferred by user |
 | Ismail | M4.3 done | wait for demo run | help with rehearsals | none |
 
 ## Integration status (golden path)
@@ -134,6 +134,16 @@ None yet.
 
 ## Log: Majid (newest first)
 
+### 2026-10-10 | Majid | M4.2 dashboard fixes | done
+- Did: Fixed collapsed class-trend and distribution bars with explicit plot heights and visible values. Populated missing A1 records and teacher-adjustment examples without replacing existing work.
+- Files: teacher dashboard/app/trust report, student notices/login/routes, demo seed/export fixtures, submissions and analytics filtering, demo tests.
+- Contract: none. Draft work is excluded from review/submission counts. Queue shows completed grades first and names pending grading/viva states; ungraded reviews are disabled.
+- Decisions: Removed repetitive sample/demo notices and practice-title prefixes. Trust report now shows Evaluation pending until a published report exists. A2 remains open for new writing.
+- Checks: Earlier checks passed 123 backend tests and 20 frontend tests. Histogram and trend bars had visible measured heights; A1 showed populated scores and 18% override rate. User then asked to skip further testing and will verify the final changes.
+- Next: User checks the running preview; team publishes measured evaluation.
+- Needs from others: Adeel's completed evaluation. Existing ungraded work is preserved with explicit pending states.
+
+
 ### 2026-10-10 | Majid | M4.2 demo media | done
 - Did: Published the existing 83-second demo walkthrough and dashboard heatmap screenshot at the user's request.
 - Files: `docs/demo-assets/{README.md,vivagrade-demo.mp4,dashboard-heatmap.png}`.
@@ -183,83 +193,11 @@ None yet.
 - Needs from others: none for Majid integration; broader grading/assessment role review remains with owners.
 
 
-### 2026-10-10 14:14 | Majid | M2.3/M3.2 | partial
-- Did: Pulled and reviewed M2.1, M2.2, M2.4 and M3.1. Viva/result endpoints and review embedding now exist. Added integration checks through grade, viva, approval and released student result.
-- Files: `backend/tests/test_student_integration.py`, narrow corrections in `backend/app/routers/submissions.py` and `frontend/src/features/teacher/TeacherReviewDetail.tsx`.
-- Contract: none. Corrected invalid override acceptance: reject unknown/duplicate criteria and nonnumeric, negative or excessive marks; UI maximum uses the rubric criterion limit.
-- Decisions: User authorized corrections to teammate mistakes. New tests verify rejection leaves results unreleased and understanding blends into the released result.
-- Checks: Backend 78 tests and ruff pass; frontend 19 tests, typecheck and lint pass. No real LLM call. Browser integration and 10-minute recording are not yet verified.
-- Next: Verify viva, teacher replay and released result in browser. Review remaining missing seeded-role checks on submission mutations, approval and viva POSTs before treating access restrictions as verified.
-- Needs from others: None for Majid API integration now. Adeel still needs a real provider key for real-model evaluation; Ismail dashboard/grace remain in progress.
-
-
-### 2026-10-10 13:51 | Majid | M4.2 | done
-- Did: Recorded 3 real editor sessions (typed, pasted, retyped), persisted through local API and exported raw events plus server summaries. All reconstruct the exact saved 547-character answer. Typed/retyped have 0% paste; pasted has 100% with one surviving large chunk.
-- Files: `fixtures/activity/demo_sessions.json`, `fixtures/api/activity_{events,summary}_s1.json`, backend activity tests, frontend replay tests; roadmap and this log.
-- Contract: none. Comparison normalizes equivalent ISO timestamp precision before comparing summaries.
-- Decisions: These are automated demo recordings, not the human pilot study. Retyping copied prose yields no paste signal, illustrating the signal's stated limit. No AI or grading claims made.
-- Checks: Backend 54 tests and ruff pass; frontend 19 tests, typecheck, lint and build pass. Replay and summary agree on all 3 recordings and 7 independent fixtures. Large frontend bundle warning remains.
-- Next: Wait for owner dependencies, then pull, read changed files and integrate live viva/results and review embedding. Full 10-minute round trip and team golden path remain unverified.
-- Needs from others: Adeel viva endpoints; Ismail released result endpoint and teacher review detail embedding. Exports and fixtures are ready for both owners.
-
-
-### 2026-10-10 13:47 | Majid | M3.2 | partial
-- Did: One-question viva UI with persistent deadlines, timeout, blocked paste/drop, tab-switch counts and retry; fixture browser flow completed all 3 answers. Insights expose paste chunks, writing map, heatmap and replay with scrubber, speed, idle skipping and paste jumps.
-- Files: `frontend/src/features/{student,insights}/`, `frontend/src/api/{student,activity}.ts`, `frontend/src/lib/replay-core/index.test.ts`, `frontend/src/routes.tsx`.
-- Contract: none. Timeout sends an empty answer as specified. Blocked paste attempts do not claim pasted content was accepted; proposed design question remains unresolved.
-- Decisions: Ismail can embed `ActivityInsights({submissionId})` or `InsightsView({activity,summary})` from `features/insights/ActivityInsights.tsx`. Keep current styling until proposed design is approved.
-- Checks: Frontend 16 tests, typecheck, lint and build pass. Checkpoint seeking and idle/session boundaries covered. Build still warns about a large bundle.
-- Next: Record typed, pasted and retyped sessions through the real editor and verify replay (M4.2).
-- Needs from others: Adeel live viva (currently 501); Ismail released result API and teacher review detail embedding. M2.3/M3.2 remain unchecked until those integrations work.
-
-
-### 2026-10-10 13:35 | Majid | M1.2 | done
-- Did: Integrated latest Ismail endpoints and teacher routes. Real browser session typed, pasted, autosaved and submitted; teacher activity API returned all 146 characters, 54 events, 33.6% typed and 66.4% pasted with 100% paste survival.
-- Files: `docs/roadmap.md`, `frontend/src/index.css`; narrow lint fixes in `backend/app/routers/{assessments,submissions}.py`, `backend/app/seed.py`, `backend/dump_fixtures.py`.
-- Contract: none
-- Decisions: User authorized teammate corrections. Replaced Tailwind 3 directives with Tailwind 4 import; extracted existing Depends defaults into singleton variables and formatted flagged Python files. No endpoint behavior changed.
-- Checks: All backend tests and repo-wide ruff pass; frontend checks pass. Local DB seeded without deleting existing data. Real-mode frontend on port 5174; normal fixture frontend remains 5173.
-- Next: M3.2 insights components and fixture-driven viva UI.
-- Needs from others: Ismail result API; Adeel viva endpoints and approval of proposed design. Earlier missing submission endpoint request is resolved.
-
-### 2026-10-10 13:31 | Majid | M2.3 | partial
-- Did: Activity ingestion with authorization, duplicate retry and sequence validation; UTF-16 summary; pure replay core and 7 shared parity fixtures; released result and feedback UI.
-- Files: `backend/app/{routers,models,schemas}/activity.py`, `backend/app/services/activity_summary.py`, `backend/tests/test_activity.py`, `fixtures/activity/cases.json`, `frontend/src/lib/replay-core/`, student result/API/routes.
-- Contract: none. Shapes match v1. Paste declaration remains deferred P2.
-- Decisions: User authorized teammate bug corrections. Added activity model import in `backend/app/seed.py` so seed/reset includes the new table; no other seed logic changed. Teacher consumers can call `load_activity(session, id)` then `summarize_activity(id, events, threshold)`.
-- Checks: Backend 10 tests pass; owned Python files ruff clean. Frontend 12 tests, typecheck, lint and build pass. Both languages match expected shares exactly on all 7 fixtures.
-- Next: M3.2 standalone insights and viva UI using fixture data, then integration once owners publish endpoints. Final M1.2/M2.3 checks wait for those endpoints.
-- Needs from others: Ismail: live submission/result endpoints, UTC offsets on fixture timestamps, due_at in AssessmentCreate; Adeel: viva endpoints and approved design tokens. Seed currently lacks historical submission/grade rows promised by M0.3.
-
-### 2026-10-10 13:22 | Majid | M1.2 | partial
-- Did: Assessment list, CodeMirror markdown editor and preview, 3-second activity batching with persistent retries, autosave, reload recovery and submit lock. Browser mock flow verified.
-- Files: `frontend/src/features/student/`, `frontend/src/api/{client,student,activity}.ts`, `frontend/src/routes.tsx`, package files; this log.
-- Contract: none. User approved CodeMirror, react-markdown and Vitest dependencies plus package file updates.
-- Decisions: Missing fixtures use a labelled browser-only demo store under student ownership. Real requests use X-User-Id; unload retains activity for retry because sendBeacon cannot set that header.
-- Checks: Typecheck, frontend lint, 3 capture/upload tests and build pass. Browser verified typing, paste, preview, reload recovery and submit. Build warns about bundle size.
-- Next: M2.3 activity persistence using Ismail's db, summary and shared parity fixtures. M1.2 stays unchecked until real events reach the database.
-- Needs from others: Ismail: db/session helper, core models, assessment/submission endpoints and API fixtures. Existing teacher route remains a placeholder for Ismail integration.
-
-### 2026-10-10 13:13 | Majid | M0.2 | done
-- Did: Installed frontend lockfile dependencies and backend plus evaluation requirements in local `.venv`; created backend `.env` from example. Both servers respond locally.
-- Files: `docs/progress.md`; local dependencies and backend `.env` are ignored.
-- Contract: none
-- Decisions: Development waits for the human's call. No feature code changed.
-- Checks: Frontend build passes; lint has 2 existing warnings. Backend 2 tests pass; pip check passes; ruff has 2 existing E501 errors in Adeel files. Health smoke passes.
-- Next: Human can run frontend `npm run dev` and backend `.venv\Scripts\python -m uvicorn app.main:app --reload --port 8000` in their respective folders.
-- Needs from others: Ismail's seed and API fixtures are absent; fixture client path needs fixing during M1.2.
-
-### 2026-10-10 12:58 | Majid | M0.2 | done
-- Did: Initialized Vite React TS app with Tailwind, React Router, role switcher and API types.
-- Files: `frontend/`, `frontend/src/api/client.ts`, `frontend/src/api/types.ts`, `frontend/src/routes.tsx`
-- Contract: none
-- Decisions: none
-- Next: M1.2 (Student editor and capture)
-- Needs from others: none
-
 ### Archive (Majid)
 
-None yet.
+- Delivered local setup, editor capture, activity storage and UTF-16 summary/replay parity.
+- Delivered viva, insights and released-result integration; verified browser flows with mock AI.
+- Corrected integration authorization and validation, split bundles and preserved teammate work during synchronization.
 
 ## Log: Ismail (newest first)
 

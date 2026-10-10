@@ -2,7 +2,6 @@ import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import { studentApi } from '../../api/student';
-import { USE_FIXTURES } from '../../api/client';
 import type { Assessment, Submission } from '../../api/types';
 import { ActivityRecorder } from './activity-recorder';
 const MarkdownEditor = lazy(() => import('./MarkdownEditor').then(m => ({ default: m.MarkdownEditor })));
@@ -19,7 +18,7 @@ export function AssessmentList() {
   return <main className="student-page">
     <p className="eyebrow">YOUR CLASSROOM</p><h1>A little work.<br />A deeper understanding.</h1>
     <p className="lead">Write your answer, explain your thinking, and learn from your feedback.</p>
-    {USE_FIXTURES && <p className="demo-note">Demo mode. Work and writing activity stay in this browser. <Link to="/student/submissions/s_result_demo/result">View sample feedback</Link></p>}
+    
     {error ? <div role="alert" className="error">{error} <button onClick={() => { setError(''); setAttempt(a => a + 1); }}>Try again</button></div> : !assessments ? <p role="status">Loading your assessments...</p> : !assessments.length ? <p>No open assessments yet.</p> : <div className="assessment-grid">{assessments.map(a => <article className="assessment-card" key={a.id}>
       <div className="card-meta"><span className="status-pill">Open assignment</span><span>{a.max_marks} marks</span></div>
       <h2>{a.title}</h2><p>{a.topics.join(' · ')}</p>
@@ -108,7 +107,7 @@ function WritingSession({ assessment, submission }: { assessment: Assessment; su
   return <main className="student-page editor-page">
     <Link className="back" to="/student">← All assessments</Link>
     <div className="editor-heading"><div><p className="eyebrow">YOUR ASSIGNMENT</p><h1>{assessment.title}</h1></div><span className="mark-label">{assessment.max_marks} marks</span></div>
-    {USE_FIXTURES && <p className="demo-note">Demo mode. This submission is stored locally and is not sent to a teacher.</p>}
+    
     <section className="instructions markdown"><ReactMarkdown>{assessment.instructions_md}</ReactMarkdown>
       <div className="setting-row"><span>Strictness: {assessment.strictness.replaceAll('_', ' ')}</span><span>Viva: {assessment.viva_enabled ? `${Math.round(assessment.viva_weight * 100)}% of final grade` : 'off'}</span><span>AI use: {assessment.ai_policy.replaceAll('_', ' ')}</span></div>
       <details><summary>How your work is assessed</summary>{assessment.rubric?.criteria.map(c => <p key={c.id}><strong>{c.name} ({c.max_marks} marks).</strong> {c.description}</p>)}</details>

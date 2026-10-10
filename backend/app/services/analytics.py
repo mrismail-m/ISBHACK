@@ -27,7 +27,9 @@ def get_assessment_stats(session: Session, assessment_id: str) -> AssessmentStat
         .where(User.classroom_id == assessment.classroom_id)
     ).all()
     submissions = session.exec(
-        select(Submission).where(Submission.assessment_id == assessment_id)
+        select(Submission).where(
+            Submission.assessment_id == assessment_id, Submission.status != "draft"
+        )
     ).all()
 
     enrolled_count = len(enrolled)

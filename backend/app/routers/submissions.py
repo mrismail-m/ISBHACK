@@ -43,7 +43,9 @@ def list_submissions(assessment_id: str, user_id: UserIdDep, session: Session = 
 
     require_teacher(session, assessment, user_id)
     submissions = session.exec(
-        select(Submission).where(Submission.assessment_id == assessment_id)
+        select(Submission).where(
+            Submission.assessment_id == assessment_id, Submission.status != "draft"
+        )
     ).all()
     rows = []
 

@@ -7,14 +7,14 @@ export function DemoLogin({ role }: { role: 'teacher' | 'student' }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  return <main className="student-page demo-login"><p className="eyebrow">VIVAGRADE DEMO</p>
+  return <main className="student-page demo-login"><p className="eyebrow">VIVAGRADE</p>
     <h1>{role === 'teacher' ? 'Teacher' : 'Student'} sign in</h1>
-    <p>This is a demo login with fixed credentials.</p>
+    <p>Sign in to your classroom.</p>
     <form onSubmit={e => {
       e.preventDefault();
       const student = roster.find(row => row.reg_no === username.trim().toUpperCase());
       if (password !== 'Demo@123' || (role === 'teacher' ? username.trim() !== 'teacher' : !student)) {
-        setError('Check your demo username and password.'); return;
+        setError('Check your username and password.'); return;
       }
       localStorage.setItem('currentUserId', role === 'teacher' ? 'u_teacher_1' : student!.user_id);
       sessionStorage.setItem('vivagrade:demo-role', role);

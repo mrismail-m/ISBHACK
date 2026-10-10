@@ -34,7 +34,7 @@ export function ClassroomDashboard() {
       <div>
         <Link to="/teacher" className="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Assessments</Link>
         <h2 className="text-3xl font-bold text-slate-800">Classroom Dashboard</h2>
-        <p className="text-amber-800 mt-2">Demo cohort: 50 students. Practice scores, activity and viva results are synthetic; only names and registration numbers came from the supplied roster.</p>
+
       </div>
 
       <section className="bg-white p-6 rounded-lg border border-slate-200">
@@ -47,12 +47,13 @@ export function ClassroomDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="bg-white p-6 rounded-lg shadow border border-slate-200">
           <h3 className="font-semibold text-lg border-b pb-2 mb-4">Class Trend (Avg %)</h3>
-          <div className="h-48 flex items-end gap-2">
+          <div className="flex items-end gap-3" style={{ height: 200 }} role="img" aria-label="Class average percentages by completed assessment">
             {performance.assessments.map(a => (
-              <div key={a.assessment_id} className="flex-1 flex flex-col items-center group relative">
+              <div key={a.assessment_id} className="flex-1 min-w-0 flex flex-col justify-end items-center group relative">
+                <span className="text-sm font-semibold mb-2">{a.avg_pct == null ? "Pending" : `${Math.round(a.avg_pct)}%`}</span>
                 <div 
                   className="w-full bg-blue-500 rounded-t transition-all hover:bg-blue-600" 
-                  style={{ height: `${a.avg_pct || 0}%` }}
+                  style={{ height: `${Math.max(2, Math.min(100, a.avg_pct ?? 0) * 1.4)}px` }}
                 ></div>
                 <div className="text-xs text-slate-500 mt-2 truncate w-full text-center">{a.title}</div>
                 
@@ -62,13 +63,14 @@ export function ClassroomDashboard() {
                 </div>
               </div>
             ))}
+            {!performance.assessments.length && <p className="text-slate-500">No completed assessment scores yet.</p>}
           </div>
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow border border-slate-200">
           <h3 className="font-semibold text-lg border-b pb-2 mb-4 text-amber-700">Needs Attention</h3>
           {attention.length === 0 ? (
-            <p className="text-sm text-slate-500">All students are doing well!</p>
+            <p className="text-sm text-slate-500">No attention flags from released results.</p>
           ) : (
             <ul className="space-y-4">
               {attention.map(stu => (
@@ -163,40 +165,42 @@ export function AssessmentDashboard({ assessmentId }: { assessmentId: string }) 
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-white p-4 rounded-lg shadow border border-slate-200">
           <div className="text-sm text-slate-500 font-medium">Submissions</div>
           <div className="text-2xl font-bold text-slate-800">{stats.submitted} / {stats.enrolled}</div>
         </div>
         <div className="bg-white p-4 rounded-lg shadow border border-slate-200">
           <div className="text-sm text-slate-500 font-medium">Graded vs Pending</div>
-          <div className="text-2xl font-bold text-slate-800">{stats.graded} <span className="text-sm font-normal text-slate-400">graded</span> / {stats.pending_review} <span className="text-sm font-normal text-slate-400">pending</span></div>
+          <div className="text-2xl font-bold text-slate-800">{stats.graded} <span className="text-sm font-normal text-slate-400">graded</span> / {Math.max(0, stats.submitted - stats.graded)} <span className="text-sm font-normal text-slate-400">awaiting grading</span><p className="text-xs font-normal text-slate-500 mt-2">{stats.pending_review} awaiting teacher review</p></div>
         </div>
         <div className="bg-white p-4 rounded-lg shadow border border-slate-200">
           <div className="text-sm text-slate-500 font-medium">Average Score</div>
-          <div className="text-2xl font-bold text-slate-800">{stats.avg_pct ? `${Math.round(stats.avg_pct)}%` : '-'}</div>
+          <div className="text-2xl font-bold text-slate-800">{stats.avg_pct != null ? `${Math.round(stats.avg_pct)}%` : '-'}</div>
         </div>
         <div className="bg-white p-4 rounded-lg shadow border border-slate-200">
           <div className="text-sm text-slate-500 font-medium">Pass Rate</div>
-          <div className="text-2xl font-bold text-slate-800">{stats.pass_rate_pct ? `${Math.round(stats.pass_rate_pct)}%` : '-'}</div>
+          <div className="text-2xl font-bold text-slate-800">{stats.pass_rate_pct != null ? `${Math.round(stats.pass_rate_pct)}%` : '-'}</div>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-white p-6 rounded-lg shadow border border-slate-200">
           <h3 className="font-semibold text-lg border-b pb-2 mb-4">Score Distribution</h3>
-          <div className="h-48 flex items-end gap-1">
+          <div className="flex items-end gap-1" style={{ height: 200 }} role="img" aria-label="Number of graded submissions in each score range">
             {stats.histogram.map(bin => {
-              const height = stats.submitted > 0 ? (bin.count / stats.submitted) * 100 : 0;
+              const height = (bin.count / Math.max(1, ...stats.histogram.map(row => row.count))) * 140;
               return (
-                <div key={bin.bin} className="flex-1 flex flex-col items-center group relative">
-                  <div className="w-full bg-indigo-500 rounded-t" style={{ height: `${height}%` }}></div>
+                <div key={bin.bin} className="flex-1 min-w-0 flex flex-col justify-end items-center group relative">
+                  <span className="text-xs font-semibold mb-1">{bin.count}</span>
+                  <div className="w-full bg-indigo-500 rounded-t" style={{ height: `${Math.max(2, height)}px` }}></div>
                   <div className="text-[10px] text-slate-400 mt-1">{bin.bin}</div>
                   <div className="absolute bottom-full mb-1 opacity-0 group-hover:opacity-100 bg-slate-800 text-white text-xs rounded py-1 px-2">{bin.count} students</div>
                 </div>
               );
             })}
           </div>
+          {stats.graded === 0 && <p className="text-sm text-slate-500 mt-2">Scores will appear after grading.</p>}
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow border border-slate-200">
@@ -218,7 +222,7 @@ export function AssessmentDashboard({ assessmentId }: { assessmentId: string }) 
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-white p-6 rounded-lg shadow border border-slate-200">
           <h3 className="font-semibold text-lg border-b pb-2 mb-4">Override Stats</h3>
           {overrideStats ? (
@@ -233,6 +237,7 @@ export function AssessmentDashboard({ assessmentId }: { assessmentId: string }) 
                   <div className="text-xs text-slate-500">Avg Delta</div>
                 </div>
               </div>
+              {overrideStats.overridden === 0 && <p className="text-sm text-slate-500 mb-3">No teacher adjustments recorded yet.</p>}
               <div className="space-y-2">
                 {overrideStats.by_criterion.map(c => (
                   <div key={c.criterion_id} className="flex justify-between text-sm bg-slate-50 p-2 rounded">

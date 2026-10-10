@@ -1,30 +1,32 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { apiClient } from '../../api/client';
+import { apiClient, USE_FIXTURES } from '../../api/client';
 import type { TrustReport } from '../../api/types';
-import fallbackReport from '../../../../fixtures/api/trust_report.json';
 
 function metric(value: number | null | undefined) { return value == null ? "Pending" : value.toFixed(2); }
 
 export function TrustReportPage() {
-  const [usingSample, setUsingSample] = useState(import.meta.env.VITE_USE_FIXTURES === "1");
+  const [pending, setPending] = useState(USE_FIXTURES);
   const [report, setReport] = useState<TrustReport | null>(null);
 
 
   useEffect(() => {
-    apiClient<TrustReport>('/evaluation/trust-report', { fixtureName: 'trust_report' })
-      .then(setReport)
-      .catch((err) => {
-        // Fallback to the local fixture since the endpoint isn't built yet
-        console.warn('API /evaluation/trust-report failed, falling back to mock.', err);
-        setUsingSample(true);
-        setReport(fallbackReport as TrustReport);
-      });
+    if (USE_FIXTURES) return;
+    let active = true;
+    apiClient<TrustReport>('/evaluation/trust-report')
+      .then(data => { if (active) setReport(data); })
+      .catch(() => { if (active) setPending(true); });
+    return () => { active = false; };
   }, []);
 
-  if (!report) {
-    return <div className="p-8 max-w-4xl mx-auto text-center text-slate-500">Loading Trust Report...</div>;
-  }
+  if (pending) return <main className="p-8 max-w-5xl mx-auto space-y-6">
+    <Link to="/teacher">Back to Assessments</Link>
+    <h1 className="text-3xl font-bold">AI Trust Report</h1>
+    <p role="status">Evaluation pending. Results will appear after the evaluation is published.</p>
+    <p>This report checks agreement with human graders, consistency across repeated runs, and sensitivity to wording and identity changes.</p>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">{['AI vs Human MAE', 'AI vs Human QWK', 'Consistency', 'Bias Probes'].map(label => <section className="bg-white p-6 rounded-lg border border-slate-200" key={label}><h2 className="text-sm text-slate-500">{label}</h2><p className="text-2xl mt-2">Pending</p></section>)}</div>
+  </main>;
+  if (!report) return <div className="p-8 text-center" role="status">Loading Trust Report...</div>;
 
   const passProbes = (report.bias_probes ?? []).filter(p => p.passed).length;
   const totalProbes = (report.bias_probes ?? []).length;
@@ -34,11 +36,10 @@ export function TrustReportPage() {
       <div>
         <Link to="/teacher" className="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Assessments</Link>
         <h2 className="text-3xl font-bold text-slate-800">AI Trust Report</h2>
-        {usingSample && <p role="status" className="text-amber-800 mt-2">Sample report for demonstration. These numbers are not verified evaluation results.</p>}
         <p className="text-slate-500 mt-1">Generated at {new Date(report.generated_at).toLocaleString()} • Model: {report.model_id} • Prompt: {report.prompt_version}</p>
       </div>
 
-      <div className="grid grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="bg-white p-6 rounded-lg shadow border border-slate-200">
           <h3 className="text-sm font-semibold text-slate-500 mb-1">AI vs Human MAE</h3>
           <p className="text-3xl font-bold text-slate-900">{metric(report.accuracy?.ai_vs_human_mae)}</p>
@@ -60,7 +61,7 @@ export function TrustReportPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-white p-6 rounded-lg shadow border border-slate-200">
           <h3 className="text-lg font-semibold text-slate-800 mb-4">Bias Probes Details</h3>
           <table className="w-full text-left text-sm">

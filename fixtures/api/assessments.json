@@ -90,7 +90,7 @@
   {
     "classroom_id": "cl_1",
     "kind": "assignment",
-    "title": "Demo: Hashing practice 1",
+    "title": "Hashing practice 1",
     "instructions_md": "Explain how a hash table handles collisions in about 300 words.",
     "max_marks": 20.0,
     "pass_mark_pct": 50.0,
@@ -178,7 +178,7 @@
   {
     "classroom_id": "cl_1",
     "kind": "assignment",
-    "title": "Demo: Hashing practice 2",
+    "title": "Hashing practice 2",
     "instructions_md": "Explain how a hash table handles collisions in about 300 words.",
     "max_marks": 20.0,
     "pass_mark_pct": 50.0,
@@ -266,7 +266,7 @@
   {
     "classroom_id": "cl_1",
     "kind": "assignment",
-    "title": "Demo: Hashing practice 3",
+    "title": "Hashing practice 3",
     "instructions_md": "Explain how a hash table handles collisions in about 300 words.",
     "max_marks": 20.0,
     "pass_mark_pct": 50.0,
@@ -350,5 +350,93 @@
     "status": "closed",
     "due_at": "2026-09-22T09:00:00",
     "created_at": "2026-09-21T09:00:00"
+  },
+  {
+    "classroom_id": "cl_1",
+    "kind": "assignment",
+    "title": "A2: Collision strategies",
+    "instructions_md": "Explain how a hash table handles collisions in about 300 words.",
+    "max_marks": 20.0,
+    "pass_mark_pct": 50.0,
+    "rubric": {
+      "criteria": [
+        {
+          "id": "c1",
+          "name": "Concept accuracy",
+          "description": "Explains what a collision is and why it happens, correctly.",
+          "max_marks": 5,
+          "topic": "hashing",
+          "levels": [
+            "Absent or wrong",
+            "Mentions the idea, mostly inaccurate",
+            "Partly correct with clear gaps",
+            "Mostly correct, minor gaps",
+            "Correct, complete and precise"
+          ]
+        },
+        {
+          "id": "c2",
+          "name": "Resolution strategies",
+          "description": "Describes chaining and open addressing.",
+          "max_marks": 5,
+          "topic": "collisions",
+          "levels": [
+            "Absent or wrong",
+            "Mentions one strategy vaguely",
+            "Describes one well, or both vaguely",
+            "Describes both mostly correctly",
+            "Describes both accurately and clearly"
+          ]
+        },
+        {
+          "id": "c3",
+          "name": "Complexity analysis",
+          "description": "Analyzes time complexity correctly.",
+          "max_marks": 5,
+          "topic": "complexity",
+          "levels": [
+            "Absent or wrong",
+            "Mentions O(1) without context",
+            "Partly explains average vs worst case",
+            "Good explanation with minor gaps",
+            "Clear distinction between average and worst case"
+          ]
+        },
+        {
+          "id": "c4",
+          "name": "Communication",
+          "description": "Writing is clear and structured.",
+          "max_marks": 5,
+          "topic": "communication",
+          "levels": [
+            "Unreadable",
+            "Hard to follow",
+            "Readable but poorly structured",
+            "Clear and mostly well structured",
+            "Excellent structure and clarity"
+          ]
+        }
+      ]
+    },
+    "model_answer_md": null,
+    "strictness": "normal",
+    "viva_enabled": true,
+    "viva_weight": 0.3,
+    "viva_question_count": 3,
+    "viva_time_limit_s": 90,
+    "feedback_mode": "full",
+    "release_mode": "after_approval",
+    "ai_policy": "allowed_with_disclosure",
+    "paste_flag_chars": 500,
+    "topics": [
+      "hashing",
+      "collisions",
+      "complexity",
+      "communication"
+    ],
+    "id": "a_write",
+    "status": "open",
+    "due_at": "2026-10-12T18:00:00",
+    "created_at": "2026-10-10T05:00:00"
   }
 ]

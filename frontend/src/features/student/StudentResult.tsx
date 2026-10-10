@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ApiError, USE_FIXTURES } from '../../api/client';
+import { ApiError } from '../../api/client';
 import { studentApi } from '../../api/student';
 import type { Feedback, StudentResult } from '../../api/types';
 
@@ -30,7 +30,7 @@ function StudentResultLoader({ submissionId }: { submissionId: string }) {
     });
     return () => { active = false; };
   }, [submissionId, attempt]);
-  return <main className="student-page"><Link to="/student">Back to my work</Link>{USE_FIXTURES && <p className="demo-note">Demo mode. Sample feedback is illustrative.</p>}
+  return <main className="student-page"><Link to="/student">Back to my work</Link>
     {result ? <ResultView result={result} /> : pending ? <section><h1>Your result is being reviewed.</h1><p>Your teacher has not released your result yet.</p><button className="primary" onClick={() => { setPending(false); setAttempt(a => a + 1); }}>Check again</button></section> : error ? <div className="error" role="alert">{error} <button onClick={() => { setError(''); setAttempt(a => a + 1); }}>Retry</button></div> : <p role="status">Loading your result...</p>}
   </main>;
 }

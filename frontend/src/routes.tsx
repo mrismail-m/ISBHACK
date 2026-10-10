@@ -14,7 +14,7 @@ function DemoHeader() {
   const role = sessionStorage.getItem('vivagrade:demo-role');
   const student = roster.find(row => row.user_id === localStorage.getItem('currentUserId'));
   return <header className="app-nav"><Link className="wordmark" to={role === 'teacher' ? '/teacher/classroom' : '/student'}>VivaGrade<span>Grade the work. Verify the learning.</span></Link><nav>
-    {role ? <><span>{role === 'teacher' ? 'Demo teacher' : `${student?.name || 'Student'} · ${student?.reg_no || ''}`}</span><button onClick={() => { sessionStorage.removeItem('vivagrade:demo-role'); localStorage.removeItem('currentUserId'); navigate(`/login/${role}`); }}>Sign out</button></> : <><Link to="/login/student">Student login</Link><Link to="/login/teacher">Teacher login</Link></>}
+    {role ? <><span>{role === 'teacher' ? 'Teacher' : `${student?.name || 'Student'} · ${student?.reg_no || ''}`}</span><button onClick={() => { sessionStorage.removeItem('vivagrade:demo-role'); localStorage.removeItem('currentUserId'); navigate(`/login/${role}`); }}>Sign out</button></> : <><Link to="/login/student">Student login</Link><Link to="/login/teacher">Teacher login</Link></>}
   </nav></header>;
 }
 export function AppRoutes() {

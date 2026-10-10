@@ -173,7 +173,7 @@ function AssessmentDetail() {
         </div>
       </div>
 
-      <div className="mt-8 bg-white rounded-lg shadow border border-slate-200 overflow-hidden">
+      <div className="mt-8 bg-white rounded-lg shadow border border-slate-200 overflow-x-auto">
         <div className="p-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
           <h3 className="font-semibold text-lg text-slate-800">Review Queue</h3>
           <label className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
@@ -194,13 +194,13 @@ function AssessmentDetail() {
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
-            {submissions.map(sub => (
+            {[...submissions].sort((a, b) => Number(b.ai_total != null) - Number(a.ai_total != null)).map(sub => (
               <tr key={sub.submission_id} className="hover:bg-slate-50 transition-colors">
                 <td className="p-3 font-medium text-slate-900">{blindMode ? sub.label : <>{sub.student_name}<small className="block text-slate-500">{roster.find(row => row.name === sub.student_name)?.reg_no}</small></>}</td>
                 <td className="p-3 text-sm capitalize">{sub.status.replace('_', ' ')}</td>
-                <td className="p-3 text-sm">{sub.ai_total != null ? `${sub.ai_total}/${sub.max_marks}` : '-'}</td>
-                <td className="p-3 text-sm font-medium">{sub.score_pct != null ? `${sub.score_pct.toFixed(1)}% (${sub.score_is_final ? 'final' : 'provisional'})` : '-'}</td>
-                <td className="p-3 text-sm">{sub.understanding != null ? `${Math.round(sub.understanding * 100)}%` : '-'}</td>
+                <td className="p-3 text-sm">{sub.ai_total != null ? `${sub.ai_total}/${sub.max_marks}` : "Awaiting grading"}</td>
+                <td className="p-3 text-sm font-medium">{sub.score_pct != null ? `${sub.score_pct.toFixed(1)}% (${sub.score_is_final ? 'final' : 'provisional'})` : 'Awaiting grading'}</td>
+                <td className="p-3 text-sm">{sub.understanding != null ? `${Math.round(sub.understanding * 100)}%` : (assessment.viva_enabled ? "Awaiting viva" : "Not enabled")}</td>
                 <td className="p-3 text-xs">
                   {sub.flags.map(f => (
                     <span key={f} className="inline-block bg-red-100 text-red-700 px-1.5 py-0.5 rounded mr-1 mb-1 capitalize">
@@ -210,8 +210,8 @@ function AssessmentDetail() {
                   {sub.flags.length === 0 && <span className="text-slate-400">None</span>}
                 </td>
                 <td className="p-3 text-right">
-                  <button onClick={() => navigate(`/teacher/submissions/${sub.submission_id}/review`)} className="text-blue-600 hover:text-blue-800 font-medium text-sm">
-                    Review &rarr;
+                  <button disabled={sub.ai_total == null} onClick={() => navigate(`/teacher/submissions/${sub.submission_id}/review`)} className="text-blue-600 hover:text-blue-800 font-medium text-sm">
+                    {sub.ai_total == null ? "Awaiting grading" : "Review →"}
                   </button>
                 </td>
               </tr>
@@ -452,11 +452,11 @@ function AssessmentSettings({ isNew = false }: { isNew?: boolean }) {
 
           <div className="bg-white p-6 rounded-lg shadow border border-slate-200">
             <h3 className="font-semibold text-lg border-b pb-2 mb-4">Strictness Preview</h3>
-            <p className="text-sm text-slate-600 mb-4">Test how the AI will grade a sample answer under different strictness policies.</p>
+            <p className="text-sm text-slate-600 mb-4">Test how the AI will grade a answer under different strictness policies.</p>
             <textarea 
               value={previewText}
               onChange={e => setPreviewText(e.target.value)}
-              placeholder="Paste a sample student answer here..."
+              placeholder="Paste a student answer here..."
               className="w-full border rounded p-2 text-sm mb-4 h-32 focus:ring outline-none"
             />
             <button 

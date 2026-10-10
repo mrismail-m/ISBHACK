@@ -20,8 +20,8 @@ def test_demo_seed_is_idempotent_and_replay_matches(db):
     install_demo(db)
     assert len(ROSTER) == len({row["reg_no"] for row in ROSTER}) == 50
     assert len(db.exec(select(User)).all()) == 50
-    assert len(db.exec(select(Submission)).all()) == 150
-    assert len(db.exec(select(ActivityBatchRecord)).all()) == 150
+    assert len(db.exec(select(Submission)).all()) == 200
+    assert len(db.exec(select(ActivityBatchRecord)).all()) == 200
     for grade in db.exec(select(Grade)).all():
         GradeSchema.model_validate(grade.model_dump())
         submission = db.get(Submission, grade.submission_id)
@@ -54,3 +54,22 @@ def test_pending_work_is_not_a_zero_score_or_falling_trend(db):
     assert "below_pass_recent" not in row.reasons
     assert "falling_trend" not in row.reasons
     assert row.last_understanding == 0.25
+
+
+def test_presentation_seed_preserves_existing_work_and_has_overrides(db):
+    db.add(make_assessment())
+    db.add(Submission(id="existing", assessment_id="a_1", student_id="u_student_1",
+                      content_md="Keep this draft", status="draft",
+                      started_at=make_assessment().created_at))
+    db.commit()
+    install_demo(db)
+    assert db.get(Submission, "existing").content_md == "Keep this draft"
+    assert db.get(Submission, "demo_s_4_1") is None
+    assert db.get(Submission, "demo_s_4_5") is not None
+    assert db.get(Grade, "demo_g_4_5").ai_total != db.get(Grade, "demo_g_4_5").final_total
+    from app.services.analytics import get_assessment_stats, get_override_stats
+    stats = get_assessment_stats(db, "a_1")
+    assert stats.submitted == 49
+    assert stats.graded == 49
+    assert sum(bin.count for bin in stats.histogram) == 49
+    assert get_override_stats(db, "a_1").overridden > 0

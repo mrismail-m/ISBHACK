@@ -31,14 +31,16 @@ def export_demo() -> None:
         try:
             with TestClient(app) as client:
                 routes = ["/classrooms/cl_1/performance", "/classrooms/cl_1/attention"]
-                for period in range(1, 4):
-                    routes += [f"/assessments/demo_a_{period}{suffix}" for suffix in
+                for period in range(1, 5):
+                    aid = f"demo_a_{period}" if period < 4 else "a_1"
+                    routes += [f"/assessments/{aid}{suffix}" for suffix in
                                ("", "/submissions", "/stats", "/override-stats")]
-                for period in range(1, 4):
+                for period in range(1, 5):
                     for number in range(1, 51):
                         routes += [f"/submissions/demo_s_{period}_{number}{suffix}"
                                    for suffix in ("", "/grade", "/activity/events",
                                                   "/activity/summary")]
+                routes += ["/assessments/a_write"]
                 data = {}
                 for route in routes:
                     response = client.get("/api/v1" + route,
