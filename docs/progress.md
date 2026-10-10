@@ -33,7 +33,7 @@ Update only your own row.
 | Member | Current task | Status | Next | Blockers |
 |---|---|---|---|---|
 | Adeel | M4.1 partial | full eval run and report | approval for about 145 LLM calls, human raters, contract OK | human ratings missing |
-| Majid | M4.2 deployment done | isolated VPS deployment with 50-student cohort | user verifies public preview; team real-AI run | timed recording deferred by user |
+| Majid | M4.2 review layout done | full-width writing evidence below grading | user verifies local layout; VPS unchanged | timed recording deferred by user |
 | Ismail | M4.3 done | wait for demo run | help with rehearsals | none |
 
 ## Integration status (golden path)
@@ -133,6 +133,14 @@ Format: `<from> to <owner>: <what> (task id)`
 None yet.
 
 ## Log: Majid (newest first)
+
+### 2026-10-10 | Majid | M4.2 review layout | done
+- Did: moved writing evidence below the grading draft into a full-width card; review columns stack on smaller screens.
+- Files: frontend/src/features/teacher/TeacherReviewDetail.tsx.
+- Contract: none.
+- Decisions: GitHub update only, VPS unchanged per user; testing remains with user.
+- Next: user checks local review layout.
+- Needs from others: none.
 
 ### 2026-10-10 | Majid | M4.2 VPS deployment | done
 - Did: deployed isolated VivaGrade containers at http://31.97.113.9:8088, preserving existing VPS apps and host Nginx.

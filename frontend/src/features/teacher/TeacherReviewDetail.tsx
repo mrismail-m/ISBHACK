@@ -91,8 +91,8 @@ function ReviewDetail({ submissionId }: { submissionId?: string }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-8">
-        <div className="col-span-2 space-y-6">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+        <div className="min-w-0 space-y-6 lg:col-span-2">
           <div className="bg-white p-6 rounded-lg shadow border border-slate-200">
             <h3 className="font-semibold text-lg border-b pb-2 mb-4">Submission Content</h3>
             <div className="prose prose-slate max-w-none whitespace-pre-wrap">
@@ -168,10 +168,10 @@ function ReviewDetail({ submissionId }: { submissionId?: string }) {
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow border border-slate-200">
-             {submissionId && <ActivityInsights submissionId={submissionId} />}
-          </div>
         </div>
+      </div>
+      <div className="w-full min-w-0 bg-white p-6 rounded-lg shadow border border-slate-200">
+        {submissionId && <ActivityInsights submissionId={submissionId} />}
       </div>
     </div>
   );
