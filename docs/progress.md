@@ -131,7 +131,7 @@ None yet.
 - Contract: none. Queue now displays server-computed blended percentage; submission grading reads GRADE_ON_SUBMIT from configured settings.
 - Decisions: User deferred ten-minute recording and assigned this chat ownership of Majid. Other session package edits are preserved separately. Credentials saved only in ignored backend/.env; real Groq connectivity succeeded.
 - Checks: 102 backend tests and Ruff pass; 20 frontend tests, typecheck, lint and build pass. CodeMirror bundle warning remains. Released browser result: 13.8/20, 69%, understanding 50%.
-- Next: Team real-provider golden path and evaluation. Browser integration used mock AI; connectivity probe used real Groq.
+- Next: Team real-provider golden path and evaluation. Reviewed new M4.3 pull, corrected seed lint and labeled sample trust-report fallback; browser integration used mock AI.
 - Needs from others: Adeel owns real-AI evaluation. Timed recording is deferred, not verified.
 
 

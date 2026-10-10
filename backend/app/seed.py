@@ -183,7 +183,10 @@ def seed_db():
                     final_total=base_ai,
                     overall_confidence=0.8,
                     grader_flags=[],
-                    feedback={"mode": "full", "strengths": [], "improvements": [], "next_step": "", "topics": []},
+                    feedback={
+                        "mode": "full", "strengths": [], "improvements": [],
+                        "next_step": "", "topics": [],
+                    },
                     teacher_note=None,
                     approved_at=datetime(2026, 9, 11 + i, 10, 0, 0, tzinfo=UTC),
                     released_at=datetime(2026, 9, 11 + i, 12, 0, 0, tzinfo=UTC),

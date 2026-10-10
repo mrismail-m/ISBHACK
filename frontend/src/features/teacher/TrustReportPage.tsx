@@ -5,6 +5,7 @@ import type { TrustReport } from '../../api/types';
 import fallbackReport from '../../../../fixtures/api/trust_report.json';
 
 export function TrustReportPage() {
+  const [usingSample, setUsingSample] = useState(import.meta.env.VITE_USE_FIXTURES === "1");
   const [report, setReport] = useState<TrustReport | null>(null);
 
 
@@ -14,6 +15,7 @@ export function TrustReportPage() {
       .catch((err) => {
         // Fallback to the local fixture since the endpoint isn't built yet
         console.warn('API /evaluation/trust-report failed, falling back to mock.', err);
+        setUsingSample(true);
         setReport(fallbackReport as TrustReport);
       });
   }, []);
@@ -30,6 +32,7 @@ export function TrustReportPage() {
       <div>
         <Link to="/teacher" className="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Assessments</Link>
         <h2 className="text-3xl font-bold text-slate-800">AI Trust Report</h2>
+        {usingSample && <p role="status" className="text-amber-800 mt-2">Sample report for demonstration. These numbers are not verified evaluation results.</p>}
         <p className="text-slate-500 mt-1">Generated at {new Date(report.generated_at).toLocaleString()} • Model: {report.model_id} • Prompt: {report.prompt_version}</p>
       </div>
 
