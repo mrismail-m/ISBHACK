@@ -10,6 +10,7 @@ class UserSchema(BaseModel):
     role: str
     classroom_id: str
 
+
 class AssessmentCreate(BaseModel):
     classroom_id: str
     kind: str
@@ -30,11 +31,13 @@ class AssessmentCreate(BaseModel):
     paste_flag_chars: int
     topics: list[str]
 
+
 class AssessmentSchema(AssessmentCreate):
     id: str
     status: str
     due_at: datetime
     created_at: datetime
+
 
 class QuestionSchema(BaseModel):
     id: str
@@ -46,6 +49,7 @@ class QuestionSchema(BaseModel):
     marks: float
     topic: str
 
+
 class SubmissionSchema(BaseModel):
     id: str
     assessment_id: str
@@ -55,6 +59,7 @@ class SubmissionSchema(BaseModel):
     status: str
     started_at: datetime
     submitted_at: datetime | None = None
+
 
 class SubmissionRow(BaseModel):
     submission_id: str
@@ -71,6 +76,7 @@ class SubmissionRow(BaseModel):
     score_is_final: bool
     overall_confidence: float | None = None
     flags: list[str]
+
 
 class SubmissionUpdate(BaseModel):
     content_md: str | None = None

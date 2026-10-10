@@ -11,11 +11,13 @@ class User(SQLModel, table=True):
     role: str
     classroom_id: str
 
+
 class Classroom(SQLModel, table=True):
     __tablename__ = "classrooms"
     id: str = Field(primary_key=True)
     name: str
     teacher_id: str
+
 
 class Assessment(SQLModel, table=True):
     __tablename__ = "assessments"
@@ -42,6 +44,7 @@ class Assessment(SQLModel, table=True):
     due_at: datetime
     created_at: datetime
 
+
 class Question(SQLModel, table=True):
     __tablename__ = "questions"
     id: str = Field(primary_key=True)
@@ -53,6 +56,7 @@ class Question(SQLModel, table=True):
     marks: float
     topic: str
 
+
 class Submission(SQLModel, table=True):
     __tablename__ = "submissions"
     id: str = Field(primary_key=True)
@@ -63,6 +67,7 @@ class Submission(SQLModel, table=True):
     status: str
     started_at: datetime
     submitted_at: datetime | None = None
+
 
 class GraceAdjustment(SQLModel, table=True):
     __tablename__ = "grace_adjustments"

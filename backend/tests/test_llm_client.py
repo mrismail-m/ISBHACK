@@ -30,9 +30,7 @@ def _openai_reply(text: str) -> httpx.Response:
 
 
 def _call() -> Answer:
-    return complete_json(
-        role="grader", system="s", user="u", schema=Answer, prompt_version="t-v1"
-    )
+    return complete_json(role="grader", system="s", user="u", schema=Answer, prompt_version="t-v1")
 
 
 def test_extract_json_handles_fences_and_surrounding_text() -> None:
@@ -137,9 +135,7 @@ def test_bad_output_twice_raises_llm_error(monkeypatch: pytest.MonkeyPatch) -> N
 
 def test_retries_once_on_503(monkeypatch: pytest.MonkeyPatch) -> None:
     replies = iter([httpx.Response(503), _openai_reply('{"value": 5}')])
-    monkeypatch.setattr(
-        client, "_transport", httpx.MockTransport(lambda request: next(replies))
-    )
+    monkeypatch.setattr(client, "_transport", httpx.MockTransport(lambda request: next(replies)))
     _use_provider(monkeypatch, "openai")
     assert _call().value == 5
 

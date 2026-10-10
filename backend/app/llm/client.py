@@ -113,9 +113,7 @@ def _call_with_repair(
     max_tokens: int,
 ) -> T:
     """Call the provider. If the output is not valid JSON for `schema`, retry once."""
-    text = _call_provider(
-        system=system, user=user, temperature=temperature, max_tokens=max_tokens
-    )
+    text = _call_provider(system=system, user=user, temperature=temperature, max_tokens=max_tokens)
     try:
         return _parse_and_validate(schema, text)
     except (ValueError, ValidationError) as first_error:

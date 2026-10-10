@@ -50,6 +50,4 @@ def get(key: str, cache_dir: Path = LLM_CACHE_DIR) -> Any | None:
 
 def put(key: str, value: Any, cache_dir: Path = LLM_CACHE_DIR) -> None:
     cache_dir.mkdir(parents=True, exist_ok=True)
-    _path(key, cache_dir).write_text(
-        json.dumps(value, ensure_ascii=False), encoding="utf-8"
-    )
+    _path(key, cache_dir).write_text(json.dumps(value, ensure_ascii=False), encoding="utf-8")

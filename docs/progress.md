@@ -32,7 +32,7 @@ Update only your own row.
 
 | Member | Current task | Status | Next | Blockers |
 |---|---|---|---|---|
-| Adeel | M1.1 done | M2.1 next | grader retries, rubric draft, strictness preview | no LLM key configured yet |
+| Adeel | M2.1 done | M2.2 next | grader retries, rubric draft, strictness preview | M2.2 | no LLM key configured yet |
 | Majid | M4.2 done | independent implementation and demo recordings ready | integrate when owners publish dependencies | live viva, released results and teacher review embedding |
 | Ismail | M2.4 | not started | teacher review queue | M2.1, M2.2, M2.3 |
 
@@ -68,6 +68,14 @@ None yet. Add a line here when you need a change in a file you do not own, and s
 Format: `<from> to <owner>: <what> (task id)`
 
 ## Log: Adeel (newest first)
+
+### 2026-10-10 13:51 | Adeel | M2.1 | done
+- Did: Added quote repair retry to grader. Implemented `/rubric/draft` and `/strictness/preview` reusing `run_grader` and `apply_marks`. 
+- Files: `backend/app/ai/grader.py`, `backend/app/routers/grading.py`, `backend/app/ai/rubric.py`, `backend/app/ai/prompts/rubric.md`
+- Contract: none
+- Decisions: Quotes repair retry handled in `run_grader` via a double `complete_json` pass; fallback to original if retry fails.
+- Next: M2.2 (Feedback writer, `grade-all`, `grading-status`).
+- Needs from others: none
 
 ### 2026-10-10 | Adeel | M1.1 | done
 - Did: `complete_json` real provider path (openai, anthropic, openai_compatible; repair retry, 1 retry on timeout/429/5xx, cache). `ai/strictness.py` plus grader core (quote verification with UTF-16 offsets, flags, marks in code). `POST/GET /submissions/:id/grade` work in mock mode. `scripts/smoke.py` v0 covers the golden path.

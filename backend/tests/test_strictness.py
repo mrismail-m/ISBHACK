@@ -16,9 +16,7 @@ def test_marks_never_increase_as_strictness_rises() -> None:
     for level, errors, ambiguous, max_marks in itertools.product(
         range(5), range(6), (False, True), (5, 10)
     ):
-        marks = [
-            criterion_marks(level, errors, ambiguous, max_marks, s) for s in STRICTNESS_ORDER
-        ]
+        marks = [criterion_marks(level, errors, ambiguous, max_marks, s) for s in STRICTNESS_ORDER]
         assert marks == sorted(marks, reverse=True), (level, errors, ambiguous, max_marks, marks)
 
 

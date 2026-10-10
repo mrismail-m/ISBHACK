@@ -26,13 +26,13 @@ def test_whitespace_differences_are_tolerated_and_original_text_returned() -> No
 
 def test_curly_quotes_match_straight_quotes() -> None:
     content = "The student wrote \u201cit\u2019s linear\u201d here."
-    found = verify_quote("\"it's linear\"", content)
+    found = verify_quote('"it\'s linear"', content)
     assert found is not None
     assert content[found.start : found.end] == "\u201cit\u2019s linear\u201d"
 
 
 def test_offsets_are_utf16_after_emoji() -> None:
-    content = "Hi \U0001F600 then the real claim is here."  # emoji is 2 UTF-16 units
+    content = "Hi \U0001f600 then the real claim is here."  # emoji is 2 UTF-16 units
     found = verify_quote("the real claim", content)
     assert found is not None
     units = content.encode("utf-16-le")

@@ -176,8 +176,42 @@ def run_grader(
         max_tokens=2500,
         key=key,
     )
-    settings = get_settings()
     result = verify_output(output, rubric=rubric, content_md=content_md)
+
+    total_quotes = sum(
+        len(c.evidence[:MAX_QUOTES_PER_CRITERION]) for c in output.criteria if c.level >= 1
+    )
+    verified_quotes = sum(len(c.evidence) for c in result.criteria if c.level >= 1)
+
+    if total_quotes > 0 and (total_quotes - verified_quotes) > total_quotes / 2:
+        repair_user = (
+            f"{user}\n\nMany of your quotes were not found exactly in the text. "
+            "Please copy quotes VERBATIM from the submission."
+        )
+        try:
+            repair_output = complete_json(
+                role="grader",
+                system=prompt.system,
+                user=repair_user,
+                schema=GraderOutput,
+                prompt_version=prompt.version,
+                max_tokens=2500,
+                key=f"{key}_repair" if key else None,
+            )
+            repair_result = verify_output(repair_output, rubric=rubric, content_md=content_md)
+            r_total = sum(
+                len(c.evidence[:MAX_QUOTES_PER_CRITERION])
+                for c in repair_output.criteria
+                if c.level >= 1
+            )
+            r_verified = sum(len(c.evidence) for c in repair_result.criteria if c.level >= 1)
+
+            if r_total > 0 and (r_verified / r_total) > (verified_quotes / total_quotes):
+                result = repair_result
+        except LLMError:
+            pass
+
+    settings = get_settings()
     result.prompt_version = prompt.version
     result.model_id = "mock" if settings.mock_llm else settings.llm_model
     return result
@@ -237,9 +271,7 @@ def verify_output(output: GraderOutput, *, rubric: Rubric, content_md: str) -> V
 # ---- marks (code only) -----------------------------------------------------------------
 
 
-def apply_marks(
-    result: VerifiedResult, *, rubric: Rubric, strictness: str
-) -> list[CriterionGrade]:
+def apply_marks(result: VerifiedResult, *, rubric: Rubric, strictness: str) -> list[CriterionGrade]:
     """Turn verified levels into marks for one strictness. Pure code, no model."""
     max_by_id = {c.id: c.max_marks for c in rubric.criteria}
     graded: list[CriterionGrade] = []
