@@ -33,7 +33,7 @@ Update only your own row.
 | Member | Current task | Status | Next | Blockers |
 |---|---|---|---|---|
 | Adeel | M0.1 | not started | repo and backend skeleton | none |
-| Majid | M0.2 | not started | frontend skeleton | none |
+| Majid | M1.2 | not started | student editor, capture, submit | none |
 | Ismail | M0.3 | not started | db, seed, fixtures | none |
 
 ## Integration status (golden path)
@@ -77,7 +77,13 @@ None yet.
 
 ## Log: Majid (newest first)
 
-No entries yet.
+### 2026-10-10 12:58 | Majid | M0.2 | done
+- Did: Initialized Vite React TS app with Tailwind, React Router, role switcher and API types.
+- Files: `frontend/`, `frontend/src/api/client.ts`, `frontend/src/api/types.ts`, `frontend/src/routes.tsx`
+- Contract: none
+- Decisions: none
+- Next: M1.2 (Student editor and capture)
+- Needs from others: none
 
 ### Archive (Majid)
 
