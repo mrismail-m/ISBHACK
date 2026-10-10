@@ -19,7 +19,7 @@ export function AssessmentList() {
   return <main className="student-page">
     <p className="eyebrow">YOUR CLASSROOM</p><h1>A little work.<br />A deeper understanding.</h1>
     <p className="lead">Write your answer, explain your thinking, and learn from your feedback.</p>
-    {USE_FIXTURES && <p className="demo-note">Demo mode. Work and writing activity stay in this browser.</p>}
+    {USE_FIXTURES && <p className="demo-note">Demo mode. Work and writing activity stay in this browser. <Link to="/student/submissions/s_result_demo/result">View sample feedback</Link></p>}
     {error ? <div role="alert" className="error">{error} <button onClick={() => { setError(''); setAttempt(a => a + 1); }}>Try again</button></div> : !assessments ? <p role="status">Loading your assessments...</p> : !assessments.length ? <p>No open assessments yet.</p> : <div className="assessment-grid">{assessments.map(a => <article className="assessment-card" key={a.id}>
       <div className="card-meta"><span className="status-pill">Open assignment</span><span>{a.max_marks} marks</span></div>
       <h2>{a.title}</h2><p>{a.topics.join(' · ')}</p>
@@ -110,7 +110,7 @@ function WritingSession({ assessment, submission }: { assessment: Assessment; su
       <div className="setting-row"><span>Strictness: {assessment.strictness.replaceAll('_', ' ')}</span><span>Viva: {assessment.viva_enabled ? `${Math.round(assessment.viva_weight * 100)}% of final grade` : 'off'}</span><span>AI use: {assessment.ai_policy.replaceAll('_', ' ')}</span></div>
       <details><summary>How your work is assessed</summary>{assessment.rubric?.criteria.map(c => <p key={c.id}><strong>{c.name} ({c.max_marks} marks).</strong> {c.description}</p>)}</details>
     </section>
-    {submitted ? <section className="submission-done"><p className="eyebrow">SUBMITTED</p><h2>Your work is in.</h2><p>Your answer is locked. {assessment.viva_enabled ? 'The next step is a short viva about your own work.' : 'Your teacher will review your work.'}</p><p className="muted">Viva and results screens are coming in M3.2 and M2.3.</p><div className="markdown"><ReactMarkdown>{content}</ReactMarkdown></div></section> : <>
+    {submitted ? <section className="submission-done"><p className="eyebrow">SUBMITTED</p><h2>Your work is in.</h2><p>Your answer is locked. {assessment.viva_enabled ? 'The next step is a short viva about your own work.' : 'Your teacher will review your work.'}</p><Link to={`/student/submissions/${submission.id}/result`}>Check released result</Link><div className="markdown"><ReactMarkdown>{content}</ReactMarkdown></div></section> : <>
       <aside className="recording-notice"><strong>Writing process is recorded.</strong> Your teacher can review how this answer was written.
         <details><summary>What is recorded?</summary><p>Edits, pasted text, deletions, undo/redo, times, and whether this editor page loses focus or becomes hidden. We capture no typing outside this editor, screens or webcam. These are signals for teacher review and do not apply a mark penalty on their own.</p></details>
       </aside>

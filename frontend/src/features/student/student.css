@@ -52,3 +52,12 @@ summary { color: #0066cc; }
 .error button { margin-left: 12px; border: none; background: transparent; color: #0066cc; text-decoration: underline; }
 .submission-done { background: #fff; padding: 32px; margin-top: 24px; border-radius: 18px; }
 @media (max-width: 800px) { .app-nav, .app-nav nav { flex-wrap: wrap; gap: 14px; } .app-nav label { flex-wrap: wrap; } .student-page { padding: 32px 20px; } .writing-grid { grid-template-columns: 1fr; } .instructions { padding: 24px; } .editor-heading h1 { font-size: 32px; } }
+.result-score { display: grid; grid-template-columns: 1.3fr 1fr; gap: 40px; padding: 48px 0; border-bottom: 1px solid #e0e0e0; }
+.result-score h1 { font-size: 64px; }
+.result-score small { font-size: 24px; color: #7a7a7a; }
+.result-score meter { width: 220px; height: 24px; }
+.feedback-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; padding-top: 24px; line-height: 1.7; }
+.feedback-grid article { padding: 12px 0; border-bottom: 1px solid #e0e0e0; }
+.feedback-grid blockquote { border-left: 2px solid #e0e0e0; padding-left: 20px; margin-left: 0; color: #555; }
+.next-step { grid-column: 1 / -1; }
+@media (max-width: 700px) { .result-score, .feedback-grid { grid-template-columns: 1fr; gap: 20px; } }

@@ -4,6 +4,7 @@ from datetime import UTC, datetime
 from sqlmodel import Session, SQLModel
 
 from app.db import create_db_and_tables, engine
+from app.models.activity import ActivityBatchRecord  # noqa: F401, register table for reset
 from app.models.core import Assessment, Classroom, User
 
 
@@ -129,3 +130,4 @@ if __name__ == "__main__":
         reset_db()
     else:
         seed_db()
+

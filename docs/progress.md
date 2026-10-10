@@ -33,7 +33,7 @@ Update only your own row.
 | Member | Current task | Status | Next | Blockers |
 |---|---|---|---|---|
 | Adeel | M0.1 | not started | repo and backend skeleton | none |
-| Majid | M1.2 | frontend mock flow verified, real integration pending | activity backend and parity fixtures (M2.3) | submission endpoints pending |
+| Majid | M2.3 | activity backend and parity ready, result UI ready | insights and fixture-driven viva (M3.2) | live result and viva endpoints pending |
 | Ismail | M2.4 | not started | teacher review queue | M2.1, M2.2, M2.3 |
 
 ## Integration status (golden path)
@@ -82,6 +82,15 @@ Format: `<from> to <owner>: <what> (task id)`
 None yet.
 
 ## Log: Majid (newest first)
+
+### 2026-10-10 13:31 | Majid | M2.3 | partial
+- Did: Activity ingestion with authorization, duplicate retry and sequence validation; UTF-16 summary; pure replay core and 7 shared parity fixtures; released result and feedback UI.
+- Files: `backend/app/{routers,models,schemas}/activity.py`, `backend/app/services/activity_summary.py`, `backend/tests/test_activity.py`, `fixtures/activity/cases.json`, `frontend/src/lib/replay-core/`, student result/API/routes.
+- Contract: none. Shapes match v1. Paste declaration remains deferred P2.
+- Decisions: User authorized teammate bug corrections. Added activity model import in `backend/app/seed.py` so seed/reset includes the new table; no other seed logic changed. Teacher consumers can call `load_activity(session, id)` then `summarize_activity(id, events, threshold)`.
+- Checks: Backend 10 tests pass; owned Python files ruff clean. Frontend 12 tests, typecheck, lint and build pass. Both languages match expected shares exactly on all 7 fixtures.
+- Next: M3.2 standalone insights and viva UI using fixture data, then integration once owners publish endpoints. Final M1.2/M2.3 checks wait for those endpoints.
+- Needs from others: Ismail: live submission/result endpoints, UTC offsets on fixture timestamps, due_at in AssessmentCreate; Adeel: viva endpoints and approved design tokens. Seed currently lacks historical submission/grade rows promised by M0.3.
 
 ### 2026-10-10 13:22 | Majid | M1.2 | partial
 - Did: Assessment list, CodeMirror markdown editor and preview, 3-second activity batching with persistent retries, autosave, reload recovery and submit lock. Browser mock flow verified.
@@ -134,4 +143,5 @@ None yet.
 ### Archive (Ismail)
 
 None yet.
+
 

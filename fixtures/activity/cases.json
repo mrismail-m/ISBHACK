@@ -1,0 +1,434 @@
+[
+  {
+    "name": "typed_only",
+    "submission_id": "s_fixture",
+    "paste_flag_chars": 60,
+    "activity": {
+      "sessions": [
+        {
+          "session_id": "one",
+          "started_at": "2026-10-10T07:00:00Z"
+        }
+      ],
+      "events": [
+        {
+          "session_id": "one",
+          "seq": 0,
+          "t": 0,
+          "k": "start",
+          "from": 0,
+          "to": 0,
+          "text": ""
+        },
+        {
+          "session_id": "one",
+          "seq": 1,
+          "t": 1000,
+          "k": "type",
+          "from": 0,
+          "to": 0,
+          "text": "Hello world"
+        }
+      ]
+    },
+    "expected": {
+      "doc": "Hello world",
+      "final_chars": 11,
+      "typed_pct": 100,
+      "pasted_pct": 0,
+      "revision_ratio": 0,
+      "active_minutes": 1,
+      "tab_switches": 0,
+      "sessions": 1,
+      "paste_chunks": []
+    }
+  },
+  {
+    "name": "one_big_paste",
+    "submission_id": "s_fixture",
+    "paste_flag_chars": 60,
+    "activity": {
+      "sessions": [
+        {
+          "session_id": "one",
+          "started_at": "2026-10-10T07:00:00Z"
+        }
+      ],
+      "events": [
+        {
+          "session_id": "one",
+          "seq": 0,
+          "t": 0,
+          "k": "start",
+          "from": 0,
+          "to": 0,
+          "text": ""
+        },
+        {
+          "session_id": "one",
+          "seq": 1,
+          "t": 1000,
+          "k": "paste",
+          "from": 0,
+          "to": 0,
+          "text": "pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp"
+        }
+      ]
+    },
+    "expected": {
+      "doc": "pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp",
+      "final_chars": 80,
+      "typed_pct": 0,
+      "pasted_pct": 100,
+      "revision_ratio": 0,
+      "active_minutes": 1,
+      "tab_switches": 0,
+      "sessions": 1,
+      "paste_chunks": [
+        {
+          "chars": 80,
+          "survived_chars": 80,
+          "survived_pct": 100,
+          "major": true
+        }
+      ]
+    }
+  },
+  {
+    "name": "paste_heavy_edit",
+    "submission_id": "s_fixture",
+    "paste_flag_chars": 60,
+    "activity": {
+      "sessions": [
+        {
+          "session_id": "one",
+          "started_at": "2026-10-10T07:00:00Z"
+        }
+      ],
+      "events": [
+        {
+          "session_id": "one",
+          "seq": 0,
+          "t": 0,
+          "k": "start",
+          "from": 0,
+          "to": 0,
+          "text": ""
+        },
+        {
+          "session_id": "one",
+          "seq": 1,
+          "t": 1000,
+          "k": "paste",
+          "from": 0,
+          "to": 0,
+          "text": "pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp"
+        },
+        {
+          "session_id": "one",
+          "seq": 2,
+          "t": 2000,
+          "k": "del",
+          "from": 0,
+          "to": 60,
+          "text": ""
+        },
+        {
+          "session_id": "one",
+          "seq": 3,
+          "t": 3000,
+          "k": "type",
+          "from": 20,
+          "to": 20,
+          "text": "abcdefghij"
+        }
+      ]
+    },
+    "expected": {
+      "doc": "ppppppppppppppppppppabcdefghij",
+      "final_chars": 30,
+      "typed_pct": 33.3,
+      "pasted_pct": 66.7,
+      "revision_ratio": 0.667,
+      "active_minutes": 1,
+      "tab_switches": 0,
+      "sessions": 1,
+      "paste_chunks": [
+        {
+          "chars": 80,
+          "survived_chars": 20,
+          "survived_pct": 25,
+          "major": true
+        }
+      ]
+    }
+  },
+  {
+    "name": "cut_and_paste_move",
+    "submission_id": "s_fixture",
+    "paste_flag_chars": 60,
+    "activity": {
+      "sessions": [
+        {
+          "session_id": "one",
+          "started_at": "2026-10-10T07:00:00Z"
+        }
+      ],
+      "events": [
+        {
+          "session_id": "one",
+          "seq": 0,
+          "t": 0,
+          "k": "start",
+          "from": 0,
+          "to": 0,
+          "text": ""
+        },
+        {
+          "session_id": "one",
+          "seq": 1,
+          "t": 1000,
+          "k": "type",
+          "from": 0,
+          "to": 0,
+          "text": "A paragraph with more than twenty characters. / "
+        },
+        {
+          "session_id": "one",
+          "seq": 2,
+          "t": 2000,
+          "k": "cut",
+          "from": 0,
+          "to": 45,
+          "text": ""
+        },
+        {
+          "session_id": "one",
+          "seq": 3,
+          "t": 3000,
+          "k": "paste",
+          "from": 3,
+          "to": 3,
+          "text": "A paragraph with more than twenty characters."
+        }
+      ]
+    },
+    "expected": {
+      "doc": " / A paragraph with more than twenty characters.",
+      "final_chars": 48,
+      "typed_pct": 100,
+      "pasted_pct": 0,
+      "revision_ratio": 0.484,
+      "active_minutes": 1,
+      "tab_switches": 0,
+      "sessions": 1,
+      "paste_chunks": []
+    }
+  },
+  {
+    "name": "emoji_text",
+    "submission_id": "s_fixture",
+    "paste_flag_chars": 60,
+    "activity": {
+      "sessions": [
+        {
+          "session_id": "one",
+          "started_at": "2026-10-10T07:00:00Z"
+        }
+      ],
+      "events": [
+        {
+          "session_id": "one",
+          "seq": 0,
+          "t": 0,
+          "k": "start",
+          "from": 0,
+          "to": 0,
+          "text": ""
+        },
+        {
+          "session_id": "one",
+          "seq": 1,
+          "t": 1000,
+          "k": "type",
+          "from": 0,
+          "to": 0,
+          "text": "A😀B"
+        },
+        {
+          "session_id": "one",
+          "seq": 2,
+          "t": 2000,
+          "k": "paste",
+          "from": 3,
+          "to": 3,
+          "text": "🙂"
+        },
+        {
+          "session_id": "one",
+          "seq": 3,
+          "t": 3000,
+          "k": "del",
+          "from": 0,
+          "to": 1,
+          "text": ""
+        }
+      ]
+    },
+    "expected": {
+      "doc": "😀🙂B",
+      "final_chars": 5,
+      "typed_pct": 60,
+      "pasted_pct": 40,
+      "revision_ratio": 0.167,
+      "active_minutes": 1,
+      "tab_switches": 0,
+      "sessions": 1,
+      "paste_chunks": []
+    }
+  },
+  {
+    "name": "undo_redo",
+    "submission_id": "s_fixture",
+    "paste_flag_chars": 60,
+    "activity": {
+      "sessions": [
+        {
+          "session_id": "one",
+          "started_at": "2026-10-10T07:00:00Z"
+        }
+      ],
+      "events": [
+        {
+          "session_id": "one",
+          "seq": 0,
+          "t": 0,
+          "k": "start",
+          "from": 0,
+          "to": 0,
+          "text": ""
+        },
+        {
+          "session_id": "one",
+          "seq": 1,
+          "t": 1000,
+          "k": "paste",
+          "from": 0,
+          "to": 0,
+          "text": "pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp"
+        },
+        {
+          "session_id": "one",
+          "seq": 2,
+          "t": 2000,
+          "k": "undo",
+          "from": 0,
+          "to": 80,
+          "text": ""
+        },
+        {
+          "session_id": "one",
+          "seq": 3,
+          "t": 3000,
+          "k": "redo",
+          "from": 0,
+          "to": 0,
+          "text": "pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp"
+        }
+      ]
+    },
+    "expected": {
+      "doc": "pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp",
+      "final_chars": 80,
+      "typed_pct": 100,
+      "pasted_pct": 0,
+      "revision_ratio": 0.5,
+      "active_minutes": 1,
+      "tab_switches": 0,
+      "sessions": 1,
+      "paste_chunks": [
+        {
+          "chars": 80,
+          "survived_chars": 0,
+          "survived_pct": 0,
+          "major": true
+        }
+      ]
+    }
+  },
+  {
+    "name": "two_sessions",
+    "submission_id": "s_fixture",
+    "paste_flag_chars": 60,
+    "activity": {
+      "sessions": [
+        {
+          "session_id": "one",
+          "started_at": "2026-10-10T07:00:00Z"
+        },
+        {
+          "session_id": "two",
+          "started_at": "2026-10-10T07:02:00Z"
+        }
+      ],
+      "events": [
+        {
+          "session_id": "one",
+          "seq": 0,
+          "t": 0,
+          "k": "start",
+          "from": 0,
+          "to": 0,
+          "text": ""
+        },
+        {
+          "session_id": "one",
+          "seq": 1,
+          "t": 1000,
+          "k": "type",
+          "from": 0,
+          "to": 0,
+          "text": "Hello"
+        },
+        {
+          "session_id": "two",
+          "seq": 0,
+          "t": 0,
+          "k": "start",
+          "from": 0,
+          "to": 0,
+          "text": ""
+        },
+        {
+          "session_id": "two",
+          "seq": 1,
+          "t": 1000,
+          "k": "type",
+          "from": 5,
+          "to": 5,
+          "text": " world"
+        },
+        {
+          "session_id": "two",
+          "seq": 2,
+          "t": 2000,
+          "k": "hidden",
+          "from": 0,
+          "to": 0,
+          "text": ""
+        }
+      ]
+    },
+    "expected": {
+      "doc": "Hello world",
+      "final_chars": 11,
+      "typed_pct": 100,
+      "pasted_pct": 0,
+      "revision_ratio": 0,
+      "active_minutes": 2,
+      "tab_switches": 1,
+      "sessions": 2,
+      "paste_chunks": []
+    }
+  }
+]

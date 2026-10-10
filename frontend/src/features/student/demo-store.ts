@@ -22,6 +22,14 @@ const submissionKey = (id: string) => `vivagrade:demo:submission:${id}`;
 export function demoRequest(endpoint: string, options: RequestInit): unknown {
   const path = endpoint.split('?')[0];
   const method = options.method || 'GET';
+  if (path === '/submissions/s_result_demo/result') return {
+    submission_id: 's_result_demo', assessment_id: 'a_1', max_marks: 20, work_marks: 15.5,
+    understanding: 0.72, viva_weight: 0.3, final_marks: 15.2, grace_marks: 2,
+    final_with_grace: 17.2, final_pct: 86, released_at: '2026-10-10T09:00:00Z',
+    feedback: { mode: 'full', strengths: [{ criterion_id: 'c1', text: 'You defined collisions clearly and used a useful example.', quote: 'two keys map to the same index' }],
+      improvements: [{ criterion_id: 'c3', text: 'Compare average and worst-case lookup time.', quote: 'lookups are fast', hint: 'What happens when the table is almost full?', explanation: 'Longer chains or probe sequences can make a lookup approach O(n) in the worst case.' }],
+      next_step: 'Rewrite the complexity paragraph to compare both strategies.', topics: [{ tag: 'hashing', level: 'strong' }, { tag: 'complexity', level: 'weak' }] },
+  };
   if (path === '/users') return demoUsers;
   if (path === '/assessments' && method === 'GET') return [demoAssessment];
   if (path === '/assessments/a_1' && method === 'GET') return demoAssessment;
@@ -37,6 +45,7 @@ export function demoRequest(endpoint: string, options: RequestInit): unknown {
     const [, submissionId, suffix] = match;
     const submission = read<Submission | null>(submissionKey(submissionId), null);
     if (!submission) throw new Error('Demo submission not found. Open the assessment first.');
+    if (suffix === '/result') throw Object.assign(new Error('Your teacher has not released your result yet.'), { code: 'not_released' });
     if (suffix === '/activity' && method === 'POST') {
       const batch = JSON.parse(String(options.body)) as ActivityBatch;
       const key = `vivagrade:demo:activity:${submissionId}`;
