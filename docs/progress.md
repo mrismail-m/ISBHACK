@@ -34,7 +34,7 @@ Update only your own row.
 |---|---|---|---|---|
 | Adeel | M0.1 | not started | repo and backend skeleton | none |
 | Majid | M1.2 | waiting for human start, local setup ready | student editor, capture, submit on human call | seed and API fixtures missing |
-| Ismail | M0.3 | not started | db, seed, fixtures | none |
+| Ismail | M1.3 | not started | teacher endpoints and UI | none |
 
 ## Integration status (golden path)
 
@@ -100,7 +100,13 @@ None yet.
 
 ## Log: Ismail (newest first)
 
-No entries yet.
+### 2026-10-10 13:12 | Ismail | M0.3 | done
+- Did: Implemented DB setup, core schemas, models, and seed script. Generated fixtures.
+- Files: `backend/app/db.py`, `backend/app/models/core.py`, `backend/app/schemas/core.py`, `backend/app/seed.py`, `fixtures/api/users.json`, `fixtures/api/assessments.json`
+- Contract: none
+- Decisions: separated Pydantic schemas in schemas/core.py, dumped via python script to ensure contract parity.
+- Next: M1.3 (Assessments and submissions endpoints, teacher UI)
+- Needs from others: none
 
 ### Archive (Ismail)
 

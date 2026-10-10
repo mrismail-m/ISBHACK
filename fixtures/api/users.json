@@ -1,0 +1,80 @@
+[
+  {
+    "id": "u_teacher_1",
+    "name": "Mr. Smith",
+    "role": "teacher",
+    "classroom_id": "cl_1"
+  },
+  {
+    "id": "u_student_1",
+    "name": "Student 1",
+    "role": "student",
+    "classroom_id": "cl_1"
+  },
+  {
+    "id": "u_student_2",
+    "name": "Student 2",
+    "role": "student",
+    "classroom_id": "cl_1"
+  },
+  {
+    "id": "u_student_3",
+    "name": "Student 3",
+    "role": "student",
+    "classroom_id": "cl_1"
+  },
+  {
+    "id": "u_student_4",
+    "name": "Student 4",
+    "role": "student",
+    "classroom_id": "cl_1"
+  },
+  {
+    "id": "u_student_5",
+    "name": "Student 5",
+    "role": "student",
+    "classroom_id": "cl_1"
+  },
+  {
+    "id": "u_student_6",
+    "name": "Student 6",
+    "role": "student",
+    "classroom_id": "cl_1"
+  },
+  {
+    "id": "u_student_7",
+    "name": "Student 7",
+    "role": "student",
+    "classroom_id": "cl_1"
+  },
+  {
+    "id": "u_student_8",
+    "name": "Student 8",
+    "role": "student",
+    "classroom_id": "cl_1"
+  },
+  {
+    "id": "u_student_9",
+    "name": "Student 9",
+    "role": "student",
+    "classroom_id": "cl_1"
+  },
+  {
+    "id": "u_student_10",
+    "name": "Student 10",
+    "role": "student",
+    "classroom_id": "cl_1"
+  },
+  {
+    "id": "u_student_11",
+    "name": "Student 11",
+    "role": "student",
+    "classroom_id": "cl_1"
+  },
+  {
+    "id": "u_student_12",
+    "name": "Student 12",
+    "role": "student",
+    "classroom_id": "cl_1"
+  }
+]
