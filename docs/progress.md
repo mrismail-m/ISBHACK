@@ -33,7 +33,7 @@ Update only your own row.
 | Member | Current task | Status | Next | Blockers |
 |---|---|---|---|---|
 | Adeel | M4.1 partial | full eval run and report | approval for about 145 LLM calls, human raters, contract OK | human ratings missing |
-| Majid | M4.2 polish done | charts, presentation data and clear pending states | user verifies preview; team real-AI run | timed recording deferred by user |
+| Majid | M4.2 deployment done | isolated VPS deployment with 50-student cohort | user verifies public preview; team real-AI run | timed recording deferred by user |
 | Ismail | M4.3 done | wait for demo run | help with rehearsals | none |
 
 ## Integration status (golden path)
@@ -133,6 +133,15 @@ Format: `<from> to <owner>: <what> (task id)`
 None yet.
 
 ## Log: Majid (newest first)
+
+### 2026-10-10 | Majid | M4.2 VPS deployment | done
+- Did: deployed isolated VivaGrade containers at http://31.97.113.9:8088, preserving existing VPS apps and host Nginx.
+- Files: deploy/, .dockerignore, .gitignore, docs/deployment.md; corrected grading model registration in backend/app/seed.py.
+- Contract: none.
+- Decisions: persistent SQLite/cache volumes; 50-student presentation cohort; private provider env excluded from Git/images.
+- Verification: production build succeeded; public frontend HTTP 200, backend health real-provider mode; feature tests remain delegated to user.
+- Next: user checks public preview; domain and HTTPS when supplied.
+- Needs from others: none.
 
 ### 2026-10-10 | Majid | M4.2 dashboard fixes | done
 - Did: Fixed collapsed class-trend and distribution bars with explicit plot heights and visible values. Populated missing A1 records and teacher-adjustment examples without replacing existing work.

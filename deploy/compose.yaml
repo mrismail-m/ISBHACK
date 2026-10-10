@@ -1,0 +1,26 @@
+name: vivagrade
+services:
+  backend:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.backend
+    restart: unless-stopped
+    env_file: runtime.env
+    environment:
+      DATABASE_URL: sqlite:////data/vivagrade.db
+      CORS_ORIGINS: http://31.97.113.9:8088
+    volumes:
+      - data:/data
+      - cache:/app/.cache
+  frontend:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.frontend
+    restart: unless-stopped
+    ports:
+      - "8088:80"
+    depends_on:
+      - backend
+volumes:
+  data:
+  cache:

@@ -5,6 +5,7 @@ from sqlmodel import Session, SQLModel
 
 from app.db import create_db_and_tables, engine
 from app.models.activity import ActivityBatchRecord  # noqa: F401, register table for reset
+from app.models import grading as _grading_models  # noqa: F401, register grade and viva tables
 from app.models.core import Assessment, Classroom, User
 
 
