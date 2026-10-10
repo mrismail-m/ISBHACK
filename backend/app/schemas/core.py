@@ -1,6 +1,8 @@
-from pydantic import BaseModel
-from typing import List, Optional, Dict, Any
 from datetime import datetime
+from typing import Any
+
+from pydantic import BaseModel
+
 
 class UserSchema(BaseModel):
     id: str
@@ -15,8 +17,8 @@ class AssessmentCreate(BaseModel):
     instructions_md: str
     max_marks: float
     pass_mark_pct: float
-    rubric: Optional[Dict[str, Any]] = None
-    model_answer_md: Optional[str] = None
+    rubric: dict[str, Any] | None = None
+    model_answer_md: str | None = None
     strictness: str
     viva_enabled: bool
     viva_weight: float
@@ -26,7 +28,7 @@ class AssessmentCreate(BaseModel):
     release_mode: str
     ai_policy: str
     paste_flag_chars: int
-    topics: List[str]
+    topics: list[str]
 
 class AssessmentSchema(AssessmentCreate):
     id: str
@@ -39,7 +41,7 @@ class QuestionSchema(BaseModel):
     assessment_id: str
     kind: str
     text: str
-    options: List[str]
+    options: list[str]
     answer_key: int
     marks: float
     topic: str
@@ -49,7 +51,27 @@ class SubmissionSchema(BaseModel):
     assessment_id: str
     student_id: str
     content_md: str
-    answers: List[Dict[str, Any]]
+    answers: list[dict[str, Any]]
     status: str
     started_at: datetime
-    submitted_at: Optional[datetime] = None
+    submitted_at: datetime | None = None
+
+class SubmissionRow(BaseModel):
+    submission_id: str
+    label: str
+    student_id: str
+    student_name: str
+    status: str
+    submitted_at: datetime | None = None
+    ai_total: float | None = None
+    final_total: float | None = None
+    max_marks: float
+    understanding: float | None = None
+    score_pct: float | None = None
+    score_is_final: bool
+    overall_confidence: float | None = None
+    flags: list[str]
+
+class SubmissionUpdate(BaseModel):
+    content_md: str | None = None
+    answers: list[dict[str, Any]] | None = None

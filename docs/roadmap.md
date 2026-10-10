@@ -51,7 +51,7 @@ Exit: in mock mode, pick teacher and see the assessment with its settings. Pick 
 
 - [ ] **M1.1 (Adeel)** `POST /submissions/:id/grade` and `GET .../grade` return a fixture grade in mock mode. Real `complete_json` works with the chosen provider (one smoke call). `ai/strictness.py` with the mapping and unit tests (monotonic). `scripts/smoke.py` v0 (calls the golden path endpoints in order and prints PASS or FAIL per step).
 - [ ] **M1.2 (Majid)** Student: assessment list, editor page (CodeMirror 6 with markdown preview), event capture into a local buffer, batched POST to `/activity`, autosave, submit.
-- [ ] **M1.3 (Ismail)** Assessments and submissions endpoints (create, list, get, patch, publish, start, save, submit, teacher list). Teacher UI: assessment list, detail, settings form (strictness, viva weight, feedback mode, release mode, AI policy, paste threshold).
+- [x] **M1.3 (Ismail)** Assessments and submissions endpoints (create, list, get, patch, publish, start, save, submit, teacher list). Teacher UI: assessment list, detail, settings form (strictness, viva weight, feedback mode, release mode, AI policy, paste threshold).
 - [ ] **M1.4 (All)** Sync 1: merge state, run the golden path in mock mode, tag `m1-ok`.
 
 ## M2: Real intelligence (T+1:45 to 3:15)

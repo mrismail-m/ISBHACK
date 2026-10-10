@@ -34,7 +34,7 @@ Update only your own row.
 |---|---|---|---|---|
 | Adeel | M0.1 | not started | repo and backend skeleton | none |
 | Majid | M1.2 | frontend mock flow verified, real integration pending | activity backend and parity fixtures (M2.3) | submission endpoints pending |
-| Ismail | M1.3 | not started | teacher endpoints and UI | none |
+| Ismail | M2.4 | not started | teacher review queue | M2.1, M2.2, M2.3 |
 
 ## Integration status (golden path)
 
@@ -114,6 +114,14 @@ None yet.
 None yet.
 
 ## Log: Ismail (newest first)
+
+### 2026-10-10 13:24 | Ismail | M1.3 | done
+- Did: Implemented Assessments and Submissions endpoints. Built Teacher UI with Assessment List, Detail, and Settings.
+- Files: `backend/app/routers/assessments.py`, `backend/app/routers/submissions.py`, `backend/app/schemas/core.py`, `frontend/src/features/teacher/TeacherApp.tsx`, `frontend/src/routes.tsx`
+- Contract: none
+- Decisions: Deferred approve/result endpoints to not mock grading output based on human's call.
+- Next: M2.4 (Teacher review queue)
+- Needs from others: Adeel M2.1/M2.2, Majid M2.3 for the review UI.
 
 ### 2026-10-10 13:12 | Ismail | M0.3 | done
 - Did: Implemented DB setup, core schemas, models, and seed script. Generated fixtures.

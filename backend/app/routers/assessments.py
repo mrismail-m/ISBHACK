@@ -1,56 +1,101 @@
-"""Users and assessments endpoints. Owner: Ismail. Contract: docs/api-contract.md.
+import uuid
+from datetime import UTC, datetime
 
-Skeleton from Adeel (M0.1): every route returns 501. Ismail replaces this file (M0.3, M1.3).
-"""
+from fastapi import APIRouter, Depends
+from sqlmodel import Session, select
 
-from fastapi import APIRouter
-
-from app.deps import not_implemented
+from app.db import get_session
+from app.deps import ApiError, current_user_id
+from app.models.core import Assessment, Question, User
+from app.schemas.core import AssessmentCreate, AssessmentSchema, QuestionSchema, UserSchema
 
 router = APIRouter(tags=["assessments"])
-OWNER = "Ismail"
 
+@router.get("/users", response_model=list[UserSchema])
+def list_users(session: Session = Depends(get_session)):
+    users = session.exec(select(User)).all()
+    return [UserSchema.model_validate(u, from_attributes=True) for u in users]
 
-@router.get("/users")
-def list_users() -> None:
-    not_implemented(OWNER)
+@router.get("/me", response_model=UserSchema)
+def get_me(user_id: str | None = Depends(current_user_id), session: Session = Depends(get_session)):
+    if not user_id:
+        raise ApiError(401, "unauthorized", "Missing X-User-Id")
+    user = session.get(User, user_id)
+    if not user:
+        raise ApiError(404, "not_found", "User not found")
+    return UserSchema.model_validate(user, from_attributes=True)
 
+@router.get("/assessments", response_model=list[AssessmentSchema])
+def list_assessments(
+    classroom_id: str | None = None, 
+    status: str | None = None, 
+    session: Session = Depends(get_session)
+):
+    query = select(Assessment)
+    if classroom_id:
+        query = query.where(Assessment.classroom_id == classroom_id)
+    if status:
+        query = query.where(Assessment.status == status)
+    assessments = session.exec(query).all()
+    return [AssessmentSchema.model_validate(a, from_attributes=True) for a in assessments]
 
-@router.get("/me")
-def get_me() -> None:
-    not_implemented(OWNER)
+@router.post("/assessments", response_model=AssessmentSchema)
+def create_assessment(data: AssessmentCreate, session: Session = Depends(get_session)):
+    a = Assessment(
+        **data.model_dump(),
+        id=f"a_{uuid.uuid4().hex[:8]}",
+        status="draft",
+        due_at=datetime.now(UTC),
+        created_at=datetime.now(UTC)
+    )
+    session.add(a)
+    session.commit()
+    session.refresh(a)
+    return AssessmentSchema.model_validate(a, from_attributes=True)
 
+@router.get("/assessments/{assessment_id}", response_model=AssessmentSchema)
+def get_assessment(assessment_id: str, session: Session = Depends(get_session)):
+    a = session.get(Assessment, assessment_id)
+    if not a:
+        raise ApiError(404, "not_found", "Assessment not found")
+    return AssessmentSchema.model_validate(a, from_attributes=True)
 
-@router.get("/assessments")
-def list_assessments() -> None:
-    not_implemented(OWNER)
+@router.patch("/assessments/{assessment_id}", response_model=AssessmentSchema)
+def update_assessment(assessment_id: str, data: dict, session: Session = Depends(get_session)):
+    a = session.get(Assessment, assessment_id)
+    if not a:
+        raise ApiError(404, "not_found", "Assessment not found")
+    for key, value in data.items():
+        if hasattr(a, key):
+            setattr(a, key, value)
+    session.add(a)
+    session.commit()
+    session.refresh(a)
+    return AssessmentSchema.model_validate(a, from_attributes=True)
 
+@router.post("/assessments/{assessment_id}/publish", response_model=AssessmentSchema)
+def publish_assessment(assessment_id: str, session: Session = Depends(get_session)):
+    a = session.get(Assessment, assessment_id)
+    if not a:
+        raise ApiError(404, "not_found", "Assessment not found")
+    a.status = "open"
+    session.add(a)
+    session.commit()
+    session.refresh(a)
+    return AssessmentSchema.model_validate(a, from_attributes=True)
 
-@router.post("/assessments")
-def create_assessment() -> None:
-    not_implemented(OWNER)
+@router.post("/assessments/{assessment_id}/close", response_model=AssessmentSchema)
+def close_assessment(assessment_id: str, session: Session = Depends(get_session)):
+    a = session.get(Assessment, assessment_id)
+    if not a:
+        raise ApiError(404, "not_found", "Assessment not found")
+    a.status = "closed"
+    session.add(a)
+    session.commit()
+    session.refresh(a)
+    return AssessmentSchema.model_validate(a, from_attributes=True)
 
-
-@router.get("/assessments/{assessment_id}")
-def get_assessment(assessment_id: str) -> None:
-    not_implemented(OWNER)
-
-
-@router.patch("/assessments/{assessment_id}")
-def update_assessment(assessment_id: str) -> None:
-    not_implemented(OWNER)
-
-
-@router.post("/assessments/{assessment_id}/publish")
-def publish_assessment(assessment_id: str) -> None:
-    not_implemented(OWNER)
-
-
-@router.post("/assessments/{assessment_id}/close")
-def close_assessment(assessment_id: str) -> None:
-    not_implemented(OWNER)
-
-
-@router.get("/assessments/{assessment_id}/questions")
-def list_questions(assessment_id: str) -> None:
-    not_implemented(OWNER)
+@router.get("/assessments/{assessment_id}/questions", response_model=list[QuestionSchema])
+def list_questions(assessment_id: str, session: Session = Depends(get_session)):
+    questions = session.exec(select(Question).where(Question.assessment_id == assessment_id)).all()
+    return [QuestionSchema.model_validate(q, from_attributes=True) for q in questions]

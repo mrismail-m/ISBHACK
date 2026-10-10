@@ -18,7 +18,7 @@ function RoleSwitcher() {
   }, []);
   return <header className="app-nav"><Link className="wordmark" to="/student">VivaGrade<span>Grade the work. Verify the learning.</span></Link><nav><Link to="/student">Student</Link><Link to="/teacher">Teacher</Link><label>Viewing as <select aria-label="Choose seeded user" value={currentUser} onChange={e => { localStorage.setItem('currentUserId', e.target.value); window.location.reload(); }}>{users.map(u => <option key={u.id} value={u.id}>{u.name} ({u.role})</option>)}</select></label>{error && <span role="alert">{error}</span>}</nav></header>;
 }
-function TeacherApp() { return <main className="student-page"><h1>Teacher console</h1><p>Teacher screens are owned by Ismail and are awaiting integration.</p></main>; }
+import { TeacherApp } from './features/teacher/TeacherApp';
 export function AppRoutes() {
   return <BrowserRouter><RoleSwitcher /><Routes>
     <Route path="/" element={<Navigate to="/student" replace />} />
