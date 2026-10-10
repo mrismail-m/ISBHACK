@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import cases from '../../../../fixtures/activity/cases.json';
+import demos from '../../../../fixtures/activity/demo_sessions.json';
 import { buildTimeline, createReplay, summarizeActivity } from './index';
 import type { ActivityEvents } from '../../api/types';
 describe('shared activity fixtures', () => {
@@ -11,6 +12,17 @@ describe('shared activity fixtures', () => {
     expect(summary).toMatchObject(expected);
     expect(summary.paste_chunks).toHaveLength(paste_chunks.length);
     paste_chunks.forEach((chunk, i) => expect(summary.paste_chunks[i]).toMatchObject(chunk));
+  });
+});
+describe('recorded real editor demos', () => {
+  for (const fixture of demos.sessions) it(fixture.name, () => {
+    const activity = fixture.activity as ActivityEvents;
+    expect(createReplay(activity).at(activity.events.length).doc).toBe(fixture.expected.doc);
+    const summary = summarizeActivity(fixture.submission_id, activity, fixture.paste_flag_chars);
+    const normalize = (value: typeof summary) => ({ ...value, paste_chunks: value.paste_chunks.map(c => ({ ...c, at: new Date(c.at).toISOString() })) });
+    expect(normalize(summary)).toEqual(normalize(fixture.expected.summary as typeof summary));
+    expect(summary.pasted_pct).toBe(fixture.name === 'pasted' ? 100 : 0);
+    expect(summary.paste_chunks.some(c => c.major)).toBe(fixture.name === 'pasted');
   });
 });
 it('seeks backwards and forwards across replay checkpoints', () => {

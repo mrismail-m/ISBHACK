@@ -1,6 +1,7 @@
 """Shared-fixture parity and activity endpoint round trip."""
 
 import json
+from datetime import datetime
 from pathlib import Path
 
 import pytest
@@ -102,3 +103,39 @@ def test_ingestion_roundtrip_and_access():
             "events": [{"seq": 2, "t": 2000, "k": "del", "from": 0, "to": 999, "text": ""}],
         }
         assert client.post(path, json=invalid, headers=headers).status_code == 422
+
+
+DEMOS = json.loads(
+    (Path(__file__).resolve().parents[2] / "fixtures/activity/demo_sessions.json").read_text(
+        encoding="utf-8"
+    )
+)["sessions"]
+
+
+@pytest.mark.parametrize("fixture", DEMOS, ids=lambda f: f["name"])
+def test_recorded_editor_demo(fixture):
+    activity = ActivityEvents.model_validate(fixture["activity"])
+    summary = summarize_activity(
+        fixture["submission_id"], activity, fixture["paste_flag_chars"]
+    ).model_dump()
+    expected = fixture["expected"]["summary"]
+    for actual_chunk, expected_chunk in zip(
+        summary["paste_chunks"], expected["paste_chunks"], strict=True
+    ):
+        assert datetime.fromisoformat(actual_chunk["at"]) == datetime.fromisoformat(
+            expected_chunk["at"]
+        )
+        actual_chunk["at"] = expected_chunk["at"]
+    assert summary == expected
+    assert summary["pasted_pct"] == (100 if fixture["name"] == "pasted" else 0)
+    assert any(c["major"] for c in summary["paste_chunks"]) == (fixture["name"] == "pasted")
+    doc = b""
+    for event in sorted(activity.events, key=lambda e: e.seq):
+        if event.k in {"start", "end", "focus", "blur", "hidden", "visible"}:
+            continue
+        doc = (
+            doc[: event.from_ * 2]
+            + event.text.encode("utf-16-le", errors="surrogatepass")
+            + doc[event.to * 2 :]
+        )
+    assert doc.decode("utf-16-le", errors="surrogatepass") == fixture["expected"]["doc"]

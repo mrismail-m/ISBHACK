@@ -1,0 +1,33 @@
+{
+  "submission_id": "s_1",
+  "final_chars": 547,
+  "typed_pct": 0.0,
+  "pasted_pct": 100.0,
+  "paste_chunks": [
+    {
+      "session_id": "520d0924-4ba9-4afa-a0cf-55fff8e61445",
+      "event_seq": 1,
+      "at": "2026-10-10T08:48:34.92Z",
+      "t": 6244,
+      "chars": 547,
+      "survived_chars": 547,
+      "survived_pct": 100.0,
+      "major": true,
+      "declared_source": null
+    }
+  ],
+  "revision_ratio": 0.0,
+  "active_minutes": 1,
+  "span_minutes": 0.2,
+  "tab_switches": 0,
+  "sessions": 2,
+  "bucket": "minute",
+  "heatmap": [
+    {
+      "bucket_start": "2026-10-10T08:48:00Z",
+      "edits": 1,
+      "typed_chars": 0,
+      "pasted_chars": 547
+    }
+  ]
+}

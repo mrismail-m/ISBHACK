@@ -33,7 +33,7 @@ Update only your own row.
 | Member | Current task | Status | Next | Blockers |
 |---|---|---|---|---|
 | Adeel | M1.1 done | M2.1 next | grader retries, rubric draft, strictness preview | no LLM key configured yet |
-| Majid | M3.2 | viva fixture flow and insights ready | M4.2 real editor recordings | live viva, result and review embedding pending |
+| Majid | M4.2 done | independent implementation and demo recordings ready | integrate when owners publish dependencies | live viva, released results and teacher review embedding |
 | Ismail | M2.4 | not started | teacher review queue | M2.1, M2.2, M2.3 |
 
 ## Integration status (golden path)
@@ -91,6 +91,16 @@ Format: `<from> to <owner>: <what> (task id)`
 None yet.
 
 ## Log: Majid (newest first)
+
+### 2026-10-10 13:51 | Majid | M4.2 | done
+- Did: Recorded 3 real editor sessions (typed, pasted, retyped), persisted through local API and exported raw events plus server summaries. All reconstruct the exact saved 547-character answer. Typed/retyped have 0% paste; pasted has 100% with one surviving large chunk.
+- Files: `fixtures/activity/demo_sessions.json`, `fixtures/api/activity_{events,summary}_s1.json`, backend activity tests, frontend replay tests; roadmap and this log.
+- Contract: none. Comparison normalizes equivalent ISO timestamp precision before comparing summaries.
+- Decisions: These are automated demo recordings, not the human pilot study. Retyping copied prose yields no paste signal, illustrating the signal's stated limit. No AI or grading claims made.
+- Checks: Backend 54 tests and ruff pass; frontend 19 tests, typecheck, lint and build pass. Replay and summary agree on all 3 recordings and 7 independent fixtures. Large frontend bundle warning remains.
+- Next: Wait for owner dependencies, then pull, read changed files and integrate live viva/results and review embedding. Full 10-minute round trip and team golden path remain unverified.
+- Needs from others: Adeel viva endpoints; Ismail released result endpoint and teacher review detail embedding. Exports and fixtures are ready for both owners.
+
 
 ### 2026-10-10 13:47 | Majid | M3.2 | partial
 - Did: One-question viva UI with persistent deadlines, timeout, blocked paste/drop, tab-switch counts and retry; fixture browser flow completed all 3 answers. Insights expose paste chunks, writing map, heatmap and replay with scrubber, speed, idle skipping and paste jumps.
@@ -171,6 +181,7 @@ None yet.
 ### Archive (Ismail)
 
 None yet.
+
 
 
 

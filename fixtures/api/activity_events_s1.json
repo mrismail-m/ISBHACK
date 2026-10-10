@@ -1,0 +1,59 @@
+{
+  "sessions": [
+    {
+      "session_id": "273f9282-465f-4f63-8773-8eb66f15ce21",
+      "started_at": "2026-10-10T08:48:28.674Z"
+    },
+    {
+      "session_id": "520d0924-4ba9-4afa-a0cf-55fff8e61445",
+      "started_at": "2026-10-10T08:48:28.676Z"
+    }
+  ],
+  "events": [
+    {
+      "seq": 0,
+      "t": 0,
+      "k": "start",
+      "from": 0,
+      "to": 0,
+      "text": "",
+      "session_id": "273f9282-465f-4f63-8773-8eb66f15ce21"
+    },
+    {
+      "seq": 1,
+      "t": 1,
+      "k": "end",
+      "from": 0,
+      "to": 0,
+      "text": "",
+      "session_id": "273f9282-465f-4f63-8773-8eb66f15ce21"
+    },
+    {
+      "seq": 0,
+      "t": 0,
+      "k": "start",
+      "from": 0,
+      "to": 0,
+      "text": "",
+      "session_id": "520d0924-4ba9-4afa-a0cf-55fff8e61445"
+    },
+    {
+      "seq": 1,
+      "t": 6244,
+      "k": "paste",
+      "from": 0,
+      "to": 0,
+      "text": "A collision happens when two keys map to one bucket. Chaining keeps a list at that bucket, so lookup compares keys in the list. Open addressing checks another slot until it finds the key or an empty slot. A low load factor reduces probes. Resizing allocates a larger table and reinserts each key using the new capacity. These strategies preserve correctness because the original key is checked, rather than assuming every hash is unique. Average lookup is constant time under a good distribution, while a crowded bucket can require a linear scan. ",
+      "session_id": "520d0924-4ba9-4afa-a0cf-55fff8e61445"
+    },
+    {
+      "seq": 2,
+      "t": 11033,
+      "k": "end",
+      "from": 0,
+      "to": 0,
+      "text": "",
+      "session_id": "520d0924-4ba9-4afa-a0cf-55fff8e61445"
+    }
+  ]
+}

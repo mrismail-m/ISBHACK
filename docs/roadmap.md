@@ -76,7 +76,7 @@ Exit: viva works end to end. Replay and paste chunks appear in review. Dashboard
 ## M4: Evidence, seed, polish (T+4:30 to 5:15)
 
 - [ ] **M4.1 (Adeel)** Run the evaluation (accuracy, consistency, bias probes, strictness ordering). Write `trust_report.json`, serve it at `/evaluation/trust-report`, and note the 4 numbers for the slide (`docs/evaluation.md`).
-- [ ] **M4.2 (Majid)** Record 3 demo sessions through the real editor (typed, pasted, retyped). Verify replay on each. Paste declaration only if time (P2).
+- [x] **M4.2 (Majid)** Record 3 demo sessions through the real editor (typed, pasted, retyped). Verify replay on each. Paste declaration only if time (P2).
 - [ ] **M4.3 (Ismail)** Rich seed (4 assessments with a visible trend, 12 students, a few needing attention). Trust report page. Polish dashboard and review screens. Take screenshots.
 - [ ] **M4.4 (All)** Warm the LLM cache by grading the demo submissions twice. Run `scripts/smoke.py`. Tag `demo-v1`.
 
@@ -116,3 +116,4 @@ Four syncs: end of M1, M2, M3 and M4. Each takes at most 10 minutes: everyone pu
 ## Parking lot (not planned)
 
 Voice viva, per-student time multipliers, personalized practice quizzes from weak topics, class-level misconception clustering, teacher-editable viva questions, secure exam mode, LMS import, parent summaries.
+
