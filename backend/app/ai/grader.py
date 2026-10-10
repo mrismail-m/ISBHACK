@@ -14,7 +14,7 @@ from app.ai.loader import load_prompt, render
 from app.ai.strictness import STRICTNESS_ORDER, criterion_marks
 from app.config import get_settings
 from app.deps import ApiError
-from app.llm.client import LLMError, complete_json
+from app.llm.client import LLMError, complete_json, last_model_id
 from app.schemas.grading import CriterionGrade, Evidence, GraderFlag, Rubric
 
 MAX_SUBMISSION_CHARS = 8000
@@ -213,7 +213,7 @@ def run_grader(
 
     settings = get_settings()
     result.prompt_version = prompt.version
-    result.model_id = "mock" if settings.mock_llm else settings.llm_model
+    result.model_id = "mock" if settings.mock_llm else (last_model_id() or settings.llm_model)
     return result
 
 

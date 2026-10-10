@@ -231,6 +231,7 @@ def complete_json(*, role: str, system: str, user: str, schema: type[BaseModel],
 - **Cache:** SHA-256 of `{provider, model, role, prompt_version, system, user, temperature}` stored under `.cache/llm/`. `LLM_CACHE=0` bypasses it (consistency tests only).
 - **Mock:** with `MOCK_LLM=1`, return `fixtures/api/llm/{role}_{key}.json` where `key` is the submission ID with underscores removed (`s_1` becomes `s1`). Fall back to `fixtures/api/llm/{role}.json`.
 - **Errors:** invalid JSON gets one repair retry ("your last output was not valid JSON for this schema: ..."). Timeouts, 429 and 5xx get one retry. Then raise `LLMError`, which routers map to 502 `llm_unavailable`.
+- **Key pool and fallback:** every key in `LLM_GROQ_KEYS` and `LLM_GEMINI_KEYS` is an endpoint. Calls rotate round-robin over the keys of the first provider in `LLM_ORDER` (spreads rate limits). A key that returns 429, 5xx, times out or is rejected goes on cooldown (60 s, 20 s, 20 s, 1 h) and the next key is tried, then the next provider. If every endpoint fails, raise `LLMError`. Keys never appear in logs or errors. The grade stores the model that wrote it (`model_id`, for example `groq:openai/gpt-oss-120b`).
 - **Concurrency:** `grade-all` runs at most 3 calls at a time.
 - **Logging:** never log prompts or student text at INFO. `.cache/` is gitignored.
 

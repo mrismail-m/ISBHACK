@@ -12,7 +12,7 @@ def draft_rubric(
     prompt = load_prompt("rubric")
     user = render(
         prompt.user_template,
-        max_marks=assessment.max_marks,
+        max_marks=f"{assessment.max_marks:g}",
         instructions_md=assessment.instructions_md,
         notes=notes or "None provided.",
     )

@@ -10,6 +10,7 @@ from sqlmodel import Session, SQLModel, create_engine
 
 from app.config import get_settings
 from app.db import get_session
+from app.llm.client import reset_pool_state
 from app.main import app
 from app.models import grading as _grading_models  # noqa: F401
 from app.models.core import Assessment, Submission
@@ -25,9 +26,14 @@ def _mock_llm_env(monkeypatch: pytest.MonkeyPatch) -> Iterator[None]:
     monkeypatch.setenv("LLM_MODEL", "")
     monkeypatch.setenv("LLM_API_KEY", "")
     monkeypatch.setenv("LLM_BASE_URL", "")
+    # A developer's backend/.env may hold real keys. Tests must never use them.
+    for name in ("LLM_ORDER", "LLM_GROQ_KEYS", "LLM_GEMINI_KEYS"):
+        monkeypatch.setenv(name, "")
     get_settings.cache_clear()
+    reset_pool_state()
     yield
     get_settings.cache_clear()
+    reset_pool_state()
 
 
 @pytest.fixture

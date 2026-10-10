@@ -69,6 +69,15 @@ Format: `<from> to <owner>: <what> (task id)`
 
 ## Log: Adeel (newest first)
 
+### 2026-10-10 14:50 | Adeel | M1.1 follow-up | done
+- Did: LLM key pool with rotation and fallback (3 Groq keys, then 3 Gemini keys). Round-robin per call, cooldown on 429/5xx/timeout/bad key, then next provider. Keys live only in git-ignored `backend/.env`. Grade `model_id` now records the model that answered. Verified live: grade, feedback, rubric draft, viva start/answer/finish, and forced fallback (bad Groq keys went to Gemini).
+- Fixed: `feedback.md` and `rubric.md` had no `---USER---` section, so the model got an empty user message. Feedback lists are trimmed to 3 (models returned 4). Added `rubric_draft.json` mock fixture and prompt render tests.
+- Files: `backend/app/llm/client.py`, `config.py`, `ai/{feedback,rubric,grader}.py`, `ai/prompts/{feedback,rubric}.md`, `tests/{test_llm_client,test_prompts,conftest}.py`, `.env.example`, `docs/ai-spec.md`
+- Contract: none. New optional env: `LLM_ORDER`, `LLM_GROQ_KEYS`, `LLM_GROQ_MODEL`, `LLM_GEMINI_KEYS`, `LLM_GEMINI_MODEL` (see `.env.example`). Models: `openai/gpt-oss-120b` (Groq; llama-3.3 is gone) and `gemini-3.5-flash` (2.5-flash is closed to new users).
+- Finding: with real Groq the sample essay got 20/20 (all level 4, no minor errors). The mock fixture says 15.5. Grader looks generous. M4.1 accuracy run should check this; may need a stricter prompt or `reasoning_effort` medium.
+- Next: M4.1 trust report on real data; tune the grader if the accuracy run shows inflation.
+- Needs from others: everyone: `backend/.env` is local. Ask Adeel for the keys, do not paste them in chat or commits. Tests ignore `.env` keys on purpose.
+
 ### 2026-10-10 14:20 | Adeel | M3.1 | done
 - Did: viva `start`, `answer`, `finish`, `GET viva`. Examiner writes questions; every `anchor_quote` is verified in the submission and failed ones are asked for again once. Scorer gets only question, the student's text excerpt and the answer. Understanding is the mean of 0, 0.5, 1 scores, computed in code.
 - Files: `backend/app/ai/{viva.py,viva_service.py,prompts/examiner.md,prompts/scorer.md}`, `backend/app/routers/viva.py`, `backend/app/schemas/viva.py`, `backend/tests/test_viva.py`, `fixtures/api/{viva_start,viva_result,viva_detail_s1}.json`, `fixtures/api/llm/viva_*.json`

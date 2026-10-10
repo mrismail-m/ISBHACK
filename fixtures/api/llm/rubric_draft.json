@@ -1,0 +1,60 @@
+{
+  "criteria": [
+    {
+      "id": "c1",
+      "name": "Concept accuracy",
+      "description": "Explains what a collision is and why it happens, correctly.",
+      "max_marks": 5,
+      "topic": "hashing",
+      "levels": [
+        "Absent or wrong",
+        "Mentions the idea, mostly inaccurate",
+        "Partly correct with clear gaps",
+        "Mostly correct, minor gaps",
+        "Correct, complete and precise"
+      ]
+    },
+    {
+      "id": "c2",
+      "name": "Resolution strategies",
+      "description": "Describes chaining and open addressing.",
+      "max_marks": 5,
+      "topic": "collisions",
+      "levels": [
+        "Absent or wrong",
+        "Mentions one strategy vaguely",
+        "Describes one well, or both vaguely",
+        "Describes both mostly correctly",
+        "Describes both accurately and clearly"
+      ]
+    },
+    {
+      "id": "c3",
+      "name": "Complexity analysis",
+      "description": "Analyzes time complexity correctly.",
+      "max_marks": 5,
+      "topic": "complexity",
+      "levels": [
+        "Absent or wrong",
+        "Mentions O(1) without context",
+        "Partly explains average vs worst case",
+        "Good explanation with minor gaps",
+        "Clear distinction between average and worst case"
+      ]
+    },
+    {
+      "id": "c4",
+      "name": "Communication",
+      "description": "Writing is clear and structured.",
+      "max_marks": 5,
+      "topic": "communication",
+      "levels": [
+        "Unreadable",
+        "Hard to follow",
+        "Readable but poorly structured",
+        "Clear and mostly well structured",
+        "Excellent structure and clarity"
+      ]
+    }
+  ]
+}

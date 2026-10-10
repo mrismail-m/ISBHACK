@@ -24,6 +24,13 @@ class Settings(BaseSettings):
     llm_api_key: str = ""
     # Optional base URL for OpenAI-compatible servers. Empty = provider default.
     llm_base_url: str = ""
+    # Key pool. Comma separated. Calls rotate over a provider's keys and fall back to the
+    # next key, then the next provider in LLM_ORDER (default: LLM_PROVIDER only).
+    llm_order: str = ""
+    llm_groq_keys: str = ""
+    llm_groq_model: str = "openai/gpt-oss-120b"
+    llm_gemini_keys: str = ""
+    llm_gemini_model: str = "gemini-3.5-flash"
     llm_cache: bool = True
     llm_timeout_s: int = 30
     database_url: str = "sqlite:///./vivagrade.db"

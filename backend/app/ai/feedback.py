@@ -107,10 +107,11 @@ def generate_feedback(
         if mode == "hints":
             imp.explanation = None
 
+    # Models sometimes ignore "at most 3". The contract caps both lists, so trim here.
     return Feedback(
         mode=mode,
-        strengths=output.strengths,
-        improvements=output.improvements,
+        strengths=output.strengths[:3],
+        improvements=output.improvements[:3],
         next_step=output.next_step,
         topics=topic_levels(rubric, criteria),
     )
