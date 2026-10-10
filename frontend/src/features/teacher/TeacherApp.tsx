@@ -1,6 +1,7 @@
 import { Routes, Route, Link, useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { TeacherReviewDetail } from './TeacherReviewDetail';
+import { ClassroomDashboard, AssessmentDashboard } from './TeacherDashboard';
 import { apiClient } from '../../api/client';
 import type { Assessment, SubmissionRow, Rubric, StrictnessPreview } from '../../api/types';
 
@@ -8,6 +9,7 @@ export function TeacherApp() {
   return (
     <Routes>
       <Route path="/" element={<AssessmentList />} />
+      <Route path="/classroom" element={<ClassroomDashboard />} />
       <Route path="/assessments/new" element={<AssessmentSettings isNew />} />
       <Route path="/assessments/:id" element={<AssessmentDetail />} />
       <Route path="/assessments/:id/settings" element={<AssessmentSettings />} />
@@ -30,12 +32,20 @@ function AssessmentList() {
     <div className="p-8 max-w-4xl mx-auto">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-3xl font-bold text-slate-800">Assessments</h2>
-        <button 
-          onClick={() => navigate('/teacher/assessments/new')}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow transition-colors"
-        >
-          + New Assessment
-        </button>
+        <div className="flex gap-2">
+          <button 
+            onClick={() => navigate('/teacher/classroom')}
+            className="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded shadow transition-colors"
+          >
+            Classroom Dashboard
+          </button>
+          <button 
+            onClick={() => navigate('/teacher/assessments/new')}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow transition-colors"
+          >
+            + New Assessment
+          </button>
+        </div>
       </div>
       
       <div className="bg-white rounded-lg shadow border border-slate-200 overflow-hidden">
@@ -136,6 +146,10 @@ function AssessmentDetail() {
       <div className="bg-white p-6 rounded-lg shadow border border-slate-200 mb-6">
         <h3 className="font-semibold text-lg mb-2">Instructions</h3>
         <p className="text-slate-600 whitespace-pre-wrap">{assessment.instructions_md}</p>
+      </div>
+
+      <div className="mb-8 border-t border-slate-200 pt-6">
+        <AssessmentDashboard assessmentId={id!} />
       </div>
       
       <div className="bg-white p-6 rounded-lg shadow border border-slate-200">

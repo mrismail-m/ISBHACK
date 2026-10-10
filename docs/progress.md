@@ -34,7 +34,7 @@ Update only your own row.
 |---|---|---|---|---|
 | Adeel | M3.1 done | M4.1 trust report; golden path run once Ismail's review, approve, result land | eval run needs a real LLM key | no LLM key configured yet |
 | Majid | M2.3/M3.2 integration | dependencies landed; API integration passes | browser viva, teacher review and released results | 10-minute round trip still unverified |
-| Ismail | M2.4 done | M3.3 next | dashboard and grace marks | M3.1 (from Adeel) |
+| Ismail | M3.3 done | M4.3 polish | wait for demo run | none |
 
 ## Integration status (golden path)
 
@@ -215,6 +215,14 @@ None yet.
 None yet.
 
 ## Log: Ismail (newest first)
+
+### 2026-10-10 14:26 | Ismail | M3.3 | done
+- Did: Implemented `AssessmentStats`, `OverrideStats`, `ClassPerformance`, `AttentionStudent`, and Grace Marks schemas and services. Built `TeacherDashboard.tsx` with Classroom and Assessment dashboards. Integrated into `TeacherApp.tsx`.
+- Files: `backend/app/schemas/analytics.py`, `backend/app/services/analytics.py`, `backend/app/services/grace.py`, `backend/app/routers/analytics.py`, `frontend/src/features/teacher/TeacherDashboard.tsx`, `frontend/src/features/teacher/TeacherApp.tsx`
+- Contract: none
+- Decisions: Grace marks are appended to a ledger and `undo` marks them as undone. All `analytics` routes now successfully return data instead of 501.
+- Next: M4.3 (Polish)
+- Needs from others: none
 
 ### 2026-10-10 14:15 | Ismail | M2.4 | done
 - Did: Implemented teacher review queue with flags and blind mode. Built review detail page with criteria overrides, overall notes, and activity insights integration. Added `services/scoring.py` and `services/flags.py`. Implemented strictness preview and rubric drafter in settings. Updated submission endpoints to calculate blended scores.
