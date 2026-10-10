@@ -141,3 +141,78 @@ class GradingStatus(BaseModel):
     graded: int
     in_progress: int
     failed: int
+
+
+# ---- trust report (docs/evaluation.md) -------------------------------------------------
+# Human-dependent numbers are null until two human raters have scored the answers.
+# `author_labels`, `n_answers` and the other extras below are additions to the contract.
+
+
+class TrustDataset(BaseModel):
+    assignment: str
+    n_answers: int
+    n_raters: int
+
+
+class AuthorLabels(BaseModel):
+    n: int
+    mae_marks: float
+    qwk: float
+    mean_signed_marks: float  # AI minus author. Positive means the AI is more generous.
+    by_criterion: dict[str, dict[str, float]] = Field(default_factory=dict)
+
+
+class TrustAccuracy(BaseModel):
+    ai_vs_human_mae: float | None = None
+    human_vs_human_mae: float | None = None
+    ai_vs_human_qwk: float | None = None
+    human_vs_human_qwk: float | None = None
+    author_labels: AuthorLabels | None = None
+
+
+class TrustConsistency(BaseModel):
+    runs: int
+    mean_range_marks: float
+    max_range_marks: float
+    n_answers: int | None = None
+    identical_level_pct: float | None = None
+
+
+class BiasProbe(BaseModel):
+    name: str
+    n: int
+    mean_abs_delta_marks: float
+    max_abs_delta_marks: float
+    threshold_marks: float
+    passed: bool
+    mean_signed_delta_marks: float | None = None
+    description: str | None = None
+    excluded_criteria: list[str] | None = None
+    injection_flag_rate: float | None = None
+
+
+class StrictnessOrdering(BaseModel):
+    passed: bool
+    violations: int
+    n: int | None = None
+    mean_spread_marks: float | None = None
+
+
+class EditorSignals(BaseModel):
+    samples: int
+    typed_flagged: int
+    pasted_flagged: int
+    retyped_flagged: int
+
+
+class TrustReport(BaseModel):
+    generated_at: str
+    model_id: str
+    prompt_version: str
+    dataset: TrustDataset
+    accuracy: TrustAccuracy | None = None
+    consistency: TrustConsistency | None = None
+    bias_probes: list[BiasProbe] | None = None
+    strictness_ordering: StrictnessOrdering | None = None
+    editor_signals: EditorSignals | None = None
+    limitations: list[str] = Field(default_factory=list)

@@ -11,9 +11,10 @@ def test_health_ok() -> None:
     assert res.json()["status"] == "ok"
 
 
-def test_unbuilt_endpoint_returns_501_error_envelope() -> None:
-    res = client.get("/api/v1/evaluation/trust-report")
-    assert res.status_code == 501
-    assert res.json() == {
-        "error": {"code": "not_implemented", "message": "Not implemented yet (owner: Adeel)."}
-    }
+def test_errors_use_the_contract_envelope() -> None:
+    res = client.post("/api/v1/submissions/any/viva/answer", json={})
+    assert res.status_code == 422
+    body = res.json()
+    assert set(body) == {"error"}
+    assert body["error"]["code"] == "validation_error"
+    assert isinstance(body["error"]["message"], str)

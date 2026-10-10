@@ -1,0 +1,1 @@
+{ "text": "A hash table maps each key to an array slot with a hash function. When two keys map to the same slot, that is a collision. Chaining keeps a list in each slot, while open addressing probes for another free slot. Lookups are O(1) on average and O(n) in the worst case." }

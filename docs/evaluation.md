@@ -6,6 +6,16 @@ Deliverables: `backend/eval/reports/trust_report.json` (shape in `docs/api-contr
 
 Run: `cd backend && python -m eval.run_eval --all` (or `--accuracy`, `--consistency`, `--probes`, `--strictness`, `--signals`). Code lives in `backend/eval/` (`run_eval.py`, `probes.py`, `metrics.py`). Cap one full run at about 150 LLM calls and tell the team before starting it.
 
+## 0. How it is built (M4.1)
+
+- `backend/eval/run_eval.py` runs the sections and writes `reports/trust_report.json`, `trust_report.md` and `raw_results.json` (per-answer levels, so numbers can be recomputed without new calls). Any run over 20 real LLM calls needs `--yes`, and `--max-calls` stops a run early (default 170).
+- MAE and QWK are in `eval/metrics.py` (pure Python). QWK matched scikit-learn on 200 random cases (max difference 2e-16), so scikit-learn is not needed.
+- Human numbers stay `null` and the report says "pending" until `fixtures/eval/human_scores_a1.csv` has two raters. Fill `human_scores_a1.template.csv` (copy it to `human_scores_a1.csv`). Raters must not see `author_levels_a1.json` or any AI output.
+- `author_labels` compares the AI with the levels the answer author aimed for. It is a design check on the dataset, not an independent human rating, and the report labels it that way.
+- Consistency uses 5 answers (`e02, e05, e08, e11, e14`, from strong to weak) x 5 runs with the cache off, to stay under the call cap. Probes use all 15 answers.
+- Probe totals use the full product marks (levels plus minor-error penalties), so a typo penalty would show up as bias. Accuracy compares level marks only, because raters give levels.
+- Editor signals use Majid's 3 recorded demo sessions (`fixtures/activity/demo_sessions.json`), one per class.
+
 ## 1. Dataset
 
 - One assignment the team can mark in about 2 minutes per answer. Default: **A1, "Explain how a hash table handles collisions" (about 200 words)** with the 4 criterion rubric from the seed.

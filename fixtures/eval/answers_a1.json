@@ -1,0 +1,62 @@
+[
+  {
+    "answer_id": "e01",
+    "text": "# How hash tables handle collisions\n\nA hash table stores key-value pairs in an array and uses a hash function to turn each key into an index. A collision happens when two different keys hash to the same index. This cannot be avoided, because there are many more possible keys than array slots.\n\n## Separate chaining\nEach slot holds a linked list of the entries that hash to it. To look up a key we hash it, then walk the short list in that slot and compare keys.\n\n## Open addressing\nAll entries live in the array itself. If the slot is taken we probe other slots in a fixed order, for example linear probing (try the next slot) or double hashing, until we find the key or a free slot. Deleted entries need a tombstone marker so that probe sequences are not broken.\n\n## Cost\nWith a good hash function and a low load factor (entries divided by slots), lookup, insert and delete take O(1) time on average for both methods. In the worst case, when many keys land in one chain or one probe cluster, they take O(n). So tables resize when the load factor gets high, for example above 0.75."
+  },
+  {
+    "answer_id": "e02",
+    "text": "# Collisions in hash tables\n\nA hash function maps a key to an array index. When two different keys map to the same index we have a collision. Collisions are unavoidable since the set of possible keys is larger than the array.\n\n## Chaining\nEvery slot stores a linked list. Colliding keys are added to the list in their slot, and a lookup searches that list.\n\n## Open addressing\nThe entries stay in the array. When a slot is occupied we probe for another slot, for instance linear probing which checks the next index, or quadratic probing which jumps by growing steps. Lookups follow the same probe sequence.\n\n## Speed\nHash tables are usually fast, O(1) on average, but lookups can become O(n) if many keys collide."
+  },
+  {
+    "answer_id": "e03",
+    "text": "Hash tables and collisions\n\nA collision is when two keys get the same hash index in the array, and it is impossible to prevent completely because there are far more keys than slots. There are two main answers to it. In chaining every array slot points to a list of all the keys that hashed there, so a lookup hashes the key and searches that list. The other answer is open addressing where we keep everything in the array and look for another empty slot, like linear probing, when the first one is full. The speed depends on how many collisions happen. If the load factor (items divided by slots) is small and the hash function spreads keys evenly, operations are O(1) on average. If all keys end up in the same place, either one long list or one long probe run, the time becomes O(n) in the worst case, so a good hash function and resizing matter."
+  },
+  {
+    "answer_id": "e04",
+    "text": "# Handling collisions\n\nWhen two keys hash to the same index in a hash table we call it a collision.\n\n## Chaining\nEach bucket stores a linked list. A new colliding key is appended to the list at that bucket. Searching means hashing the key and scanning the list. Memory is used for the list pointers.\n\n## Open addressing\nEverything is stored inside the array. On a collision we probe: linear probing tries index+1, index+2 and so on; double hashing uses a second hash function for the step size. Clusters can form with linear probing, which slows lookups. Deleting needs tombstones.\n\n## Complexity\nOn average lookup is O(1) and in the worst case O(n). A larger table keeps it closer to the average."
+  },
+  {
+    "answer_id": "e05",
+    "text": "# Hash table collisions\n\nA hash table uses a hash function to decide where to store a key. Sometimes two keys get the same index, which is called a collision, because the function cannot give every key a different place.\n\nOne way to fix it is chaining. Each place in the table has a linked list and the keys that collide are put in that list. The other way is open addressing, where if the spot is full you move on and check the next spot until you find an empty one.\n\nHash tables are normally quick. Looking up a key is O(1) usually, but when there are lots of collisions it can get slower."
+  },
+  {
+    "answer_id": "e06",
+    "text": "# Collisions\n\nIn a hash table a collision happens when two different keys are given the same index by the hash function. The table then has to store both of them somehow.\n\nThe main method is chaining. In chaining the table keeps a linked list in each slot, so the colliding items sit in the same list. There is also something called open addressing, which is a different method that finds another slot for the item.\n\nThe time for lookup is O(1) most of the time. If there are many collisions it will take longer."
+  },
+  {
+    "answer_id": "e07",
+    "text": "hash tables collisions happen when two keys have same index because hash function gives same number for different keys and this is normal because keys are more than slots. to solve it there is chaining so each slot has a linked list and you add the key to the list and search in the list, and there is open addressing so you put the key in the array in another place by probing like linear probing which is next slot and then when you search you probe the same way. time is O(1) average when load factor is low and the hash is good but worst case O(n) when everything is in same list or cluster so we need resizing also"
+  },
+  {
+    "answer_id": "e08",
+    "text": "Collisions in hash tables\n\nHash tables store data by key. A hash function changes the key into a number. A collision means the table is full at that number. To solve this there is chaining, which uses linked lists in each slot, and open addressing, which searches for the next free slot in the table, for example linear probing, and a lookup follows the same steps. Chaining and open addressing both keep all of the values. The speed is O(1) for a lookup, and it is slower if the table has a lot of items in it."
+  },
+  {
+    "answer_id": "e09",
+    "text": "# What is a collision?\n\nA hash table puts each key in an array position chosen by a hash function. A collision is when two keys want the same position.\n\nTo deal with it, the first idea is chaining, where each position holds a list of keys. The second idea is probing: if the position is busy you try a different one.\n\nThe time to find something is O(1) if everything goes well. If it goes badly it can be a lot longer.\n\nThat is how a hash table handles collisions."
+  },
+  {
+    "answer_id": "e10",
+    "text": "# Hash tables\n\nA hash table is a data structure that uses a hash function. If two keys go to the same place in the table that is a collision. To stop this we can use chaining. Hash tables are O(1).\n\nThey are used in many programs."
+  },
+  {
+    "answer_id": "e11",
+    "text": "hash table collision is when the hash is the same and you get error. chaining is when you use linked list in the box and open addressing is when you look for a different box that is empty. they are both ways. it is fast"
+  },
+  {
+    "answer_id": "e12",
+    "text": "# Collisions\n\nA collision in a hash table is when the table has a problem storing a key. One way to fix a collision is to use chaining. Hash tables are very useful for programmers and many languages have them built in, such as dictionaries and maps."
+  },
+  {
+    "answer_id": "e13",
+    "text": "Collisions happen when different keys end up with the same index in the hash table. The table has to handle that. One way is to try another slot."
+  },
+  {
+    "answer_id": "e14",
+    "text": "ok so collisions. the hash function turns a key into an index and two keys can get the same index so thats a collision and you cant avoid it fully. chaining: list in every slot. but also open addressing which is no lists you just probe to find another free slot. oh and the speed, average O(1), worst case O(n) if everything lands in one slot or probe run. anyway chaining needs extra memory for the pointers. back to open addressing, you must use tombstones when deleting. thats basically it, resize when too full"
+  },
+  {
+    "answer_id": "e15",
+    "text": "# How binary search works\n\nBinary search finds a value in a sorted array. We compare the target with the middle element. If it is smaller we continue in the left half, if larger in the right half. Each step halves the search range, so the running time is O(log n). It needs a sorted array, which is why sorting first can be worth it."
+  }
+]

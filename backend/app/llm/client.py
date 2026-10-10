@@ -29,7 +29,7 @@ from app.llm.mock import load_mock
 
 T = TypeVar("T", bound=BaseModel)
 
-ROLES = {"rubric_draft", "grader", "feedback", "viva_questions", "viva_scores"}
+ROLES = {"rubric_draft", "grader", "feedback", "viva_questions", "viva_scores", "eval_polish"}
 
 log = logging.getLogger(__name__)
 
@@ -122,15 +122,22 @@ def build_pool(settings: Settings) -> list[Endpoint]:
 _lock = threading.Lock()
 _cooldown_until: dict[str, float] = {}
 _rotation = 0
+_requests = 0
 _last = threading.local()
 
 
 def reset_pool_state() -> None:
-    """Forget cooldowns and the rotation position (used by tests)."""
-    global _rotation
+    """Forget cooldowns, the rotation position and the request counter (used by tests)."""
+    global _rotation, _requests
     with _lock:
         _cooldown_until.clear()
         _rotation = 0
+        _requests = 0
+
+
+def request_count() -> int:
+    """Provider requests made so far in this process (cache and mock hits do not count)."""
+    return _requests
 
 
 def last_model_id() -> str | None:
@@ -156,6 +163,12 @@ def _ordered_candidates(pool: list[Endpoint]) -> list[Endpoint]:
     return [e for e in ordered if e.label not in cooling] + [
         e for e in ordered if e.label in cooling
     ]
+
+
+def _count_request() -> None:
+    global _requests
+    with _lock:
+        _requests += 1
 
 
 def _cool(ep: Endpoint, seconds: float) -> None:
@@ -327,6 +340,7 @@ def _call_provider(
     while attempt < len(candidates) + (1 if single else 0):
         ep = candidates[attempt % len(candidates)]
         attempt += 1
+        _count_request()
         try:
             with httpx.Client(timeout=settings.llm_timeout_s, transport=_transport) as client:
                 text = _request(client, ep, system, user, temperature, max_tokens)

@@ -1,0 +1,21 @@
+{
+  "note": "Levels the answer author aimed for when writing each answer, in rubric order c1..c4. These are design labels, NOT independent human ratings. Raters must not see this file.",
+  "criteria": ["c1", "c2", "c3", "c4"],
+  "levels": {
+    "e01": [4, 4, 4, 4],
+    "e02": [4, 4, 3, 4],
+    "e03": [4, 3, 4, 3],
+    "e04": [3, 4, 3, 4],
+    "e05": [3, 3, 2, 3],
+    "e06": [3, 2, 2, 3],
+    "e07": [3, 3, 3, 2],
+    "e08": [2, 3, 2, 2],
+    "e09": [2, 2, 2, 3],
+    "e10": [2, 1, 1, 2],
+    "e11": [1, 2, 1, 1],
+    "e12": [1, 1, 0, 2],
+    "e13": [2, 1, 0, 2],
+    "e14": [3, 3, 3, 1],
+    "e15": [0, 0, 0, 3]
+  }
+}

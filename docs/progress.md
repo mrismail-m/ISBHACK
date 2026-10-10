@@ -32,7 +32,7 @@ Update only your own row.
 
 | Member | Current task | Status | Next | Blockers |
 |---|---|---|---|---|
-| Adeel | M3.1 done | M4.1 trust report; golden path run once Ismail's review, approve, result land | eval run needs a real LLM key | no LLM key configured yet |
+| Adeel | M4.1 partial | full eval run and report | approval for about 145 LLM calls, human raters, contract OK | human ratings missing |
 | Majid | M2.3/M3.2 done | live API browser flow verified with mock AI | team real-AI golden path | timed recording deferred by user |
 | Ismail | M4.3 done | wait for demo run | help with rehearsals | none |
 
@@ -68,6 +68,14 @@ None yet. Add a line here when you need a change in a file you do not own, and s
 Format: `<from> to <owner>: <what> (task id)`
 
 ## Log: Adeel (newest first)
+
+### 2026-10-10 15:10 | Adeel | M4.1 | partial
+- Did: eval harness built and tested: `python -m eval.run_eval` (`--quick`, `--all`, section flags), pure Python MAE/QWK (matches sklearn), 6 bias probes, consistency, strictness ordering, editor signals from Majid's demo sessions, `GET /evaluation/trust-report` (404 until a report exists). Dataset: 15 answers (`fixtures/eval/answers_a1.json`) plus author-intended levels. Pilot with 15 real calls: AI vs author levels MAE 1.53 marks, QWK 0.87, AI about +0.9 marks more generous on average (c1 most). Strictness ordering passed, 0 violations.
+- Files: `backend/eval/*`, `backend/app/routers/evaluation.py`, `backend/app/schemas/grading.py` (TrustReport), `backend/app/llm/client.py` (request counter, role `eval_polish`), `fixtures/eval/*`, `fixtures/api/llm/eval_polish.json`, `backend/tests/{test_eval,test_health}.py`, `docs/evaluation.md`
+- Contract: PROPOSED, not applied: in `TrustReport`, `accuracy.*_mae/_qwk` become nullable (null = human ratings pending) and new optional fields are added (`accuracy.author_labels`, `consistency.n_answers/identical_level_pct`, extra probe fields, `strictness_ordering.n/mean_spread_marks`). `api-contract.md`, `types.ts` and the fixture are untouched until Adeel approves.
+- Decisions: no human scores are invented. Human numbers show "pending" until two raters fill `fixtures/eval/human_scores_a1.template.csv`. Removed scikit-learn from `requirements-eval.txt` (not needed). Replaced the 501 test in `test_health.py` (the trust report was the last stub).
+- Next: Adeel approves the full run (about 145 LLM calls) and the contract proposal; two teammates rate the 15 answers blind; then run `--all --yes`, commit the report, tick M4.1.
+- Needs from others: Majid and Ismail (or any two people): blind-rate 15 answers x 4 criteria each (about 15 minutes) using the template. Ismail: trust report page (T09) can read the new optional fields once the contract is approved.
 
 ### 2026-10-10 14:50 | Adeel | M1.1 follow-up | done
 - Did: LLM key pool with rotation and fallback (3 Groq keys, then 3 Gemini keys). Round-robin per call, cooldown on 429/5xx/timeout/bad key, then next provider. Keys live only in git-ignored `backend/.env`. Grade `model_id` now records the model that answered. Verified live: grade, feedback, rubric draft, viva start/answer/finish, and forced fallback (bad Groq keys went to Gemini).
