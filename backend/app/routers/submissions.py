@@ -2,6 +2,7 @@ import math
 import os
 import uuid
 from datetime import UTC, datetime
+from typing import Annotated
 
 from fastapi import APIRouter, Depends
 from sqlmodel import Session, select
@@ -10,7 +11,7 @@ from app.db import get_session
 from app.deps import ApiError, current_user_id
 from app.models.core import Assessment, Submission, User
 from app.models.grading import Grade, VivaSession
-from app.routers.activity import load_activity
+from app.routers.activity import access, load_activity
 from app.schemas.core import (
     ApproveRequest,
     StudentResult,
@@ -24,15 +25,23 @@ from app.services.flags import compute_flags
 from app.services.scoring import compute_final_score
 
 SESSION_DEPENDENCY = Depends(get_session)
+UserIdDep = Annotated[str | None, Depends(current_user_id)]
 
 router = APIRouter(tags=["submissions"])
 
+
+def require_teacher(session: Session, assessment: Assessment, user_id: str | None):
+    user = session.get(User, user_id) if user_id else None
+    if not user or user.role != "teacher" or user.classroom_id != assessment.classroom_id:
+        raise ApiError(403, "forbidden", "Only this classroom's teacher can review submissions.")
+
 @router.get("/assessments/{assessment_id}/submissions", response_model=list[SubmissionRow])
-def list_submissions(assessment_id: str, session: Session = SESSION_DEPENDENCY):
+def list_submissions(assessment_id: str, user_id: UserIdDep, session: Session = SESSION_DEPENDENCY):
     assessment = session.get(Assessment, assessment_id)
     if not assessment:
         raise ApiError(404, "not_found", "Assessment not found")
 
+    require_teacher(session, assessment, user_id)
     submissions = session.exec(
         select(Submission).where(Submission.assessment_id == assessment_id)
     ).all()
@@ -85,6 +94,12 @@ def start_submission(
     if not user_id:
         raise ApiError(401, "unauthorized", "Missing X-User-Id")
 
+    user = session.get(User, user_id)
+    assessment = session.get(Assessment, assessment_id)
+    if not assessment:
+        raise ApiError(404, "not_found", "Assessment not found")
+    if not user or user.role != "student" or user.classroom_id != assessment.classroom_id:
+        raise ApiError(403, "forbidden", "Only students in this classroom can start work.")
     existing = session.exec(
         select(Submission)
         .where(Submission.assessment_id == assessment_id)
@@ -94,6 +109,8 @@ def start_submission(
     if existing:
         return SubmissionSchema.model_validate(existing, from_attributes=True)
 
+    if assessment.status != "open":
+        raise ApiError(409, "conflict", "This assessment is not open.")
     sub = Submission(
         id=f"s_{uuid.uuid4().hex[:8]}",
         assessment_id=assessment_id,
@@ -110,7 +127,8 @@ def start_submission(
 
 
 @router.get("/submissions/{submission_id}", response_model=SubmissionSchema)
-def get_submission(submission_id: str, session: Session = SESSION_DEPENDENCY):
+def get_submission(submission_id: str, user_id: UserIdDep, session: Session = SESSION_DEPENDENCY):
+    access(session, submission_id, user_id)
     sub = session.get(Submission, submission_id)
     if not sub:
         raise ApiError(404, "not_found", "Submission not found")
@@ -119,8 +137,10 @@ def get_submission(submission_id: str, session: Session = SESSION_DEPENDENCY):
 
 @router.put("/submissions/{submission_id}", response_model=SubmissionSchema)
 def save_submission(
-    submission_id: str, data: SubmissionUpdate, session: Session = SESSION_DEPENDENCY
+    submission_id: str, data: SubmissionUpdate, user_id: UserIdDep,
+    session: Session = SESSION_DEPENDENCY
 ):
+    access(session, submission_id, user_id, write=True)
     sub = session.get(Submission, submission_id)
     if not sub:
         raise ApiError(404, "not_found", "Submission not found")
@@ -140,7 +160,10 @@ def save_submission(
 
 
 @router.post("/submissions/{submission_id}/submit", response_model=SubmissionSchema)
-def submit_submission(submission_id: str, session: Session = SESSION_DEPENDENCY):
+def submit_submission(
+    submission_id: str, user_id: UserIdDep, session: Session = SESSION_DEPENDENCY
+):
+    access(session, submission_id, user_id, write=True)
     sub = session.get(Submission, submission_id)
     if not sub:
         raise ApiError(404, "not_found", "Submission not found")
@@ -163,8 +186,11 @@ def submit_submission(submission_id: str, session: Session = SESSION_DEPENDENCY)
 
 @router.post("/submissions/{submission_id}/approve", response_model=GradeSchema)
 def approve_submission(
-    submission_id: str, req: ApproveRequest, session: Session = SESSION_DEPENDENCY
+    submission_id: str, req: ApproveRequest, user_id: UserIdDep,
+    session: Session = SESSION_DEPENDENCY
 ):
+    _, assessment = access(session, submission_id, user_id)
+    require_teacher(session, assessment, user_id)
     sub = session.get(Submission, submission_id)
     if not sub:
         raise ApiError(404, "not_found", "Submission not found")
@@ -234,7 +260,8 @@ def approve_submission(
 
 
 @router.get("/submissions/{submission_id}/result", response_model=StudentResult)
-def get_result(submission_id: str, session: Session = SESSION_DEPENDENCY):
+def get_result(submission_id: str, user_id: UserIdDep, session: Session = SESSION_DEPENDENCY):
+    access(session, submission_id, user_id)
     sub = session.get(Submission, submission_id)
     if not sub:
         raise ApiError(404, "not_found", "Submission not found")

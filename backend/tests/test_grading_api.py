@@ -51,7 +51,13 @@ def test_get_grade_returns_saved_grade_and_status_moves_to_graded(
     res = client.get("/api/v1/submissions/s_1/grade")
     assert res.status_code == 200
     assert res.json()["ai_total"] == 15.5
-    assert client.get("/api/v1/submissions/s_1").json()["status"] == "graded"
+    from app.models.core import User
+
+    seeded.add(User(id="u_student_3", name="Student", role="student", classroom_id="cl_1"))
+    seeded.commit()
+    assert client.get(
+        "/api/v1/submissions/s_1", headers={"X-User-Id": "u_student_3"}
+    ).json()["status"] == "graded"
 
 
 def test_regrading_updates_the_same_grade(client: TestClient, seeded: Session) -> None:

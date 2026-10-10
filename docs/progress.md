@@ -116,6 +116,16 @@ None yet.
 
 ## Log: Majid (newest first)
 
+### 2026-10-10 14:22 | Majid | M2.3/M3.2 | partial
+- Did: Corrected seeded-role access on submission reads/writes, class queue, approval/results and viva POSTs; viva teacher reads are classroom-scoped. Starting work now requires a student in an open assessment's classroom.
+- Files: `backend/app/routers/{submissions,viva}.py`, `backend/tests/{test_student_integration,test_viva,test_grading_api}.py`.
+- Contract: none. Uses existing X-User-Id demo scheme and activity access helper, not production authentication.
+- Decisions: User authorized teammate corrections. Tests provide seeded roles; wrong students, unknown users and other-class teachers cannot mutate or read another submission. Students cannot approve or list class work.
+- Checks: Backend suite and ruff verified before push.
+- Next: Browser integration and 10-minute editor recording.
+- Needs from others: none for Majid integration; broader grading/assessment role review remains with owners.
+
+
 ### 2026-10-10 14:14 | Majid | M2.3/M3.2 | partial
 - Did: Pulled and reviewed M2.1, M2.2, M2.4 and M3.1. Viva/result endpoints and review embedding now exist. Added integration checks through grade, viva, approval and released student result.
 - Files: `backend/tests/test_student_integration.py`, narrow corrections in `backend/app/routers/submissions.py` and `frontend/src/features/teacher/TeacherReviewDetail.tsx`.
@@ -223,6 +233,7 @@ None yet.
 ### Archive (Ismail)
 
 None yet.
+
 
 
 

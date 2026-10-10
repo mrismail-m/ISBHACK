@@ -16,10 +16,11 @@ STUDENT = {"X-User-Id": "u_student_3"}
 
 
 @pytest.fixture
-def viva_db(seeded: Session) -> Session:
+def viva_db(seeded: Session, client: TestClient) -> Session:
     seeded.add(User(id="u_teacher_1", name="Teacher", role="teacher", classroom_id="cl_1"))
     seeded.add(User(id="u_student_3", name="Ayesha", role="student", classroom_id="cl_1"))
     seeded.commit()
+    client.headers.update(STUDENT)
     return seeded
 
 
@@ -56,7 +57,7 @@ def test_question_count_follows_the_assessment(client: TestClient, viva_db: Sess
 
 
 def test_cannot_start_before_submitting(client: TestClient, viva_db: Session) -> None:
-    viva_db.add(make_submission(id="s_2", student_id="u_student_4", status="draft"))
+    viva_db.add(make_submission(id="s_2", student_id="u_student_3", status="draft"))
     viva_db.commit()
     res = client.post("/api/v1/submissions/s_2/viva/start")
     assert res.status_code == 409
