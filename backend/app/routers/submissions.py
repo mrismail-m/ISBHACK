@@ -1,3 +1,4 @@
+import math
 import os
 import uuid
 from datetime import UTC, datetime
@@ -172,6 +173,30 @@ def approve_submission(
     if not grade:
         raise ApiError(404, "not_found", "Grade not found")
 
+    assessment = session.get(Assessment, sub.assessment_id)
+    if not assessment:
+        raise ApiError(404, "not_found", "Assessment not found")
+    limits = {c["id"]: c["max_marks"] for c in assessment.rubric["criteria"]}
+    graded_ids = {c["criterion_id"] for c in grade.criteria}
+    seen = set()
+    for override in req.criteria_overrides:
+        criterion_id = override.get("criterion_id")
+        marks = override.get("marks")
+        if (
+            not isinstance(criterion_id, str)
+            or criterion_id not in limits
+            or criterion_id not in graded_ids
+            or criterion_id in seen
+            or isinstance(marks, bool)
+            or not isinstance(marks, int | float)
+            or not math.isfinite(marks)
+            or not 0 <= marks <= limits[criterion_id]
+        ):
+            raise ApiError(
+                422, "validation_error", "Override must be within the criterion's marks."
+            )
+        seen.add(criterion_id)
+
     new_criteria = list(grade.criteria)
     for override in req.criteria_overrides:
         for crit in new_criteria:
@@ -196,7 +221,6 @@ def approve_submission(
     grade.approved_at = datetime.now(UTC)
     sub.status = "approved"
 
-    assessment = session.get(Assessment, sub.assessment_id)
     should_release = req.release or (assessment and assessment.release_mode == "auto")
     if should_release:
         grade.released_at = datetime.now(UTC)

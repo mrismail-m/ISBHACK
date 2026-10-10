@@ -33,7 +33,7 @@ Update only your own row.
 | Member | Current task | Status | Next | Blockers |
 |---|---|---|---|---|
 | Adeel | M3.1 done | M4.1 trust report; golden path run once Ismail's review, approve, result land | eval run needs a real LLM key | no LLM key configured yet |
-| Majid | M4.2 done | independent implementation and demo recordings ready | integrate when owners publish dependencies | live viva, released results and teacher review embedding |
+| Majid | M2.3/M3.2 integration | dependencies landed; API integration passes | browser viva, teacher review and released results | 10-minute round trip still unverified |
 | Ismail | M2.4 done | M3.3 next | dashboard and grace marks | M3.1 (from Adeel) |
 
 ## Integration status (golden path)
@@ -115,6 +115,16 @@ Format: `<from> to <owner>: <what> (task id)`
 None yet.
 
 ## Log: Majid (newest first)
+
+### 2026-10-10 14:14 | Majid | M2.3/M3.2 | partial
+- Did: Pulled and reviewed M2.1, M2.2, M2.4 and M3.1. Viva/result endpoints and review embedding now exist. Added integration checks through grade, viva, approval and released student result.
+- Files: `backend/tests/test_student_integration.py`, narrow corrections in `backend/app/routers/submissions.py` and `frontend/src/features/teacher/TeacherReviewDetail.tsx`.
+- Contract: none. Corrected invalid override acceptance: reject unknown/duplicate criteria and nonnumeric, negative or excessive marks; UI maximum uses the rubric criterion limit.
+- Decisions: User authorized corrections to teammate mistakes. New tests verify rejection leaves results unreleased and understanding blends into the released result.
+- Checks: Backend 78 tests and ruff pass; frontend 19 tests, typecheck and lint pass. No real LLM call. Browser integration and 10-minute recording are not yet verified.
+- Next: Verify viva, teacher replay and released result in browser. Review remaining missing seeded-role checks on submission mutations, approval and viva POSTs before treating access restrictions as verified.
+- Needs from others: None for Majid API integration now. Adeel still needs a real provider key for real-model evaluation; Ismail dashboard/grace remain in progress.
+
 
 ### 2026-10-10 13:51 | Majid | M4.2 | done
 - Did: Recorded 3 real editor sessions (typed, pasted, retyped), persisted through local API and exported raw events plus server summaries. All reconstruct the exact saved 547-character answer. Typed/retyped have 0% paste; pasted has 100% with one surviving large chunk.
@@ -213,6 +223,7 @@ None yet.
 ### Archive (Ismail)
 
 None yet.
+
 
 
 

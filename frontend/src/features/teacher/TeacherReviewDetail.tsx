@@ -108,7 +108,7 @@ export function TeacherReviewDetail() {
                           type="number" 
                           step="0.5" 
                           min="0"
-                          max={assessment.max_marks} // Should be criterion max_marks, but we don't have it here easily
+                          max={assessment.rubric?.criteria.find(criterion => criterion.id === c.criterion_id)?.max_marks ?? 0}
                           value={override ? override.marks : c.final_marks}
                           onChange={e => handleOverrideChange(c.criterion_id, Number(e.target.value), override?.note || c.teacher_note || '')}
                           className="w-16 border rounded p-1 text-sm text-center"
