@@ -83,6 +83,15 @@ None yet.
 
 ## Log: Majid (newest first)
 
+### 2026-10-10 13:35 | Majid | M1.2 | done
+- Did: Integrated latest Ismail endpoints and teacher routes. Real browser session typed, pasted, autosaved and submitted; teacher activity API returned all 146 characters, 54 events, 33.6% typed and 66.4% pasted with 100% paste survival.
+- Files: `docs/roadmap.md`, `frontend/src/index.css`; narrow lint fixes in `backend/app/routers/{assessments,submissions}.py`, `backend/app/seed.py`, `backend/dump_fixtures.py`.
+- Contract: none
+- Decisions: User authorized teammate corrections. Replaced Tailwind 3 directives with Tailwind 4 import; extracted existing Depends defaults into singleton variables and formatted flagged Python files. No endpoint behavior changed.
+- Checks: All backend tests and repo-wide ruff pass; frontend checks pass. Local DB seeded without deleting existing data. Real-mode frontend on port 5174; normal fixture frontend remains 5173.
+- Next: M3.2 insights components and fixture-driven viva UI.
+- Needs from others: Ismail result API; Adeel viva endpoints and approval of proposed design. Earlier missing submission endpoint request is resolved.
+
 ### 2026-10-10 13:31 | Majid | M2.3 | partial
 - Did: Activity ingestion with authorization, duplicate retry and sequence validation; UTF-16 summary; pure replay core and 7 shared parity fixtures; released result and feedback UI.
 - Files: `backend/app/{routers,models,schemas}/activity.py`, `backend/app/services/activity_summary.py`, `backend/tests/test_activity.py`, `fixtures/activity/cases.json`, `frontend/src/lib/replay-core/`, student result/API/routes.
