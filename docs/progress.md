@@ -32,7 +32,7 @@ Update only your own row.
 
 | Member | Current task | Status | Next | Blockers |
 |---|---|---|---|---|
-| Adeel | M2.2 done | M3.1 next | viva endpoints | no LLM key configured yet |
+| Adeel | M3.1 done | M4.1 trust report; golden path run once Ismail's review, approve, result land | eval run needs a real LLM key | no LLM key configured yet |
 | Majid | M4.2 done | independent implementation and demo recordings ready | integrate when owners publish dependencies | live viva, released results and teacher review embedding |
 | Ismail | M2.4 done | M3.3 next | dashboard and grace marks | M3.1 (from Adeel) |
 
@@ -44,7 +44,7 @@ Updated by Adeel at each sync. Values: `not started`, `mock ok`, `real ok`, `bro
 |---|---|---|---|
 | 1. Teacher sees assessment settings | not started | not started | |
 | 2. Student writes (type and paste) and submits | not started | not started | |
-| 3. Student takes the viva | not started | not started | |
+| 3. Student takes the viva | mock ok (API) | not started | backend checked with scripts/smoke.py; UI is Majid's |
 | 4. Teacher reviews AI draft, flags, replay, approves and releases | not started | not started | |
 | 5. Student sees result and feedback | not started | not started | |
 | 6. Dashboard stats and graphs, grace marks | not started | not started | |
@@ -68,6 +68,15 @@ None yet. Add a line here when you need a change in a file you do not own, and s
 Format: `<from> to <owner>: <what> (task id)`
 
 ## Log: Adeel (newest first)
+
+### 2026-10-10 14:20 | Adeel | M3.1 | done
+- Did: viva `start`, `answer`, `finish`, `GET viva`. Examiner writes questions; every `anchor_quote` is verified in the submission and failed ones are asked for again once. Scorer gets only question, the student's text excerpt and the answer. Understanding is the mean of 0, 0.5, 1 scores, computed in code.
+- Files: `backend/app/ai/{viva.py,viva_service.py,prompts/examiner.md,prompts/scorer.md}`, `backend/app/routers/viva.py`, `backend/app/schemas/viva.py`, `backend/tests/test_viva.py`, `fixtures/api/{viva_start,viva_result,viva_detail_s1}.json`, `fixtures/api/llm/viva_*.json`
+- Contract: none. `VivaDetail.understanding` is null and `status` is `in_progress` until finish (contract only showed `done`). `VivaDetail.score` is null until scored.
+- Decisions: missing, empty or timed-out answers score 0 without an LLM call (timed out = `time_taken_s` over the limit plus 5 s grace). `GET viva` needs `X-User-Id` of a teacher (403 otherwise). Start is a resume if called twice, 409 after finish. In mock mode anchors are not verified (canned questions).
+- Checks: 72 tests pass (1 failing test is Majid's `test_activity`, naive datetimes with sqlmodel 0.0.48 locally). Live smoke in mock mode: steps 0 to 3 and 4a, 4b pass; approve, result, stats are 501 (Ismail). MCQ grading (P2) not built. No real LLM call made yet.
+- Next: wait for Ismail's M2.4 and M3.3, then run the full golden path; M4.1 trust report.
+- Needs from others: Ismail: read `viva_sessions.understanding` (null until done) for the blend; call `grade_submission_by_id` from submit.
 
 ### 2026-10-10 14:00 | Adeel | M2.2 | done
 - Did: Implemented LLM feedback writer (`generate_feedback`), verified its quotes, stripped explanations in hints mode. Implemented `grade-all`, `grading-status`, `feedback/regenerate` endpoints. Added `feedback.json` mock fixture.

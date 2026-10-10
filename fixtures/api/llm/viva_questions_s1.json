@@ -1,0 +1,25 @@
+{
+  "questions": [
+    {
+      "id": "vq_1",
+      "kind": "explain",
+      "text": "You wrote that open addressing probes for the next free slot. Why does that make lookups slower when the table is almost full?",
+      "topic": "collisions",
+      "anchor_quote": "Open addressing instead probes for the next free slot"
+    },
+    {
+      "id": "vq_2",
+      "kind": "change",
+      "text": "You said lookups are O(1) on average. What would happen to that if the hash function sent every key to the same slot?",
+      "topic": "complexity",
+      "anchor_quote": "usually O(1) on average"
+    },
+    {
+      "id": "vq_3",
+      "kind": "defend",
+      "text": "A classmate says chaining wastes memory so open addressing is always better. How would you answer them using your own explanation?",
+      "topic": "collisions",
+      "anchor_quote": "each slot of the table holds a linked list"
+    }
+  ]
+}

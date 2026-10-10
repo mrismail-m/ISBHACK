@@ -68,7 +68,7 @@ Exit: real AI grading with strictness, verified evidence, flags and feedback. Ac
 
 Exit: viva works end to end. Replay and paste chunks appear in review. Dashboard and grace marks work. After M3 the features are frozen.
 
-- [ ] **M3.1 (Adeel)** Viva: `viva/start`, `answer`, `finish`, `GET viva`. Question generation from the submission, answer scoring, understanding score. MCQ grading (P2).
+- [x] **M3.1 (Adeel)** Viva: `viva/start`, `answer`, `finish`, `GET viva`. Question generation from the submission, answer scoring, understanding score. MCQ grading (P2).
 - [ ] **M3.2 (Majid)** Viva UI (one question at a time, timer, paste blocked, tab switches counted). Insights components: paste chunk list, authorship map, heatmap, replay viewer (scrubber, speed, skip idle, jump to paste), embedded in the review detail.
 - [ ] **M3.3 (Ismail)** Dashboard: stat cards, histogram, per-topic bars, class trend, attention list with reasons, graded versus pending, override stats widget. Grace marks (preview, apply, undo).
 - [ ] **M3.4 (All)** Sync 3: full golden path with the real LLM, tag `m3-ok`. **Feature freeze.**

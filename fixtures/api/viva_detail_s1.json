@@ -1,0 +1,36 @@
+{
+  "status": "done",
+  "understanding": 0.83,
+  "items": [
+    {
+      "question_id": "vq_1",
+      "text": "You wrote that open addressing probes for the next free slot. Why does that make lookups slower when the table is almost full?",
+      "answer_text": "When the table is nearly full, a new key keeps hitting taken slots, so the probe has to step through a long run of occupied slots before it finds a free one. A lookup follows the same run.",
+      "score": 1.0,
+      "note": "Explains probe length growth as the table fills clearly.",
+      "time_taken_s": 41.0,
+      "pasted": false,
+      "tab_switches": 0
+    },
+    {
+      "question_id": "vq_2",
+      "text": "You said lookups are O(1) on average. What would happen to that if the hash function sent every key to the same slot?",
+      "answer_text": "It would become O(n), because every key would sit in the same chain or probe run and I would have to walk through all of them.",
+      "score": 0.5,
+      "note": "Knows the worst case is O(n) but gives no reason.",
+      "time_taken_s": 38.0,
+      "pasted": false,
+      "tab_switches": 1
+    },
+    {
+      "question_id": "vq_3",
+      "text": "A classmate says chaining wastes memory so open addressing is always better. How would you answer them using your own explanation?",
+      "answer_text": "Chaining does use extra memory for the lists, but it stays simple when the table is crowded. Open addressing saves memory but slows down as the load factor rises, so it needs resizing earlier.",
+      "score": 1.0,
+      "note": "Defends chaining with a balanced trade-off in their own words.",
+      "time_taken_s": 62.0,
+      "pasted": false,
+      "tab_switches": 0
+    }
+  ]
+}
