@@ -11,6 +11,11 @@ export class ApiError extends Error {
 export async function apiClient<T>(endpoint: string, options: RequestInit & { fixtureName?: string } = {}): Promise<T> {
   const { fixtureName, ...request } = options;
   if (USE_FIXTURES) {
+    if (!request.method || request.method === 'GET') {
+      const data: Record<string, unknown> = (await import('../../../fixtures/demo/api.json')).default;
+      const route = endpoint.split('?')[0];
+      if (route in data) return structuredClone(data[route]) as T;
+    }
     if ((!request.method || request.method === 'GET') && fixtureName) {
       const load = fixtures[`../../../fixtures/api/${fixtureName}.json`];
       if (load) return await load() as T;

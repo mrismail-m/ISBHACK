@@ -1,3 +1,4 @@
+import roster from '../../../../fixtures/demo/roster.json';
 import { Routes, Route, Link, useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { TeacherReviewDetail } from './TeacherReviewDetail';
@@ -195,7 +196,7 @@ function AssessmentDetail() {
           <tbody className="divide-y divide-slate-100">
             {submissions.map(sub => (
               <tr key={sub.submission_id} className="hover:bg-slate-50 transition-colors">
-                <td className="p-3 font-medium text-slate-900">{blindMode ? sub.label : sub.student_name}</td>
+                <td className="p-3 font-medium text-slate-900">{blindMode ? sub.label : <>{sub.student_name}<small className="block text-slate-500">{roster.find(row => row.name === sub.student_name)?.reg_no}</small></>}</td>
                 <td className="p-3 text-sm capitalize">{sub.status.replace('_', ' ')}</td>
                 <td className="p-3 text-sm">{sub.ai_total != null ? `${sub.ai_total}/${sub.max_marks}` : '-'}</td>
                 <td className="p-3 text-sm font-medium">{sub.score_pct != null ? `${sub.score_pct.toFixed(1)}% (${sub.score_is_final ? 'final' : 'provisional'})` : '-'}</td>

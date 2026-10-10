@@ -218,7 +218,11 @@ def get_class_performance(session: Session, classroom_id: str) -> ClassPerforman
     student_scores = {s.id: {"name": s.name, "scores": []} for s in students}
 
     for a in assessments:
+        if a.status != "closed":
+            continue
         stats = get_assessment_stats(session, a.id)
+        if stats.avg_pct is None:
+            continue
         ap_list.append(
             AssessmentPerformance(
                 assessment_id=a.id,
@@ -255,33 +259,46 @@ def get_class_performance(session: Session, classroom_id: str) -> ClassPerforman
 
 
 def get_attention(session: Session, classroom_id: str) -> list[AttentionStudent]:
-    perf = get_class_performance(session, classroom_id)
+    students = session.exec(select(User).where(
+        User.classroom_id == classroom_id, User.role == "student"
+    )).all()
+    assessments = session.exec(select(Assessment).where(
+        Assessment.classroom_id == classroom_id
+    ).order_by(Assessment.created_at)).all()
     attention = []
-
-    for sp in perf.students:
-        reasons = []
-        if not sp.scores_pct:
+    for student in students:
+        scored = []
+        for assessment in assessments:
+            submissions = session.exec(select(Submission).where(
+                Submission.assessment_id == assessment.id,
+                Submission.student_id == student.id,
+            )).all()
+            for submission in submissions:
+                grade = session.exec(select(Grade).where(
+                    Grade.submission_id == submission.id
+                )).first()
+                if not grade or not grade.released_at:
+                    continue
+                viva = session.exec(select(VivaSession).where(
+                    VivaSession.submission_id == submission.id
+                )).first()
+                score = compute_final_score(assessment, grade, viva, session)["final_pct"]
+                scored.append((score, assessment.pass_mark_pct,
+                               viva.understanding if viva and viva.status == "done" else None))
+        recent = scored[-3:]
+        if not recent:
             continue
-
-        recent = sp.scores_pct[-3:] if len(sp.scores_pct) >= 3 else sp.scores_pct
-
-        # Check pass rate
-        # assuming pass is 50 for now, ideally check each assessment
-        if recent and recent[-1] < 50:
+        reasons = []
+        if recent[-1][0] < recent[-1][1]:
             reasons.append("below_pass_recent")
-
-        if len(recent) >= 2 and recent[-1] < recent[-2] - 10:
+        if len(recent) >= 2 and recent[-1][0] < recent[-2][0] - 10:
             reasons.append("falling_trend")
-
+        if recent[-1][2] is not None and recent[-1][2] < 0.5:
+            reasons.append("low_understanding")
         if reasons:
-            attention.append(
-                AttentionStudent(
-                    student_id=sp.student_id,
-                    name=sp.name,
-                    reasons=reasons,
-                    recent_scores_pct=recent,
-                    last_understanding=None,  # Would need to pull latest viva
-                )
-            )
-
+            attention.append(AttentionStudent(
+                student_id=student.id, name=student.name, reasons=reasons,
+                recent_scores_pct=[entry[0] for entry in recent],
+                last_understanding=recent[-1][2],
+            ))
     return attention

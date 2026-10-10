@@ -1,3 +1,5 @@
+import roster from '../../../../fixtures/demo/roster.json';
+import { ActivityInsights } from '../insights/ActivityInsights';
 import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { apiClient } from '../../api/client';
@@ -7,30 +9,42 @@ import type {
 } from '../../api/types';
 
 export function ClassroomDashboard() {
+  const [loadError, setLoadError] = useState('');
+  const [attempt, setAttempt] = useState(0);
+  const [selectedStudent, setSelectedStudent] = useState(roster[0].user_id);
   const [performance, setPerformance] = useState<ClassPerformance | null>(null);
   const [attention, setAttention] = useState<AttentionStudent[]>([]);
 
   useEffect(() => {
-    // Hardcode cl_1 for now as it's the only classroom
-    const clId = 'cl_1';
-    apiClient<ClassPerformance>(`/classrooms/${clId}/performance`)
-      .then(setPerformance)
-      .catch(console.error);
-    apiClient<AttentionStudent[]>(`/classrooms/${clId}/attention`)
-      .then(setAttention)
-      .catch(console.error);
-  }, []);
+    let active = true;
+    Promise.all([
+      apiClient<ClassPerformance>('/classrooms/cl_1/performance'),
+      apiClient<AttentionStudent[]>('/classrooms/cl_1/attention'),
+    ]).then(([data, students]) => {
+      if (active) { setPerformance(data); setAttention(students); }
+    }).catch(error => { if (active) setLoadError(error instanceof Error ? error.message : 'Dashboard could not load.'); });
+    return () => { active = false; };
+  }, [attempt]);
 
-  if (!performance) return <div className="p-8 text-center text-slate-500">Loading classroom dashboard...</div>;
+  if (loadError) return <main className="student-page" role="alert">{loadError} <button onClick={() => { setLoadError(''); setAttempt(value => value + 1); }}>Retry dashboard</button></main>;
+  if (!performance) return <div className="p-8 text-center text-slate-500" role="status">Loading classroom dashboard...</div>;
 
   return (
     <div className="p-8 max-w-5xl mx-auto space-y-8">
       <div>
         <Link to="/teacher" className="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Assessments</Link>
         <h2 className="text-3xl font-bold text-slate-800">Classroom Dashboard</h2>
+        <p className="text-amber-800 mt-2">Demo cohort: 50 students. Practice scores, activity and viva results are synthetic; only names and registration numbers came from the supplied roster.</p>
       </div>
 
-      <div className="grid grid-cols-2 gap-8">
+      <section className="bg-white p-6 rounded-lg border border-slate-200">
+        <h3 className="text-xl font-semibold mb-4">Student writing evidence</h3>
+        <label>Student <select className="border p-2 rounded max-w-full" value={selectedStudent} onChange={e => setSelectedStudent(e.target.value)}>{roster.map(row => <option key={row.user_id} value={row.user_id}>{row.reg_no} · {row.name}</option>)}</select></label>
+        <p className="mt-3"><Link to={`/teacher/submissions/demo_s_3_${roster.findIndex(row => row.user_id === selectedStudent) + 1}/review`}>Open full review and rubric</Link></p>
+        <ActivityInsights key={selectedStudent} submissionId={`demo_s_3_${roster.findIndex(row => row.user_id === selectedStudent) + 1}`} />
+      </section>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="bg-white p-6 rounded-lg shadow border border-slate-200">
           <h3 className="font-semibold text-lg border-b pb-2 mb-4">Class Trend (Avg %)</h3>
           <div className="h-48 flex items-end gap-2">

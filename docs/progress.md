@@ -38,16 +38,17 @@ Update only your own row.
 
 ## Integration status (golden path)
 
-Updated by Adeel at each sync. Values: `not started`, `mock ok`, `real ok`, `broken (note)`.
+Updated at syncs; Majid corrected stale rows with user authorization. Mock AI through live APIs is distinguished from real-provider verification.
 
 | Step | Mock mode | Real mode | Notes |
 |---|---|---|---|
-| 1. Teacher sees assessment settings | not started | not started | |
-| 2. Student writes (type and paste) and submits | not started | not started | |
-| 3. Student takes the viva | mock ok (API) | not started | backend checked with scripts/smoke.py; UI is Majid's |
-| 4. Teacher reviews AI draft, flags, replay, approves and releases | not started | not started | |
-| 5. Student sees result and feedback | not started | not started | |
-| 6. Dashboard stats and graphs, grace marks | not started | not started | |
+| 1. Teacher sees assessment settings | mock ok (API) | UI run pending | Settings implemented; full real-AI demo not signed off. |
+| 2. Student writes (type and paste) and submits | mock ok (live API + UI) | full run pending | Actual capture, storage and replay verified; grading used mock AI. |
+| 3. Student takes the viva | mock ok (live API + UI) | API checks reported by Adeel | Three answers completed in browser; real-provider viva reported in Adeel's log. |
+| 4. Teacher reviews AI draft, flags, replay, approves and releases | mock ok (live API + UI) | full run pending | Paste highlight, replay and release verified with mock AI. |
+| 5. Student sees result and feedback | mock ok (live API + UI) | full run pending | Browser release returned 13.8/20 and 69%; no full real-AI browser sign-off. |
+| 6. Dashboard stats and graphs, grace marks | dashboard verified; grace UI pending | full run pending | Synthetic cohort populated, live and fixture dashboard checked. |
+
 
 ## Contract changes (append only, newest first)
 
@@ -132,6 +133,16 @@ Format: `<from> to <owner>: <what> (task id)`
 None yet.
 
 ## Log: Majid (newest first)
+
+### 2026-10-10 | Majid | M4.2 demo roster and cleanup | done
+- Did: Added fixed-credential demo login, 50 names/registrations, 150 synthetic writing sessions and offline fixtures. Dashboard selects students for heatmaps, paste evidence, authorship and replay.
+- Files: `features/student/DemoLogin.tsx`, routes, teacher dashboard, client/demo store, `backend/app/demo_{seed,fixtures}.py`, analytics service/tests, `fixtures/demo/`, user/assessment fixtures.
+- Contract: none. Registration numbers remain in a separate roster; existing user IDs and API schemas stay stable. Supplied marks were not imported.
+- Decisions: User authorized dummy auth/data and shared cleanup. Removed unused concurrent package additions after backing them up in ignored cache; restored locked dependencies with npm ci. Existing DB work preserved.
+- Checks: Seed reruns without duplicates; generated grades validate and all sessions replay exactly. Live and fixture browser login/dashboard verified, including invalid-password rejection. 104 backend tests, 20 frontend tests, lint/typecheck/build pass. Browser capture exported as an 83-second silent walkthrough.
+- Next: Real-AI evaluation and full team golden path; shared status now distinguishes verified mock UI from reported real API checks.
+- Needs from others: Adeel evaluation; grace UI sign-off. Ten-minute recording remains deferred by user.
+
 
 ### 2026-10-10 | Majid | M2.3/M3.2 | done
 - Did: Verified editor, viva, review, replay, approval and released result through live APIs with mock AI. Captured 805 characters and 247 events; replay matched exactly, paste survival was 100%.

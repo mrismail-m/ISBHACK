@@ -1,10 +1,7 @@
+import roster from '../../../../fixtures/demo/roster.json';
 import type { ActivityBatch, ActivityEvents, Assessment, Submission, User, VivaAnswer, VivaStart } from '../../api/types';
 import { summarizeActivity } from '../../lib/replay-core';
-export const demoUsers: User[] = [
-  { id: 'u_teacher_1', name: 'Demo teacher', role: 'teacher', classroom_id: 'cl_1' },
-  { id: 'u_student_3', name: 'Ayesha K.', role: 'student', classroom_id: 'cl_1' },
-  { id: 'u_student_4', name: 'Hassan A.', role: 'student', classroom_id: 'cl_1' },
-];
+export const demoUsers: User[] = [{ id: 'u_teacher_1', name: 'Demo teacher', role: 'teacher', classroom_id: 'cl_1' }, ...roster.map(row => ({ id: row.user_id, name: row.name, role: 'student' as const, classroom_id: 'cl_1' }))];
 const demoAssessment: Assessment = {
   id: 'a_1', classroom_id: 'cl_1', kind: 'assignment', title: 'Hash table collisions',
   instructions_md: '# Explain hash table collisions\n\nIn about 300 words, explain why collisions happen and compare **chaining** with **open addressing**. Include an example and discuss average and worst-case lookup complexity.',
