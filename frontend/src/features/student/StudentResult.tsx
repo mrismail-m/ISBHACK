@@ -31,7 +31,7 @@ function StudentResultLoader({ submissionId }: { submissionId: string }) {
     return () => { active = false; };
   }, [submissionId, attempt]);
   return <main className="student-page"><Link to="/student">Back to my work</Link>
-    <section className="lab-feature-banner"><h2>Turn feedback into a learning experiment.</h2><p>Apply one idea from your assignment, get a targeted explanation, and try a different situation.</p><Link to={`/student/submissions/${submissionId}/learning-lab`}>Open Learning Lab →</Link></section>
+    <section className="lab-feature-banner"><h2>Practise the ideas in your assignment.</h2><p>Answer a short question, read a helpful explanation, then try again. Your teacher can see where you need help.</p><Link to={`/student/submissions/${submissionId}/learning-lab`}>Start practice →</Link></section>
     {result ? <ResultView result={result} /> : pending ? <section><h1>Your result is being reviewed.</h1><p>Your teacher has not released your result yet.</p><button className="primary" onClick={() => { setPending(false); setAttempt(a => a + 1); }}>Check again</button></section> : error ? <div className="error" role="alert">{error} <button onClick={() => { setError(''); setAttempt(a => a + 1); }}>Retry</button></div> : <p role="status">Loading your result...</p>}
   </main>;
 }

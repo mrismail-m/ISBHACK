@@ -37,7 +37,7 @@ function AssessmentList() {
   return (
     <div className="p-8 max-w-4xl mx-auto">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-3xl font-bold text-slate-800">Assessments</h2>
+        <h2 className="text-3xl font-bold text-slate-800">My assignments</h2>
         <div className="flex gap-2">
           <button 
             onClick={() => navigate('/teacher/trust-report')}
@@ -60,7 +60,7 @@ function AssessmentList() {
         </div>
       </div>
       
-      <section className="lab-feature-banner"><h2>Learning Lab: from answers to understanding.</h2><p>Students apply a concept, learn from a targeted explanation, and try a different scenario. Review the reasoning before and after to decide what to teach next.</p><Link to="/teacher/learning-lab">Open the Learning Lab →</Link></section>
+      <section className="lab-feature-banner"><h2>Find out what your class needs help with.</h2><p>Students submit their work, answer a practice question, get an explanation, and try again. You see who improved and who needs another explanation.</p><div className="lab-how"><div><b>1. Set an assignment</b><p>Create an assignment or choose one below.</p></div><div><b>2. Students practise</b><p>After submitting, students answer two questions with help in between.</p></div><div><b>3. Plan your next lesson</b><p>Open learning progress and read the answers of students who need help.</p></div></div><Link to="/teacher/learning-lab">See student learning progress →</Link></section>
       <div className="bg-white rounded-lg shadow border border-slate-200 overflow-hidden">
         <table className="w-full text-left">
           <thead className="bg-slate-50 border-b border-slate-200">
@@ -69,6 +69,7 @@ function AssessmentList() {
               <th className="p-4 text-sm font-semibold text-slate-600">Status</th>
               <th className="p-4 text-sm font-semibold text-slate-600">Due</th>
               <th className="p-4 text-sm font-semibold text-slate-600">Max Marks</th>
+              <th className="p-4 text-sm font-semibold text-slate-600">Learning progress</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
@@ -86,6 +87,7 @@ function AssessmentList() {
                 </td>
                 <td className="p-4 text-sm text-slate-600">{new Date(a.due_at).toLocaleDateString()}</td>
                 <td className="p-4 text-sm text-slate-600">{a.max_marks}</td>
+                <td className="p-4"><Link className="lab-table-action" to={`/teacher/assessments/${a.id}/learning-lab`} onClick={e => e.stopPropagation()}>View student progress →</Link></td>
               </tr>
             ))}
           </tbody>

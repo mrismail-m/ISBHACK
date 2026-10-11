@@ -34,7 +34,7 @@ export function ClassroomDashboard() {
       <div>
         <Link to="/teacher" className="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Assessments</Link>
         <h2 className="text-3xl font-bold text-slate-800">Classroom Dashboard</h2>
-        <section className="lab-feature-banner"><h2>Learning Lab</h2><p>See how students apply an idea before and after a targeted explanation. Use the actual answers to plan your next teaching step.</p><Link to="/teacher/learning-lab">Open learning evidence →</Link></section>
+        <section className="lab-feature-banner"><h2>Student learning progress</h2><p>See who improved after an explanation and who needs more help. Read their answers to decide what to teach next.</p><Link to="/teacher/learning-lab">See student progress →</Link></section>
 
       </div>
 

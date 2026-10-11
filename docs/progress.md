@@ -138,6 +138,14 @@ None yet.
 
 ## Log: Majid (newest first)
 
+### 2026-10-11 | Majid | M6.1 guided practice and demo submission fix | done
+- Did: Simplified student practice into answer, explanation, retry, and progress; added submission prerequisites and clear next actions. Teacher home and progress explain how to use student answers to plan teaching.
+- Files: Student and teacher screens, shared guidance styles, demo store, display labels, regression tests, and student UI proof image.
+- Checks: Frontend typecheck, lint, 26 tests, and production build passed. Browser verified A2 opens without the missing-fixture error and practice explains the submit prerequisite.
+- Decisions: Demo submission creation now supports every known assessment, preserves A1 drafts, and rejects new submissions for closed assessments.
+- Next: Rehearse the guided flow with judges. Local demo remains running; VPS unchanged.
+- Needs from others: none.
+
 ### 2026-10-11 | Majid | M6.1 Learning Lab | done
 - Did: independent persisted learning loop, verified answer quotes, targeted explanation and adaptive second scenario; student screens and teacher before/after evidence with teaching priorities.
 - Files: new learning_lab backend modules, api/types and learning-lab client, student/teacher lab screens, route/navigation links, fixtures, docs/learning-lab*.md, scripts/learning_lab_live_smoke.py.

@@ -5,6 +5,7 @@ import { DemoLogin, DemoGuard } from './features/student/DemoLogin';
 import roster from '../../fixtures/demo/roster.json';
 import './features/student/student.css';
 import './features/student/learning-lab.css';
+import './features/student/lab-guidance.css';
 const AssessmentEditor = lazy(() => import('./features/student/StudentApp').then(m => ({ default: m.AssessmentEditor })));
 const AssessmentList = lazy(() => import('./features/student/StudentApp').then(m => ({ default: m.AssessmentList })));
 const StudentResultPage = lazy(() => import('./features/student/StudentResult').then(m => ({ default: m.StudentResultPage })));
@@ -16,7 +17,7 @@ function DemoHeader() {
   const role = sessionStorage.getItem('vivagrade:demo-role');
   const student = roster.find(row => row.user_id === localStorage.getItem('currentUserId'));
   return <header className="app-nav"><Link className="wordmark" to={role === 'teacher' ? '/teacher/classroom' : '/student'}>VivaGrade<span>Apply an idea. Learn. Try again.</span></Link><nav>
-    {role ? <><Link to={role === 'teacher' ? '/teacher/learning-lab' : '/student'}>Learning Lab</Link><span>{role === 'teacher' ? 'Teacher' : `${student?.name || 'Student'} · ${student?.reg_no || ''}`}</span><button onClick={() => { sessionStorage.removeItem('vivagrade:demo-role'); localStorage.removeItem('currentUserId'); navigate(`/login/${role}`); }}>Sign out</button></> : <><Link to="/login/student">Student login</Link><Link to="/login/teacher">Teacher login</Link></>}
+    {role ? <><Link to={role === 'teacher' ? '/teacher/learning-lab' : '/student'}>{role === 'teacher' ? 'Student progress' : 'My assignments'}</Link><span>{role === 'teacher' ? 'Teacher' : `${student?.name || 'Student'} · ${student?.reg_no || ''}`}</span><button onClick={() => { sessionStorage.removeItem('vivagrade:demo-role'); localStorage.removeItem('currentUserId'); navigate(`/login/${role}`); }}>Sign out</button></> : <><Link to="/login/student">Student login</Link><Link to="/login/teacher">Teacher login</Link></>}
   </nav></header>;
 }
 export function AppRoutes() {

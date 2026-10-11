@@ -10,12 +10,12 @@ const state = (initial: 0 | 1 | 2, final: 0 | 1 | 2 | null): LabState => ({
   final: final === null ? null : observation(final), mode: 'fixture', created_at: '',
 });
 it('does not call partial improvement a completed learning outcome', () => {
-  expect(labOutcome(state(0, 1))).toBe('Progress · follow-up needed');
-  expect(labOutcome(state(0, 2))).toBe('Applied after explanation');
+  expect(labOutcome(state(0, 1))).toBe('Improved, keep practising');
+  expect(labOutcome(state(0, 2))).toBe('Your explanation improved');
 });
 it('reports regression, unchanged responses, and unfinished practice honestly', () => {
-  expect(labOutcome(state(2, 0))).toBe('Follow-up needed');
-  expect(labOutcome(state(1, 1))).toBe('Follow-up needed');
-  expect(labOutcome(state(2, 2))).toBe('Applied in both scenarios');
+  expect(labOutcome(state(2, 0))).toBe('Needs more practice');
+  expect(labOutcome(state(1, 1))).toBe('Needs more practice');
+  expect(labOutcome(state(2, 2))).toBe('You explained both answers clearly');
   expect(labOutcome(state(0, null))).toBe('In progress');
 });

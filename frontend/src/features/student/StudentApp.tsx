@@ -16,15 +16,16 @@ export function AssessmentList() {
     return () => { active = false; };
   }, [attempt]);
   return <main className="student-page">
-    <p className="eyebrow">YOUR CLASSROOM</p><h1>A little work.<br />A deeper understanding.</h1>
-    <p className="lead">Submit your assignment. Apply an idea in a new situation, learn from an explanation, and try again in the Learning Lab.</p>
+    <p className="eyebrow">STUDENT HOME</p><h1>My assignments</h1>
+    <p className="lead">Choose an assignment below. Write your answer first, then practise the ideas with short questions and helpful explanations.</p>
+    <div className="lab-how"><div><b>1. Write and submit</b><p>Complete the assignment in your own words.</p></div><div><b>2. Practise with help</b><p>Answer a question, read the feedback, and try again.</p></div><div><b>3. See your progress</b><p>Find what you understand and what to work on next.</p></div></div>
     
     {error ? <div role="alert" className="error">{error} <button onClick={() => { setError(''); setAttempt(a => a + 1); }}>Try again</button></div> : !assessments ? <p role="status">Loading your assessments...</p> : !assessments.length ? <p>No open assessments yet.</p> : <div className="assessment-grid">{assessments.map(a => <article className="assessment-card" key={a.id}>
       <div className="card-meta"><span className="status-pill">Open assignment</span><span>{a.max_marks} marks</span></div>
       <h2>{a.title}</h2><p>{a.topics.join(' · ')}</p>
       <p className="muted">Due {new Date(a.due_at).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })}</p>
-      <Link className="primary" to={`/student/assessments/${a.id}`}>Open assessment <span aria-hidden="true">→</span></Link>
-      <p><Link to={`/student/assessments/${a.id}/learning-lab`}>Learning Lab: apply, learn, try again →</Link></p>
+      <Link className="primary" to={`/student/assessments/${a.id}`}>Open assignment <span aria-hidden="true">→</span></Link>
+      <p><Link to={`/student/assessments/${a.id}/learning-lab`}>Already submitted? Start practice →</Link></p>
     </article>)}</div>}
   </main>;
 }
@@ -113,7 +114,7 @@ function WritingSession({ assessment, submission }: { assessment: Assessment; su
       <div className="setting-row"><span>Strictness: {assessment.strictness.replaceAll('_', ' ')}</span><span>Viva: {assessment.viva_enabled ? `${Math.round(assessment.viva_weight * 100)}% of final grade` : 'off'}</span><span>AI use: {assessment.ai_policy.replaceAll('_', ' ')}</span></div>
       <details><summary>How your work is assessed</summary>{assessment.rubric?.criteria.map(c => <p key={c.id}><strong>{c.name} ({c.max_marks} marks).</strong> {c.description}</p>)}</details>
     </section>
-    {submitted ? <section className="submission-done"><p className="eyebrow">SUBMITTED</p><h2>Your work is in. Now put an idea to the test.</h2><p>Your answer is saved. In Learning Lab, apply an idea in a changed situation, learn from your reasoning, and try again.</p><Link className="primary" to={`/student/submissions/${submission.id}/learning-lab`}>Start Learning Lab →</Link><p>{assessment.viva_enabled && <Link to={`/student/submissions/${submission.id}/viva`}>Continue to viva</Link>} · <Link to={`/student/submissions/${submission.id}/result`}>Check released result</Link></p><div className="markdown"><ReactMarkdown>{content}</ReactMarkdown></div></section> : <>
+    {submitted ? <section className="submission-done"><p className="eyebrow">SUBMITTED</p><h2>Assignment submitted. What’s next?</h2><p>Now practise an idea from your work: answer a short question, get help, then try another question. Your teacher can see your progress.</p><Link className="primary" to={`/student/submissions/${submission.id}/learning-lab`}>Start practice →</Link><p>{assessment.viva_enabled && <Link to={`/student/submissions/${submission.id}/viva`}>Continue to viva</Link>} · <Link to={`/student/submissions/${submission.id}/result`}>Check released result</Link></p><div className="markdown"><ReactMarkdown>{content}</ReactMarkdown></div></section> : <>
       <aside className="recording-notice"><strong>Writing process is recorded.</strong> Your teacher can review how this answer was written.
         <details><summary>What is recorded?</summary><p>Edits, pasted text, deletions, undo/redo, times, and whether this editor page loses focus or becomes hidden. We capture no typing outside this editor, screens or webcam. These are signals for teacher review and do not apply a mark penalty on their own.</p></details>
       </aside>

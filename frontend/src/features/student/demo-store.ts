@@ -1,4 +1,5 @@
 import roster from '../../../../fixtures/demo/roster.json';
+import assessmentFixtures from '../../../../fixtures/api/assessments.json';
 import type { ActivityBatch, ActivityEvents, Assessment, Submission, User, VivaAnswer, VivaStart } from '../../api/types';
 import { summarizeActivity } from '../../lib/replay-core';
 export const demoUsers: User[] = [{ id: 'u_teacher_1', name: 'Teacher', role: 'teacher', classroom_id: 'cl_1' }, ...roster.map(row => ({ id: row.user_id, name: row.name, role: 'student' as const, classroom_id: 'cl_1' }))];
@@ -29,14 +30,24 @@ export function demoRequest(endpoint: string, options: RequestInit): unknown {
       next_step: 'Rewrite the complexity paragraph to compare both strategies.', topics: [{ tag: 'hashing', level: 'strong' }, { tag: 'complexity', level: 'weak' }] },
   };
   if (path === '/users') return demoUsers;
-  if (path === '/assessments' && method === 'GET') return [demoAssessment];
-  if (path === '/assessments/a_1' && method === 'GET') return demoAssessment;
-  if (path === '/assessments/a_1/submissions' && method === 'POST') {
+  if (path === '/assessments' && method === 'GET') return structuredClone(assessmentFixtures);
+  const assessmentMatch = /^\/assessments\/([^/]+)(\/submissions)?$/.exec(path);
+  if (assessmentMatch) {
+    const assessmentId = decodeURIComponent(assessmentMatch[1]);
+    const assessment = assessmentFixtures.find(item => item.id === assessmentId);
+    if (!assessment) throw new Error('Demo assessment not found.');
+    if (!assessmentMatch[2] && method === 'GET') return structuredClone(assessment);
+    if (assessmentMatch[2] && method === 'POST') {
     const student_id = localStorage.getItem('currentUserId') || 'u_student_3';
-    const submissionId = `s_demo_${student_id}`;
-    const submission = read<Submission>(submissionKey(submissionId), { id: submissionId, assessment_id: 'a_1', student_id, content_md: '', answers: [], status: 'draft', started_at: new Date().toISOString(), submitted_at: null });
+    // Preserve existing A1 IDs; other assignments have separate saved work.
+    const submissionId = assessmentId === 'a_1' ? `s_demo_${student_id}` : `s_demo_${assessmentId}_${student_id}`;
+    const existing = read<Submission | null>(submissionKey(submissionId), null);
+    if (existing) return existing;
+    if (assessment.status !== 'open') throw new Error('This assessment is not open.');
+    const submission: Submission = { id: submissionId, assessment_id: assessmentId, student_id, content_md: '', answers: [], status: 'draft', started_at: new Date().toISOString(), submitted_at: null };
     store(submissionKey(submissionId), submission);
     return submission;
+    }
   }
   const match = /^\/submissions\/([^/]+)(.*)$/.exec(path);
   if (match) {
